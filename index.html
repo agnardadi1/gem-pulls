@@ -315,6 +315,14 @@ body{
 .ai-timer{font-size:.68rem;color:var(--blue2);margin-top:4px;font-weight:600}
 .ai-timer.ending{color:var(--red);animation:pulse .9s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.auc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.auc-clear-all-btn{border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:6px;cursor:pointer;transition:all .15s}
+.auc-clear-all-btn:hover{background:var(--s2);color:#EBEBEB}
+.ai.ai-sold{opacity:.55}
+.ai-sold-price{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:900;color:#4CAF50;line-height:1}
+.ai-sold-label{font-size:.62rem;color:#4CAF50;margin-top:4px;font-weight:700;font-family:'Barlow Condensed',sans-serif}
+.ai-clear-btn{display:block;margin-top:6px;border:1px solid var(--border);background:transparent;color:var(--muted);font-family:'Barlow Condensed',sans-serif;font-size:.55rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;cursor:pointer;transition:all .15s;white-space:nowrap}
+.ai-clear-btn:hover{background:var(--s2);color:#EBEBEB}
 
 /* ─── STATS ───────────────────────────────── */
 #scr-stats{padding:12px}
@@ -684,7 +692,10 @@ body{
 
   <!-- AUCTIONS -->
   <div class="scr" id="scr-auctions">
-    <div class="sec-lbl">Active Listings</div>
+    <div class="auc-hdr">
+      <div class="sec-lbl" style="margin:0">Active Listings</div>
+      <button class="auc-clear-all-btn" id="auc-clear-all" onclick="clearAllSold()" style="display:none">Clear Sold</button>
+    </div>
     <div id="auc-list"></div>
     <div class="empty" id="auc-empty" style="display:none">
       <div class="empty-label">Nothing Listed</div>
@@ -1243,17 +1254,32 @@ function showSold(c,amt,src,rev=''){
 function closeSold(){document.getElementById('sold-ov').classList.add('hide')}
 
 function renderAuc(){
-  const list=document.getElementById('auc-list'),empty=document.getElementById('auc-empty');
+  const list=document.getElementById('auc-list'),empty=document.getElementById('auc-empty'),clrBtn=document.getElementById('auc-clear-all');
   const active=G.collection.filter(c=>c.listed&&!c.sold);
-  if(!active.length){list.innerHTML='';empty.style.display='';return}
+  const sold=G.collection.filter(c=>c.sold&&c.auctionEndTime&&!c.auctionCleared);
+  const all=[...active,...sold];
+  if(!all.length){list.innerHTML='';empty.style.display='';clrBtn.style.display='none';return}
   empty.style.display='none';
-  list.innerHTML=active.map(c=>{
+  clrBtn.style.display=sold.length?'':'none';
+  list.innerHTML=all.map(c=>{
+    if(c.sold){
+      return`<div class="ai ai-sold"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-sold-label">✓ Sold</div></div><div style="text-align:right;flex-shrink:0"><div class="ai-sold-price">+$${c.sellPrice.toFixed(2)}</div><button class="ai-clear-btn" onclick="clearAucCard(${c.cid})">Clear</button></div></div>`;
+    }
     const rem=c.auctionEndTime-Date.now();
     const ts=rem>0?fmtTime(rem):'Resolving...';
     const end=rem<300000&&rem>0;
     return`<div class="ai"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-timer${end?' ending':''}">⏱ ${ts}</div></div><div style="text-align:right;flex-shrink:0"><div class="cc-rar ${c.rarity}" style="font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase">${c.rarity}</div><div style="font-size:.65rem;color:var(--muted);margin-top:3px;font-family:'Barlow',sans-serif">? ? ?</div></div></div>`;
   }).join('');
   active.forEach(c=>{if(!aucTimers[c.cid])schedAuc(c.cid,c.auctionEndTime)});
+}
+function clearAucCard(cid){
+  const c=G.collection.find(x=>x.cid===cid);
+  if(c)c.auctionCleared=true;
+  save();renderAuc();
+}
+function clearAllSold(){
+  G.collection.filter(c=>c.sold&&c.auctionEndTime&&!c.auctionCleared).forEach(c=>c.auctionCleared=true);
+  save();renderAuc();
 }
 function fmtTime(ms){const s=Math.floor(ms/1e3),m=Math.floor(s/60),h=Math.floor(m/60);if(h>0)return`${h}h ${m%60}m`;if(m>0)return`${m}m ${s%60}s`;return`${s}s`}
 
