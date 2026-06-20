@@ -162,12 +162,15 @@ body{
 .pc.premium  .pc-infobar-price{color:var(--gold2)}
 .pc.chase-pack .pc-infobar-price{background:linear-gradient(90deg,#FF80AA,#FFB060,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-/* Blind Slab — horizontal full-width */
-.pc.single{grid-column:1/-1;height:130px;flex-direction:row;border-radius:12px}
-.pc.single .pk{width:120px;flex:none;padding:10px 14px;border-radius:12px 0 0 12px}
-.pc.single .pc-infobar{flex:1;border-top:none;border-left:1px solid #1C1C1C;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:14px 16px}
-.pc.single .pc-infobar-right{width:100%;justify-content:space-between;margin-top:4px}
+/* Blind Slab — regular grid card */
 .pc.single .pc-infobar-price{color:#10B981}
+.pc.single .pc-btn{background:#10B981;color:#fff}
+
+/* Chase Pack — full-width hero at bottom */
+.pc.chase-pack{grid-column:1/-1;height:140px;flex-direction:row}
+.pc.chase-pack .pk{width:120px;flex:none;padding:10px 12px;border-radius:12px 0 0 12px;overflow:hidden}
+.pc.chase-pack .pc-infobar{flex:1;border-top:none;border-left:1px solid #222;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:14px 16px}
+.pc.chase-pack .pc-infobar-right{width:100%;justify-content:space-between;margin-top:6px}
 
 /* buy button */
 .pc-btn{
@@ -178,7 +181,6 @@ body{
 }
 .pc-btn:disabled{opacity:.3;cursor:not-allowed}
 .pc-btn:not(:disabled):hover{filter:brightness(1.12);transform:scale(1.05)}
-.pc.single   .pc-btn{background:#10B981;color:#fff}
 .pc.budget   .pc-btn{background:var(--orange);color:#fff}
 .pc.standard .pc-btn{background:var(--blue);color:#fff}
 .pc.premium  .pc-btn{background:var(--gold);color:#0a0600}
@@ -405,24 +407,7 @@ body{
 .ebay-cta{display:flex;align-items:center;justify-content:center;gap:7px}
 .ebay-wordmark{height:18px;width:auto;display:inline-block}
 
-/* ── SINGLE SLAB PACK ─────────────────────── */
-.pc.single{border-color:#0A3525;grid-column:1/-1;height:140px}
-.pc.single:hover{border-color:#10B981;box-shadow:0 16px 48px rgba(16,185,129,.2)}
-.pc.single .pk{background:linear-gradient(135deg,#061A10 0%,#0A2B1A 50%,#061A10 100%);flex-direction:row;align-items:center}
-.pc.single .pk-seal{position:absolute;top:0;left:0;right:0;height:18px;background:linear-gradient(90deg,#041208,#071D10,#041208);display:flex;align-items:center;padding:0 8px;gap:5px;border-bottom:1px solid rgba(0,0,0,.5)}
-.pc.single .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.38rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3)}
-.pc.single .pk-seal-tag{margin-left:auto;font-size:.34rem;color:rgba(16,185,129,.5);font-family:'Barlow',sans-serif;letter-spacing:.5px}
-.pc.single .pk-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:22px 14px 10px 18px}
-.pc.single .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.43rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(16,185,129,.55);margin-bottom:3px}
-.pc.single .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;text-transform:uppercase;line-height:.88;color:#FFF;letter-spacing:-1px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
-.pc.single .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.48rem;font-weight:700;letter-spacing:2px;color:rgba(16,185,129,.65);text-transform:uppercase;margin-top:4px}
-.pc.single .pk-footer{display:none}
-.pc.single .pk-perf{display:none}
-.pc.single .pk-cards-peek{display:flex;align-items:center;justify-content:center;padding:22px 18px 10px 0}
-.pc.single .pk-card{width:40px;height:55px;border-radius:4px;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.06);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;color:rgba(16,185,129,.45)}
-.pc.single .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 25%,rgba(255,255,255,.04) 40%,rgba(255,255,255,.07) 50%,rgba(255,255,255,.04) 60%,transparent 75%)}
 .pk-ribbon.grn{background:#10B981;color:#fff}
-.pc.single .pc-btn{background:#10B981;color:#fff}
 
 /* ── MULTI-SELECT / BULK AUCTION ──────────── */
 .sel-toggle{margin-left:auto;background:var(--s2)!important}
@@ -518,8 +503,8 @@ body{
   .pc-infobar-right{gap:5px}
   .pc-infobar-price{font-size:.95rem}
   .pc-btn{padding:5px 9px;font-size:.6rem;border-radius:5px}
-  .pc.single{height:120px}
-  .pc.single .pk{width:100px}
+  .pc.chase-pack{height:120px}
+  .pc.chase-pack .pk{width:100px}
   .pk-ribbon{font-size:.5rem;padding:2px 6px 2px 8px}
 }
 </style>
@@ -556,7 +541,7 @@ body{
         <div class="pc-infobar">
           <div>
             <div class="pc-infobar-name">Blind Slab</div>
-            <div class="pc-infobar-sub">1 Card · Pure Luck</div>
+            <div class="pc-infobar-sub">1 Card · Commons Only</div>
           </div>
           <div class="pc-infobar-right">
             <div class="pc-infobar-price">$50</div>
@@ -575,7 +560,7 @@ body{
         <div class="pc-infobar">
           <div>
             <div class="pc-infobar-name">Blaster Box</div>
-            <div class="pc-infobar-sub">3 Cards Per Pack</div>
+            <div class="pc-infobar-sub">3 Cards · No Rares</div>
           </div>
           <div class="pc-infobar-right">
             <div class="pc-infobar-price">$100</div>
@@ -594,7 +579,7 @@ body{
         <div class="pc-infobar">
           <div>
             <div class="pc-infobar-name">Hobby Box</div>
-            <div class="pc-infobar-sub">5 Cards Per Pack</div>
+            <div class="pc-infobar-sub">5 Cards · Rares Unlocked</div>
           </div>
           <div class="pc-infobar-right">
             <div class="pc-infobar-price">$500</div>
@@ -613,7 +598,7 @@ body{
         <div class="pc-infobar">
           <div>
             <div class="pc-infobar-name">Super Box</div>
-            <div class="pc-infobar-sub">8 Cards · Rare Guaranteed</div>
+            <div class="pc-infobar-sub">8 Cards · Premium Rares</div>
           </div>
           <div class="pc-infobar-right">
             <div class="pc-infobar-price">$2,500</div>
@@ -632,7 +617,7 @@ body{
         <div class="pc-infobar">
           <div>
             <div class="pc-infobar-name">Chase Pack</div>
-            <div class="pc-infobar-sub">2 Cards · 15% Chase Odds</div>
+            <div class="pc-infobar-sub">2 Cards · Full Card Pool · 15% Chase</div>
           </div>
           <div class="pc-infobar-right">
             <div class="pc-infobar-price">$3,500</div>
@@ -919,11 +904,11 @@ body{
 const CARDS=[{"id":"001","playerName":"Carmelo Anthony","team":"DEN","cardSet":"2023 Panini Crown Royale","variant":"Test of Time - Gold","cardNumber":"3","serialNumber":"10","grade":"PSA 9","rarity":"common","actualEbayPrice":60,"imageUrl":"images/001.jpg"},{"id":"002","playerName":"Shaquille O'Neal","team":"LAL","cardSet":"2004 Fleer Ultra","variant":"Platinum Medallion","cardNumber":"143","serialNumber":"100","grade":"PSA 9","rarity":"rare","actualEbayPrice":1526,"imageUrl":"images/002.jpg"},{"id":"003","playerName":"Shaquille O'Neal","team":"LAL","cardSet":"2024 Panini Flawless","variant":"Flawless Performances Auto","serialNumber":"25","grade":"Ungraded","rarity":"rare","actualEbayPrice":645,"imageUrl":"images/003.jpg"},{"id":"004","playerName":"Dwyane Wade","team":"MIA","cardSet":"2022 Panini Immaculate","variant":"Virtuoso Autographs Green","serialNumber":"5","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":198,"imageUrl":"images/004.jpg"},{"id":"005","playerName":"Kevin Durant","team":"PHX","cardSet":"2024 Panini Prizm Deca","variant":"Signatures Silver Prizm Auto","cardNumber":"PDS-KDU","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":103.5,"imageUrl":"images/005.jpg"},{"id":"006","playerName":"Kevin Durant","team":"OKC","cardSet":"2013 Panini Select","variant":"Purple Pulsar Prizm","cardNumber":"136","grade":"PSA 9","rarity":"common","actualEbayPrice":53.5,"imageUrl":"images/006.jpg"},{"id":"007","playerName":"Stephen Curry","team":"GSW","cardSet":"2023 Panini Court Kings","variant":"Blank Slate","cardNumber":"6","grade":"PSA 8","rarity":"rare","actualEbayPrice":504.66,"imageUrl":"images/007.jpg"},{"id":"008","playerName":"Stephen Curry","team":"GSW","cardSet":"2013 Panini Select","variant":"Blue Prizm (Color Match Grail)","cardNumber":"86","serialNumber":"49","grade":"Ungraded","rarity":"rare","actualEbayPrice":2075,"imageUrl":"images/008.jpg"},{"id":"009","playerName":"Luka Doncic","team":"DAL","cardSet":"2021 Panini Flawless","variant":"Diamond Gem Gold","cardNumber":"77","serialNumber":"10","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":343,"imageUrl":"images/009.jpg"},{"id":"010","playerName":"Giannis Antetokounmpo","team":"MIL","cardSet":"2023 Panini Flawless","variant":"Jumbo 3 Color Game Used Patch","serialNumber":"20","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":280,"imageUrl":"images/010.jpg"},{"id":"011","playerName":"Giannis Antetokounmpo","team":"MIL","cardSet":"2019 Panini Spectra","variant":"Universal Die-Cut","cardNumber":"34","serialNumber":"8","grade":"PSA 9","rarity":"common","actualEbayPrice":100,"imageUrl":"images/011.jpg"},{"id":"012","playerName":"Victor Wembanyama","team":"SAS","cardSet":"2023 Panini Court Kings","variant":"Rookies II (RC)","cardNumber":"106","grade":"PSA 10","rarity":"rare","actualEbayPrice":515,"imageUrl":"images/012.jpg"},{"id":"013","playerName":"Anthony Edwards","team":"MIN","cardSet":"2020 Panini Crown Royale","variant":"Kaboom! SSP RC Vertical Rookie","cardNumber":"21","grade":"Ungraded","rarity":"rare","actualEbayPrice":3816,"imageUrl":"images/013.jpg"},{"id":"014","playerName":"Kareem Abdul Jabbar","team":"LAL","cardSet":"2010 Panini Gold Standard","variant":"Gold Rings Patch Auto","cardNumber":"15","serialNumber":"5","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":395,"imageUrl":"images/014.jpg"},{"id":"015","playerName":"Kobe Bryant","team":"LAL","cardSet":"2017 Panini Select","variant":"Signatures On-Card Auto","cardNumber":"KB","serialNumber":"49","grade":"PSA 8","rarity":"chase","actualEbayPrice":5500,"imageUrl":"images/015.jpg"},{"id":"016","playerName":"Kobe Bryant","team":"LAL","cardSet":"2019 Panini Select","variant":"In Flight Signatures Neon Green Prizm","cardNumber":"IF-KBR","serialNumber":"49","grade":"PSA 9","rarity":"chase","actualEbayPrice":17500,"imageUrl":"images/016.jpg"},{"id":"017","playerName":"Michael Jordan","team":"CHI","cardSet":"1999 Upper Deck Black Diamond","variant":"Jordan Diamond Gallery Holo Refractor","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":158,"imageUrl":"images/017.jpg"},{"id":"018","playerName":"Michael Jordan","team":"CHI","cardSet":"1997 Fleer Ultra","variant":"Gold Medallion SSP Variation","cardNumber":"23G","grade":"Ungraded","rarity":"rare","actualEbayPrice":639,"imageUrl":"images/018.jpg"},{"id":"019","playerName":"Kobe Bryant","team":"LAL","cardSet":"2004 Fleer Ultra","variant":"Gold Medallion SSP Variation Foil Die Cut","cardNumber":"8","grade":"Ungraded","rarity":"common","actualEbayPrice":81,"imageUrl":"images/019.jpg"},{"id":"020","playerName":"Allen Iverson","team":"PHI","cardSet":"1998 Fleer Ultra","variant":"Gold Medallion SSP Variation","cardNumber":"33G","grade":"Ungraded","rarity":"common","actualEbayPrice":30,"imageUrl":"images/020.jpg"},{"id":"021","playerName":"Jason Williams","team":"MEM","cardSet":"2022 Panini Flawless","variant":"Flawless Finishes Auto","cardNumber":"FF-JWL","grade":"Ungraded","rarity":"common","actualEbayPrice":67,"imageUrl":"images/021.jpg"},{"id":"022","playerName":"Dirk Nowitzki","team":"DAL","cardSet":"2016 Panini National Treasures","variant":"Portraits GOLD Auto","cardNumber":"51","serialNumber":"10","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":285,"imageUrl":"images/022.jpg"},{"id":"023","playerName":"Clyde Drexler","team":"POR","cardSet":"2022 Panini NBA National Treasures","variant":"Greats Signatures SSP","serialNumber":"10","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":114,"imageUrl":"images/023.jpg"},{"id":"024","playerName":"Larry Bird","team":"BOS","cardSet":"2021 Panini Eminence","variant":"Hall Of Fame Auto Patch Jersey Gold","serialNumber":"5","grade":"Ungraded","rarity":"rare","actualEbayPrice":861,"imageUrl":"images/024.jpg"},{"id":"025","playerName":"Jalen Duren","team":"DET","cardSet":"2022 Panini Immaculate Collection","variant":"Rookie Red Patch Auto RPA (RC)","cardNumber":"103","serialNumber":"49","grade":"Ungraded","rarity":"common","actualEbayPrice":91,"imageUrl":"images/025.jpg"},{"id":"026","playerName":"VJ Edgecombe","team":"PHI","cardSet":"2025 Panini Signature Series","variant":"Rookie Patch RC Auto RPA","serialNumber":"25","grade":"Ungraded","rarity":"rare","actualEbayPrice":520,"imageUrl":"images/026.jpg"},{"id":"027","playerName":"Russell Westbrook","team":"OKC","cardSet":"2018 Panini Rewards Kaboom!","variant":"Kaboom! 1st","cardNumber":"K-RWS","grade":"PSA 10","rarity":"rare","actualEbayPrice":1775,"imageUrl":"images/027.jpg"},{"id":"028","playerName":"Tim Duncan","team":"SAS","cardSet":"2024 Panini Noir","variant":"Critically Acclaimed Holo Gold FOTL","cardNumber":"300","serialNumber":"8","grade":"PSA 9","rarity":"uncommon","actualEbayPrice":173,"imageUrl":"images/028.jpg"},{"id":"029","playerName":"LaMelo Ball","team":"CHA","cardSet":"2023 Panini Select","variant":"Mezzanine Tiger Prizm SSP","cardNumber":"348","grade":"PSA 10","rarity":"uncommon","actualEbayPrice":170,"imageUrl":"images/029.jpg"},{"id":"030","playerName":"Gheorghe Muresan","team":"WAS","cardSet":"1996 Flair Showcase","variant":"Legacy Collection Row 0","cardNumber":"43","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":202,"imageUrl":"images/030.jpg"}];
 
 const PACKS={
-  single:{name:'Blind Slab',price:50,count:1,odds:{common:80,uncommon:14,rare:5,chase:1}},
-  budget:{name:'Blaster Box',price:100,count:3,odds:{common:85,uncommon:10,rare:5,chase:0}},
-  standard:{name:'Hobby Box',price:500,count:5,odds:{common:70,uncommon:20,rare:9,chase:1}},
-  premium:{name:'Super Box',price:2500,count:8,odds:{common:50,uncommon:30,rare:15,chase:5}},
-  chase:{name:'Chase Pack',price:3500,count:2,odds:{common:20,uncommon:30,rare:35,chase:15}},
+  single: {name:'Blind Slab', price:50,  count:1, maxValue:150,  odds:{common:92,uncommon:8, rare:0, chase:0}},
+  budget: {name:'Blaster Box',price:100, count:3, maxValue:500,  odds:{common:75,uncommon:25,rare:0, chase:0}},
+  standard:{name:'Hobby Box', price:500, count:5, maxValue:1500, odds:{common:60,uncommon:25,rare:15,chase:0}},
+  premium:{name:'Super Box',  price:2500,count:8, maxValue:4000, odds:{common:45,uncommon:30,rare:25,chase:0}},
+  chase:  {name:'Chase Pack', price:3500,count:2,                odds:{common:10,uncommon:25,rare:50,chase:15}},
 };
 
 const IG_ACCOUNTS=[
@@ -983,7 +968,7 @@ function buyPack(type){
   if(G.bankroll<p.price){toast(`Need $${p.price.toLocaleString()} to open this`);return}
   G.bankroll-=p.price;G.stats.spent+=p.price;G.stats.packs++;G.stats.allPacks++;
   const usedIds=new Set();
-  const drawn=Array.from({length:p.count},()=>drawCard(p.odds,usedIds)).filter(Boolean);
+  const drawn=Array.from({length:p.count},()=>drawCard(p.odds,usedIds,p.maxValue)).filter(Boolean);
   if(!drawn.length){G.bankroll+=p.price;G.stats.spent-=p.price;G.stats.packs--;G.stats.allPacks--;return}
   drawn.forEach(c=>{
     G.collection.push({...c,cid:Date.now()+Math.random(),pulledAt:Date.now(),sold:false,listed:false,sellPrice:null});
@@ -994,12 +979,13 @@ function buyPack(type){
   startOpening();
 }
 
-function drawCard(odds,usedIds=new Set()){
+function drawCard(odds,usedIds=new Set(),maxValue=Infinity){
+  const cap=maxValue||Infinity;
   const r=Math.random()*100;
   const rar=r<odds.chase?'chase':r<odds.chase+odds.rare?'rare':r<odds.chase+odds.rare+odds.uncommon?'uncommon':'common';
-  const pool=CARDS.filter(c=>c.rarity===rar&&!usedIds.has(c.id));
-  const fallback=CARDS.filter(c=>!usedIds.has(c.id));
-  const src=pool.length?pool:fallback.length?fallback:CARDS;
+  const pool=CARDS.filter(c=>c.rarity===rar&&!usedIds.has(c.id)&&c.actualEbayPrice<=cap);
+  const fallback=CARDS.filter(c=>!usedIds.has(c.id)&&c.actualEbayPrice<=cap);
+  const src=pool.length?pool:fallback.length?fallback:CARDS.filter(c=>!usedIds.has(c.id));
   const card=src[Math.floor(Math.random()*src.length)];
   if(card)usedIds.add(card.id);
   return card;
