@@ -347,6 +347,13 @@ body{
 .pc.premium  .pc-btn{background:var(--gold);color:#0a0600}
 .pc.chase-pack .pc-btn{background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00CF80,#00CFFF,#8000FF);background-size:300% 100%;animation:foil-move 3s linear infinite;color:#fff;font-weight:900}
 
+/* pack art image */
+.pk-art{
+  width:100%;height:100%;object-fit:contain;
+  display:block;position:relative;z-index:1;
+  pointer-events:none;
+}
+
 /* ribbon */
 .pk-ribbon{
   position:absolute;top:28px;right:0;z-index:10;
@@ -552,7 +559,7 @@ body{
 .ebay-wordmark{height:18px;width:auto;display:inline-block}
 
 /* ── SINGLE SLAB PACK ─────────────────────── */
-.pc.single{border-color:#0A3525;grid-column:1/-1;height:110px}
+.pc.single{border-color:#0A3525;grid-column:1/-1;height:140px}
 .pc.single:hover{border-color:#10B981;box-shadow:0 16px 48px rgba(16,185,129,.2)}
 .pc.single .pk{background:linear-gradient(135deg,#061A10 0%,#0A2B1A 50%,#061A10 100%);flex-direction:row;align-items:center}
 .pc.single .pk-seal{position:absolute;top:0;left:0;right:0;height:18px;background:linear-gradient(90deg,#041208,#071D10,#041208);display:flex;align-items:center;padding:0 8px;gap:5px;border-bottom:1px solid rgba(0,0,0,.5)}
@@ -682,18 +689,7 @@ body{
       <!-- SINGLE SLAB -->
       <div class="pc single" id="pc-single">
         <div class="pk">
-          <div class="pk-seal">
-            <span class="pk-seal-logo">Gem Pulls</span>
-            <span class="pk-seal-tag">Single Pull</span>
-          </div>
-          <div class="pk-body">
-            <div class="pk-series">Mystery Single</div>
-            <div class="pk-name">Blind<br>Slab</div>
-            <div class="pk-subname">Pure Luck · 1 Card</div>
-          </div>
-          <div class="pk-cards-peek">
-            <div class="pk-card">?</div>
-          </div>
+          <img class="pk-art" src="images/pack-single.png" alt="Blind Slab">
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon grn">Entry</div>
@@ -719,25 +715,7 @@ body{
       <!-- BUDGET BLASTER -->
       <div class="pc budget" id="pc-budget">
         <div class="pk">
-          <div class="pk-seal">
-            <span class="pk-seal-logo">Gem Pulls</span>
-            <span class="pk-seal-tag">Licensed Product</span>
-          </div>
-          <div class="pk-perf"></div>
-          <div class="pk-body">
-            <div class="pk-series">2024–25 Series</div>
-            <div class="pk-name">Blaster<br>Box</div>
-            <div class="pk-subname">Budget Break</div>
-            <div class="pk-cards-peek">
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-            </div>
-          </div>
-          <div class="pk-footer">
-            <span class="pk-count">3 Cards Per Pack</span>
-            <div class="pk-bar"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          </div>
+          <img class="pk-art" src="images/pack-budget.png" alt="Blaster Box">
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon orn">Best Start</div>
@@ -762,27 +740,7 @@ body{
       <!-- STANDARD PRIZM HOBBY -->
       <div class="pc standard" id="pc-standard">
         <div class="pk">
-          <div class="pk-seal">
-            <span class="pk-seal-logo">Gem Pulls</span>
-            <span class="pk-seal-tag">Hobby Exclusive</span>
-          </div>
-          <div class="pk-perf"></div>
-          <div class="pk-body">
-            <div class="pk-series">Prizm Chrome</div>
-            <div class="pk-name">Hobby<br>Box</div>
-            <div class="pk-subname">Standard Break</div>
-            <div class="pk-cards-peek">
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-            </div>
-          </div>
-          <div class="pk-footer">
-            <span class="pk-count">5 Cards Per Pack</span>
-            <div class="pk-bar"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-          </div>
+          <img class="pk-art" src="images/pack-standard.png" alt="Hobby Box">
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon blu">Best Value</div>
@@ -808,30 +766,7 @@ body{
       <!-- PREMIUM SUPER HOBBY -->
       <div class="pc premium" id="pc-premium">
         <div class="pk">
-          <div class="pk-seal">
-            <span class="pk-seal-logo">Gem Pulls</span>
-            <span class="pk-seal-tag">Super Hobby</span>
-          </div>
-          <div class="pk-perf"></div>
-          <div class="pk-body">
-            <div class="pk-series">Flawless Gold</div>
-            <div class="pk-name">Super<br>Box</div>
-            <div class="pk-subname">Premium Break</div>
-            <div class="pk-cards-peek">
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-            </div>
-          </div>
-          <div class="pk-footer">
-            <span class="pk-count">8 Cards · Guaranteed Rare</span>
-            <div class="pk-bar"><span></span><span></span><span></span><span></span><span></span></div>
-          </div>
+          <img class="pk-art" src="images/pack-premium.png" alt="Super Box">
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon gld">Premium</div>
@@ -857,25 +792,7 @@ body{
       <!-- CHASE ULTRA -->
       <div class="pc chase-pack" id="pc-chase">
         <div class="pk">
-          <div class="pk-foil"></div>
-          <div class="pk-seal">
-            <span class="pk-seal-logo">Gem Pulls</span>
-            <span class="pk-seal-tag">Ultra Rare · 1:25</span>
-          </div>
-          <div class="pk-perf"></div>
-          <div class="pk-body">
-            <div class="pk-series">Limited Edition</div>
-            <div class="pk-name">Chase<br>Pack</div>
-            <div class="pk-subname">2 Cards · 15% Chase</div>
-            <div class="pk-cards-peek">
-              <div class="pk-card"></div>
-              <div class="pk-card"></div>
-            </div>
-          </div>
-          <div class="pk-footer">
-            <span class="pk-count">2 Cards · Best Odds</span>
-            <div class="pk-bar"><span></span><span></span><span></span></div>
-          </div>
+          <img class="pk-art" src="images/pack-chase.png" alt="Chase Pack">
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon wht">⭐ Chase</div>
