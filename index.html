@@ -79,7 +79,7 @@ body{
 
 /* ─── SCREENS ─────────────────────────────── */
 .screens{flex:1;overflow:hidden;position:relative}
-.scr{position:absolute;inset:0;overflow-y:auto;display:none}
+.scr{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none}
 .scr.on{display:block}
 #scr-opening.on{display:flex;flex-direction:column;align-items:center}
 #rev-area{display:flex;flex-direction:column;align-items:center}
@@ -1066,7 +1066,7 @@ function setupDrag(){
   el.addEventListener('mousedown',e=>dstart(e.clientY));
   el.addEventListener('touchstart',e=>dstart(e.touches[0].clientY),{passive:true});
   document.addEventListener('mousemove',e=>dmove(e.clientY));
-  document.addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault();dmove(e.touches[0].clientY)},{passive:false});
+  document.addEventListener('touchmove',e=>{if(drag.on&&e.cancelable)e.preventDefault();dmove(e.touches[0].clientY)},{passive:false});
   document.addEventListener('mouseup',dend);
   document.addEventListener('touchend',dend);
 }
