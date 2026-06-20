@@ -76,6 +76,19 @@ body{
   font-family:'Barlow Condensed',sans-serif;
   font-size:.95rem;font-weight:800;color:var(--gold2);letter-spacing:.3px;
 }
+.hud-lvl{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.58rem;font-weight:900;letter-spacing:1px;text-transform:uppercase;
+  background:var(--s2);border:1px solid var(--border2);
+  color:var(--muted);border-radius:5px;padding:2px 6px;margin-left:2px;
+}
+.hud-lvl.glow{color:var(--orange2);border-color:var(--orange);background:rgba(232,93,4,.08)}
+.plat-locked{opacity:.45;pointer-events:none}
+.plat-lock-msg{
+  font-size:.65rem;color:var(--muted);font-weight:700;
+  background:var(--s2);border:1px solid var(--border);
+  border-radius:7px;padding:6px 10px;margin-top:8px;text-align:center;letter-spacing:.3px;
+}
 
 /* ─── SCREENS ─────────────────────────────── */
 .screens{flex:1;overflow:hidden;position:relative}
@@ -501,6 +514,164 @@ body{
 
   .pk-ribbon{font-size:.5rem;padding:2px 6px 2px 8px}
 }
+
+/* ─── EBAY LISTING MODAL ──────────────────── */
+#ebay-ov{
+  position:fixed;inset:0;z-index:600;
+  background:#F7F7F7;
+  display:none;flex-direction:column;
+  font-family:'Barlow',sans-serif;color:#191919;
+}
+.eb-hdr{
+  background:#fff;border-bottom:1px solid #E5E5E5;
+  padding:12px 16px;display:flex;align-items:center;gap:10px;flex-shrink:0;
+}
+.eb-back-btn{
+  background:none;border:none;cursor:pointer;
+  width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+  color:#191919;border-radius:6px;flex-shrink:0;padding:0;
+}
+.eb-back-btn:hover{background:#F0F0F0}
+.eb-logo{
+  font-size:1.45rem;font-weight:900;letter-spacing:-1px;line-height:1;flex-shrink:0;
+  font-family:'Barlow Condensed',sans-serif;
+}
+.el-e{color:#E53238}.el-b{color:#0064D2}.el-a{color:#F5AF02}.el-y{color:#86B817}
+.eb-hdr-title{font-size:.78rem;font-weight:700;color:#191919;flex:1;min-width:0}
+.eb-step-num{font-size:.68rem;color:#767676;font-weight:600;flex-shrink:0}
+.eb-progress{height:3px;background:#E5E5E5;flex-shrink:0}
+.eb-prog-fill{height:100%;background:#3665F3;transition:width .3s ease}
+.eb-card-strip{
+  background:#fff;border-bottom:1px solid #E5E5E5;
+  padding:10px 16px;display:flex;gap:10px;align-items:center;flex-shrink:0;
+}
+.eb-cs-img{width:34px;height:48px;object-fit:cover;border-radius:4px;border:1px solid #E5E5E5;flex-shrink:0}
+.eb-cs-name{font-weight:800;font-size:.8rem;color:#191919;line-height:1.2;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eb-cs-set{font-size:.6rem;color:#767676;margin-top:1px}
+.eb-cs-mkt{font-size:.67rem;color:#767676;margin-top:3px}
+.eb-cs-mkt strong{color:#191919;font-weight:700}
+.eb-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
+.eb-step{display:none}
+.eb-step.active{display:block}
+.eb-sec-title{font-size:.95rem;font-weight:800;color:#191919;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.3px}
+.eb-sec-sub{font-size:.73rem;color:#767676;margin-bottom:14px;line-height:1.4}
+.eb-fmt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.eb-fmt-card{
+  background:#fff;border:2px solid #E5E5E5;border-radius:10px;
+  padding:16px 12px 14px;cursor:pointer;text-align:center;
+  transition:border-color .15s,background .15s;
+}
+.eb-fmt-card:hover{border-color:#3665F3}
+.eb-fmt-card.sel{border-color:#3665F3;background:#EEF2FF}
+.eb-fmt-icon{font-size:1.5rem;margin-bottom:7px}
+.eb-fmt-name{font-weight:800;font-size:.84rem;color:#191919;margin-bottom:3px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.5px}
+.eb-fmt-desc{font-size:.65rem;color:#767676;line-height:1.35}
+.eb-input-wrap{
+  display:flex;align-items:center;
+  background:#fff;border:1.5px solid #C7C7C7;border-radius:8px;
+  overflow:hidden;margin:10px 0;
+}
+.eb-input-wrap:focus-within{border-color:#3665F3}
+.eb-currency{
+  padding:0 12px;font-size:.9rem;color:#767676;font-weight:700;
+  background:#F7F7F7;border-right:1.5px solid #E5E5E5;
+  height:46px;display:flex;align-items:center;flex-shrink:0;
+}
+.eb-inp{
+  flex:1;border:none;outline:none;padding:0 13px;
+  font-size:1rem;font-weight:700;color:#191919;
+  font-family:'Barlow',sans-serif;height:46px;background:#fff;
+}
+.eb-hint-row{display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.eb-hint{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 12px;background:#fff;border-radius:7px;border:1px solid #E5E5E5;
+  font-size:.72rem;cursor:pointer;transition:background .12s,border-color .12s;
+}
+.eb-hint:hover{background:#EEF2FF;border-color:#3665F3}
+.eb-hint-label{font-weight:700;color:#191919}
+.eb-hint-note{color:#767676;font-size:.65rem}
+.eb-hint-val{color:#3665F3;font-weight:800;font-family:'Barlow Condensed',sans-serif;font-size:.82rem;flex-shrink:0;margin-left:8px}
+.eb-ship-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.eb-ship-opt{
+  background:#fff;border:2px solid #E5E5E5;border-radius:10px;
+  padding:12px 14px;cursor:pointer;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:10px;
+  transition:border-color .15s;
+}
+.eb-ship-opt:hover{border-color:#3665F3}
+.eb-ship-opt.sel{border-color:#3665F3;background:#EEF2FF}
+.eb-ship-left{flex:1;min-width:0}
+.eb-ship-name{font-weight:700;font-size:.82rem;color:#191919}
+.eb-ship-desc{font-size:.67rem;color:#767676;margin-top:2px}
+.eb-ship-risk{font-size:.64rem;font-weight:700;margin-top:4px}
+.eb-ship-price{font-size:.92rem;font-weight:900;color:#191919;flex-shrink:0;font-family:'Barlow Condensed',sans-serif;margin-top:2px}
+.eb-dur-list{display:flex;flex-direction:column;gap:8px;margin-top:4px}
+.eb-dur-opt{
+  background:#fff;border:2px solid #E5E5E5;border-radius:10px;
+  padding:14px 16px;cursor:pointer;transition:border-color .15s;
+}
+.eb-dur-opt:hover{border-color:#3665F3}
+.eb-dur-opt.sel{border-color:#3665F3;background:#EEF2FF}
+.eb-dur-name{font-weight:800;font-size:.88rem;color:#191919;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.3px}
+.eb-dur-game{font-size:.68rem;color:#3665F3;font-weight:700;margin-top:2px}
+.eb-dur-desc{font-size:.68rem;color:#767676;margin-top:4px}
+.eb-review-card{
+  background:#fff;border:1px solid #E5E5E5;border-radius:10px;overflow:hidden;margin-bottom:10px;
+}
+.eb-rv-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:11px 14px;font-size:.78rem;border-bottom:1px solid #F0F0F0;
+}
+.eb-rv-row:last-child{border-bottom:none}
+.eb-rv-row.total-row{background:#F7F7F7;font-weight:800;font-size:.85rem}
+.eb-rv-label{color:#767676}
+.eb-rv-val{font-weight:700;color:#191919}
+.eb-rv-val.neg{color:#E53238}
+.eb-rv-val.pos{color:#00AC4E}
+.eb-rep-banner{
+  border-radius:10px;padding:11px 13px;
+  font-size:.73rem;border:1.5px solid;
+  display:flex;gap:9px;align-items:flex-start;
+  margin-bottom:10px;line-height:1.4;
+}
+.eb-rep-ok{background:#E8F5E9;border-color:#00AC4E;color:#00521F}
+.eb-rep-warn{background:#FFF8E1;border-color:#F5AF02;color:#7A5200}
+.eb-rep-danger{background:#FFEBEE;border-color:#E53238;color:#7A0000}
+.eb-rep-icon{font-size:1.05rem;flex-shrink:0;margin-top:1px}
+.eb-rep-tier{font-weight:900}
+.eb-footer{
+  background:#fff;border-top:1px solid #E5E5E5;
+  padding:12px 16px;flex-shrink:0;
+}
+.eb-cta-btn{
+  width:100%;background:#3665F3;color:#fff;border:none;
+  border-radius:24px;padding:14px;
+  font-size:.88rem;font-weight:800;cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;letter-spacing:.8px;text-transform:uppercase;
+  transition:background .15s;
+}
+.eb-cta-btn:hover{background:#2551D8}
+.eb-cta-btn:disabled{opacity:.35;cursor:not-allowed}
+/* Auction tab eBay additions */
+.ai-ebay-row{display:flex;align-items:center;gap:6px;margin-top:4px}
+.ai-fmt-tag{font-size:.52rem;font-weight:800;background:rgba(54,101,243,.13);color:#3665F3;padding:2px 6px;border-radius:3px;text-transform:uppercase;letter-spacing:.5px;flex-shrink:0}
+.ai-cur-bid{font-family:'Barlow Condensed',sans-serif;font-size:.98rem;font-weight:900;color:#EBEBEB;line-height:1}
+.ai-bid-ticker{margin-top:4px;display:flex;flex-direction:column;gap:2px}
+.ai-bid-line{display:flex;align-items:center;gap:5px;font-size:.58rem}
+.ai-bid-user{color:var(--muted);font-family:'Barlow',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:90px}
+.ai-bid-amt{color:#4CAF50;font-weight:800;font-family:'Barlow Condensed',sans-serif;font-size:.65rem;flex-shrink:0}
+.ai.ai-failed{border-color:rgba(229,50,56,.3)}
+.ai-fail-label{font-size:.58rem;color:#E53238;margin-top:4px;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.5px}
+.ai-fail-reason{font-size:.62rem;color:var(--muted);margin-top:2px;line-height:1.35}
+.ai-relist-btn{
+  border:1.5px solid #3665F3;background:transparent;color:#3665F3;
+  font-family:'Barlow Condensed',sans-serif;font-size:.55rem;font-weight:800;
+  letter-spacing:1px;text-transform:uppercase;padding:4px 9px;border-radius:5px;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
+}
+.ai-relist-btn:hover{background:#3665F3;color:#fff}
+.ai-sold-breakdown{font-size:.58rem;color:var(--muted);margin-top:2px;line-height:1.7}
 </style>
 </head>
 <body>
@@ -511,9 +682,12 @@ body{
     <div class="logo-name">GEM PULLS</div>
     <div class="logo-season">NBA · Season 24–25</div>
   </div>
-  <div class="hud">
-    <div class="hud-coin"></div>
-    <div class="hud-val" id="br-display">$500.00</div>
+  <div style="display:flex;align-items:center;gap:6px">
+    <div class="hud">
+      <div class="hud-coin"></div>
+      <div class="hud-val" id="br-display">$500.00</div>
+    </div>
+    <div class="hud-lvl" id="lvl-badge">LVL 1</div>
   </div>
 </header>
 
@@ -667,19 +841,8 @@ body{
       <button class="fb on" onclick="filterCol('all',this)">All</button>
       <button class="fb" onclick="filterCol('unsold',this)">Available</button>
       <button class="fb" onclick="filterCol('listed',this)">Listed</button>
-      <button class="fb sel-toggle" id="sel-toggle" onclick="toggleMulti()">Select</button>
     </div>
     <div class="col-grid" id="col-grid"></div>
-    <div class="bulk-bar" id="bulk-bar" style="display:none">
-      <div class="bulk-top">
-        <div class="bulk-count-label"><span id="bulk-count">0</span> cards selected</div>
-        <button class="btbtn" id="sel-all-btn" onclick="selectAll()">Select All</button>
-        <button class="btbtn on" onclick="pickBulkTier(this,0)">1 min</button>
-        <button class="btbtn" onclick="pickBulkTier(this,1)">5 min</button>
-        <button class="btbtn premium-tier" onclick="pickBulkTier(this,2)">15 min ⭐</button>
-      </div>
-      <button class="bulk-list-btn" id="bulk-btn" onclick="bulkList()" disabled>List on eBay →</button>
-    </div>
     <div class="empty" id="col-empty" style="display:none">
       <div class="empty-label">No Cards Yet</div>
       <p>Open a pack to start your collection.</p>
@@ -772,13 +935,8 @@ body{
         </svg>
         <div class="plat-badge">Live Auction</div>
       </div>
-      <div class="plat-sub">Longer auction = better avg payout. All tiers can hit 140%.</div>
-      <div class="timer-row">
-        <button class="tbtn on" onclick="pickTier(this,0)"><div class="tbtn-dur">1 min</div><div class="tbtn-mult">Avg ~83% · can peak</div></button>
-        <button class="tbtn" onclick="pickTier(this,1)"><div class="tbtn-dur">5 min</div><div class="tbtn-mult">Avg ~100% · pure luck</div></button>
-        <button class="tbtn premium-tier" onclick="pickTier(this,2)"><div class="tbtn-dur">15 min ⭐</div><div class="tbtn-mult">Avg ~125% · best odds</div></button>
-      </div>
-      <button class="mbtn ebay-cta" onclick="doEbay()">
+      <div class="plat-sub">Multi-step listing · real fees · bidder simulation · rep tracking.</div>
+      <button class="mbtn ebay-cta" onclick="openEbaySell(sellCard.cid)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
         List on eBay
       </button>
@@ -811,6 +969,19 @@ body{
         </div>
         <span class="mystery-tap">tap to reveal →</span>
       </div>
+    </div>
+
+    <!-- Whatnot platform card -->
+    <div class="plat-card" id="whatnot-sell-opt">
+      <div class="plat-top">
+        <svg viewBox="0 0 28 28" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+          <rect width="28" height="28" rx="7" fill="#FF5C29"/>
+          <text x="14" y="20" text-anchor="middle" font-size="14" font-weight="900" font-family="Arial Black,sans-serif" fill="#fff">W</text>
+        </svg>
+        <div class="plat-badge" style="background:rgba(255,92,41,.15);color:#FF5C29;border:1px solid rgba(255,92,41,.3)">Live Auction</div>
+      </div>
+      <div class="plat-sub">Sell live to thousands of collectors. Higher prices, more hype.</div>
+      <div class="plat-lock-msg" id="whatnot-lock-msg">🔒 Reach Level 3 · $25,000 career earned</div>
     </div>
 
     <button class="mbtn ghost" onclick="closeSell()">Cancel</button>
@@ -924,10 +1095,42 @@ const AUC_TIERS=[
 function rand(){return .50+Math.random()*.10+Math.random()*.10+Math.random()*.10+Math.random()*.10+Math.random()*.10;}
 let G={},OPN={},sellCard=null,instaOffer=null,selTierIdx=0,colFilter='all',aucTimers={};
 let multiSel=false,bulkTierIdx=0;
+const EBAY_BIDDERS=[
+  {id:'flipper',  name:'flipperking_cards',  maxPct:.55},
+  {id:'bargain',  name:'BargainBob77',        maxPct:.78},
+  {id:'collector',name:'nba_collector_og',    maxPct:1.05},
+  {id:'grader',   name:'CardGrader99',        maxPct:1.12},
+  {id:'grail',    name:'GrailHunter_NBA',     maxPct:1.40},
+];
+let ebay={cid:null,step:1,fmt:null,price:null,ship:null,shipCost:null,durDays:null,durMs:null};
 const selCards=new Set();
 
-function defState(){return{bankroll:500,collection:[],auctions:[],stats:{packs:0,earned:0,spent:0,allCards:0,allEarned:0,allPacks:0,bestBR:500,bestPacks:0,bestCard:null}}}
-function loadState(){try{G=JSON.parse(localStorage.getItem('gp3')||'null')||defState()}catch{G=defState()}G.collection=G.collection?.filter(c=>c.playerName&&c.imageUrl)||[]}
+const LEVELS=[
+  {lvl:1,min:0,     name:'Rookie',  unlocks:null},
+  {lvl:2,min:5000,  name:'Flipper', unlocks:'instagram'},
+  {lvl:3,min:25000, name:'Trader',  unlocks:'whatnot'},
+  {lvl:4,min:100000,name:'Mogul',   unlocks:'cardshow'},
+];
+function getLevel(){let l=LEVELS[0];for(const x of LEVELS)if(G.stats.allEarned>=x.min)l=x;return l;}
+function updLvl(){
+  const l=getLevel();
+  const badge=document.getElementById('lvl-badge');
+  if(badge){badge.textContent=`LVL ${l.lvl}`;badge.classList.toggle('glow',l.lvl>=2);}
+}
+function checkLevel(){
+  const newLvl=getLevel().lvl;
+  const oldLvl=G.level||1;
+  if(newLvl>oldLvl){
+    G.level=newLvl;save();
+    const info=LEVELS.find(x=>x.lvl===newLvl);
+    const names={instagram:'Instagram DM',whatnot:'Whatnot',cardshow:'Card Show'};
+    toast(`⬆️ Level ${newLvl} — ${info.name}!${info.unlocks?' '+names[info.unlocks]+' unlocked':''}`);
+    updLvl();
+  }
+}
+
+function defState(){return{bankroll:500,collection:[],auctions:[],stats:{packs:0,earned:0,spent:0,allCards:0,allEarned:0,allPacks:0,bestBR:500,bestPacks:0,bestCard:null},ebayRep:{feedback:0,positive:0,negative:0},level:1}}
+function loadState(){try{G=JSON.parse(localStorage.getItem('gp3')||'null')||defState()}catch{G=defState()}G.collection=G.collection?.filter(c=>c.playerName&&c.imageUrl)||[];if(!G.ebayRep)G.ebayRep={feedback:0,positive:0,negative:0};if(!G.level)G.level=getLevel().lvl;}
 function save(){localStorage.setItem('gp3',JSON.stringify(G))}
 
 function init(){
@@ -952,7 +1155,7 @@ function showScr(name){
   document.getElementById('scr-'+name).classList.add('on');
   const nb=document.getElementById('nb-'+name);if(nb)nb.classList.add('on');
   if(name==='collection')renderCol();
-  if(name==='auctions')renderAuc();
+  if(name==='auctions'){renderAuc();clearInterval(_aucInt);_aucInt=setInterval(renderAuc,4000);}else{clearInterval(_aucInt);}
   if(name==='stats')renderStats();
   if(name==='store')updBtns();
 }
@@ -991,7 +1194,7 @@ function updBtns(){
     if(b)b.disabled=G.bankroll<p.price;
   });
 }
-function updBR(){document.getElementById('br-display').textContent=`$${G.bankroll.toFixed(2)}`}
+function updBR(){document.getElementById('br-display').textContent=`$${G.bankroll.toFixed(2)}`;updLvl();}
 
 function startOpening(){
   document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
@@ -1165,31 +1368,38 @@ function openSell(cid){
   document.getElementById('m-badge').innerHTML='';
   document.getElementById('m-price-disp').textContent=`$${c.actualEbayPrice.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
   document.querySelectorAll('.tbtn').forEach((b,i)=>{b.classList.toggle('on',i===0)});
+  const lvl=getLevel();
   const instaOpt=document.getElementById('insta-sell-opt');
   const instaDesc=document.getElementById('insta-sell-desc');
   const mysteryRow=instaOpt.querySelector('.insta-mystery-row');
-  if(c.dmUsed){
-    instaOpt.style.opacity='.38';instaOpt.style.cursor='default';instaOpt.onclick=null;
+  if(lvl.lvl<2){
+    instaOpt.classList.add('plat-locked');instaOpt.onclick=null;
+    instaDesc.textContent='🔒 Reach Level 2 · $5,000 career earned';
+    if(mysteryRow)mysteryRow.style.display='none';
+  }else if(c.dmUsed){
+    instaOpt.classList.remove('plat-locked');instaOpt.style.cursor='default';instaOpt.onclick=null;
     instaDesc.textContent='Offer already received for this card.';
     if(mysteryRow)mysteryRow.style.display='none';
   }else{
-    instaOpt.style.opacity='';instaOpt.style.cursor='';instaOpt.onclick=doInsta;
+    instaOpt.classList.remove('plat-locked');instaOpt.style.cursor='';instaOpt.onclick=doInsta;
     instaDesc.textContent='Someone slid in. Mystery offer — steal or lowball?';
     if(mysteryRow)mysteryRow.style.display='';
+  }
+  const whatnotOpt=document.getElementById('whatnot-sell-opt');
+  const whatnotLock=document.getElementById('whatnot-lock-msg');
+  if(lvl.lvl<3){
+    whatnotOpt.classList.add('plat-locked');
+    if(whatnotLock)whatnotLock.style.display='';
+  }else{
+    whatnotOpt.classList.remove('plat-locked');
+    if(whatnotLock)whatnotLock.style.display='none';
+    // Whatnot flow TBD
   }
   document.getElementById('sell-ov').classList.remove('hide');
 }
 function closeSell(){document.getElementById('sell-ov').classList.add('hide');sellCard=null}
 function pickTier(btn,idx){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');selTierIdx=idx}
 
-function doEbay(){
-  if(!sellCard)return;
-  const tier=AUC_TIERS[selTierIdx];
-  const end=Date.now()+tier.ms;
-  sellCard.listed=true;sellCard.auctionEndTime=end;sellCard.auctionTier=selTierIdx;
-  G.auctions.push({cid:sellCard.cid,endTime:end});
-  save();closeSell();toast(`Listed! Ends in ${tier.label}`);renderCol();schedAuc(sellCard.cid,end);
-}
 
 function schedAuc(cid,endTime){
   clearTimeout(aucTimers[cid]);
@@ -1201,6 +1411,7 @@ function schedAuc(cid,endTime){
 function resolveAuc(cid){
   const c=G.collection.find(x=>String(x.cid)===String(cid));
   if(!c||c.sold)return;
+  if(c.platform==='ebay'){resolveEbayCard(cid);return;}
   const tier=AUC_TIERS[c.auctionTier??0];
   const mult=tier.roll();
   const price=Math.round(c.actualEbayPrice*mult*100)/100;
@@ -1209,7 +1420,7 @@ function resolveAuc(cid){
   if(!G.stats.bestCard||price>G.stats.bestCard.price)G.stats.bestCard={name:c.playerName,price};
   if(G.bankroll>G.stats.bestBR)G.stats.bestBR=G.bankroll;
   G.auctions=G.auctions.filter(a=>String(a.cid)!==String(cid));
-  save();updBR();renderAuc();renderCol();showSold(c,price,'ebay');checkGameOver();
+  save();updBR();checkLevel();renderAuc();renderCol();showSold(c,price,'ebay');checkGameOver();
 }
 
 function doInsta(){
@@ -1232,7 +1443,7 @@ function acceptDM(){
   G.bankroll+=amt;G.stats.earned+=amt;G.stats.allEarned+=amt;
   if(!G.stats.bestCard||amt>G.stats.bestCard.price)G.stats.bestCard={name:c.playerName,price:amt};
   if(G.bankroll>G.stats.bestBR)G.stats.bestBR=G.bankroll;
-  save();updBR();closeInsta();renderCol();
+  save();updBR();checkLevel();closeInsta();renderCol();
   const pct=Math.round(amt/actual*100),good=pct>=90;
   const rev=`<span style="color:${good?'#4CAF50':'var(--red)'}">${good?'✅ Great deal':'❌ Could have done better'} — card was worth $${actual.toFixed(2)}</span>`;
   showSold(c,amt,'insta',rev);checkGameOver();
@@ -1254,28 +1465,39 @@ function renderAuc(){
   const list=document.getElementById('auc-list'),empty=document.getElementById('auc-empty'),clrBtn=document.getElementById('auc-clear-all');
   const active=G.collection.filter(c=>c.listed&&!c.sold);
   const sold=G.collection.filter(c=>c.sold&&c.auctionEndTime&&!c.auctionCleared);
-  const all=[...active,...sold];
+  const failed=G.collection.filter(c=>c.ebayFailed&&!c.auctionCleared&&!c.sold);
+  const all=[...active,...failed,...sold];
   if(!all.length){list.innerHTML='';empty.style.display='';clrBtn.style.display='none';return}
   empty.style.display='none';
-  clrBtn.style.display=sold.length?'':'none';
+  clrBtn.style.display=sold.length||failed.length?'':'none';
+  const now=Date.now();
   list.innerHTML=all.map(c=>{
     if(c.sold){
-      return`<div class="ai ai-sold"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-sold-label">✓ Sold</div></div><div style="text-align:right;flex-shrink:0"><div class="ai-sold-price">+$${c.sellPrice.toFixed(2)}</div><button class="ai-clear-btn" onclick="clearAucCard(${c.cid})">Clear</button></div></div>`;
+      const bd=c.ebaySoldPrice?`<div class="ai-sold-breakdown">Sale $${c.ebaySoldPrice.toFixed(2)} · Fee −$${(c.ebayFeeAmt||0).toFixed(2)} · Ship −$${(c.ebayShippingCost||0).toFixed(2)}</div>`:'';
+      return`<div class="ai ai-sold"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-sold-label">✓ Sold on eBay</div>${bd}</div><div style="text-align:right;flex-shrink:0"><div class="ai-sold-price">+$${c.sellPrice.toFixed(2)}</div><button class="ai-clear-btn" onclick="clearAucCard(${c.cid})">Clear</button></div></div>`;
     }
-    const rem=c.auctionEndTime-Date.now();
+    if(c.ebayFailed){
+      return`<div class="ai ai-failed"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-fail-label">✗ Listing Failed</div><div class="ai-fail-reason">${c.failReason||'Unknown reason'}</div></div><div style="text-align:right;flex-shrink:0;display:flex;flex-direction:column;gap:6px;align-items:flex-end"><button class="ai-relist-btn" onclick="relistEbay(${c.cid})">Relist</button><button class="ai-clear-btn" onclick="clearAucCard(${c.cid})">Clear</button></div></div>`;
+    }
+    const rem=c.auctionEndTime-now;
     const ts=rem>0?fmtTime(rem):'Resolving...';
-    const end=rem<300000&&rem>0;
-    return`<div class="ai"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-timer${end?' ending':''}">⏱ ${ts}</div></div><div style="text-align:right;flex-shrink:0"><div class="cc-rar ${c.rarity}" style="font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase">${c.rarity}</div><div style="font-size:.65rem;color:var(--muted);margin-top:3px;font-family:'Barlow',sans-serif">? ? ?</div></div></div>`;
+    const ending=rem<60000&&rem>0;
+    const pastBids=(c.bidEvents||[]).filter(e=>e.type==='bid'&&e.t<=now);
+    const curBid=pastBids.length?pastBids[pastBids.length-1].amount:c.ebayPrice||0;
+    const fmtTag=c.platform==='ebay'?`<span class="ai-fmt-tag">${c.ebayFormat==='bin'?'BIN':'Auction'}</span>`:'';
+    const ticker=c.platform==='ebay'?(c.ebayFormat==='bin'?`<div style="font-size:.58rem;color:var(--muted);margin-top:3px">Fixed price · waiting for buyer</div>`:pastBids.length?`<div class="ai-bid-ticker">${pastBids.slice(-2).reverse().map(b=>`<div class="ai-bid-line"><span class="ai-bid-user">${b.user}</span><span class="ai-bid-amt">$${b.amount.toFixed(2)}</span></div>`).join('')}</div>`:'<div style="font-size:.58rem;color:var(--muted);margin-top:3px">Waiting for bids…</div>'):'';
+    const rightVal=c.platform==='ebay'?`<div class="ai-cur-bid">$${curBid.toFixed(2)}</div><div style="font-size:.5rem;color:var(--muted)">${c.ebayFormat==='bin'?'BIN price':'Current bid'}</div>`:`<div class="cc-rar ${c.rarity}" style="font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase">${c.rarity}</div>`;
+    return`<div class="ai"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-ebay-row">${fmtTag}<span class="ai-timer${ending?' ending':''}">⏱ ${ts}</span></div>${ticker}</div><div style="text-align:right;flex-shrink:0">${rightVal}</div></div>`;
   }).join('');
   active.forEach(c=>{if(!aucTimers[c.cid])schedAuc(c.cid,c.auctionEndTime)});
 }
 function clearAucCard(cid){
   const c=G.collection.find(x=>x.cid===cid);
-  if(c)c.auctionCleared=true;
+  if(c){c.auctionCleared=true;c.ebayFailed=false;}
   save();renderAuc();
 }
 function clearAllSold(){
-  G.collection.filter(c=>c.sold&&c.auctionEndTime&&!c.auctionCleared).forEach(c=>c.auctionCleared=true);
+  G.collection.filter(c=>(c.sold&&c.auctionEndTime||c.ebayFailed)&&!c.auctionCleared).forEach(c=>{c.auctionCleared=true;c.ebayFailed=false;});
   save();renderAuc();
 }
 function fmtTime(ms){const s=Math.floor(ms/1e3),m=Math.floor(s/60),h=Math.floor(m/60);if(h>0)return`${h}h ${m%60}m`;if(m>0)return`${m}m ${s%60}s`;return`${s}s`}
@@ -1295,7 +1517,7 @@ function renderStats(){
 }
 
 function checkGameOver(){
-  if(G.bankroll<100&&!G.collection.some(c=>c.listed&&!c.sold)){
+  if(G.bankroll<100&&!G.collection.some(c=>!c.sold)){
     if(G.stats.packs>(G.stats.bestPacks||0))G.stats.bestPacks=G.stats.packs;
     save();
     document.getElementById('go-info').textContent=`${G.stats.packs} packs · $${G.stats.earned.toFixed(2)} earned this run`;
@@ -1311,8 +1533,372 @@ function restartGame(){
 function doReset(){if(!confirm('Reset all data?'))return;G=defState();save();updBR();updBtns();showSpinScreen();}
 function checkPendingAuctions(){G.collection.filter(c=>c.listed&&!c.sold).forEach(c=>{if(Date.now()>=c.auctionEndTime)resolveAuc(c.cid);else schedAuc(c.cid,c.auctionEndTime)})}
 
-let _tt;
+let _tt,_aucInt;
 function toast(msg){document.querySelectorAll('.toast').forEach(t=>t.remove());clearTimeout(_tt);const el=document.createElement('div');el.className='toast';el.textContent=msg;document.body.appendChild(el);_tt=setTimeout(()=>el.remove(),2800)}
+
+// ─── EBAY SYSTEM ─────────────────────────────────────────────────────
+function ebayRepInfo(){
+  const r=G.ebayRep||{feedback:0,positive:0,negative:0};
+  const total=r.positive+r.negative;
+  if(total<5)return{tier:'New Seller',emoji:'🆕',score:null,color:'#767676',maxCard:300,mult:1.0,desc:'New sellers rarely attract buyers for cards over $300.'};
+  const pct=total>0?(r.positive/total)*100:100;
+  if(pct>=99)return{tier:'Power Seller',emoji:'🏆',score:pct,color:'#E53238',maxCard:Infinity,mult:1.10,desc:'Everyone trusts you. +10% price bonus.'};
+  if(pct>=96)return{tier:'Top Rated',emoji:'⭐',score:pct,color:'#3665F3',maxCard:Infinity,mult:1.05,desc:'Strong reputation. +5% price bonus.'};
+  if(pct>=90)return{tier:'Established',emoji:'✓',score:pct,color:'#00AC4E',maxCard:Infinity,mult:1.0,desc:'Good rep. Full buyer pool available.'};
+  if(pct>=80)return{tier:'Developing',emoji:'↑',score:pct,color:'#F5AF02',maxCard:Infinity,mult:0.97,desc:'Building rep. Slight price discount on results.'};
+  return{tier:'At Risk',emoji:'⚠️',score:pct,color:'#E53238',maxCard:500,mult:0.90,desc:'Low rep. High-value cards rarely attract buyers.'};
+}
+
+function openEbaySell(cid){
+  if(!cid)return;
+  const c=G.collection.find(x=>String(x.cid)===String(cid));
+  if(!c||c.sold||c.listed)return;
+  ebay={cid:c.cid,step:1,fmt:null,price:null,ship:null,shipCost:null,durDays:null,durMs:null};
+  document.getElementById('eb-cs-img').src=c.imageUrl;
+  document.getElementById('eb-cs-name').textContent=c.playerName;
+  document.getElementById('eb-cs-set').textContent=`${c.cardSet} · ${c.rarity}`;
+  document.getElementById('eb-cs-mkt').innerHTML=`Market value: <strong>$${c.actualEbayPrice.toFixed(2)}</strong>`;
+  document.querySelectorAll('.eb-step').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.eb-fmt-card,.eb-ship-opt,.eb-dur-opt').forEach(el=>el.classList.remove('sel'));
+  document.getElementById('eb-inp-start').value='';
+  document.getElementById('eb-inp-bin').value='';
+  document.getElementById('eb-s1').classList.add('active');
+  ebayUpdateNav();
+  closeSell();
+  document.getElementById('ebay-ov').style.display='flex';
+}
+
+function ebayUpdateNav(){
+  document.getElementById('eb-step-num').textContent=`Step ${ebay.step} of 5`;
+  document.getElementById('eb-prog-fill').style.width=`${(ebay.step/5)*100}%`;
+  const btn=document.getElementById('eb-cta');
+  btn.textContent=ebay.step===5?'List Item':'Continue';
+  btn.disabled=!ebayCanAdvance();
+}
+
+function ebayCanAdvance(){
+  if(ebay.step===1)return!!ebay.fmt;
+  if(ebay.step===2)return!!ebay.price&&ebay.price>0;
+  if(ebay.step===3)return!!ebay.ship;
+  if(ebay.step===4)return!!ebay.durMs;
+  if(ebay.step===5){
+    const fee=Math.round((ebay.price||0)*0.13*100)/100;
+    return(ebay.price-fee-(ebay.shipCost||0))>=0;
+  }
+  return true;
+}
+
+function ebayBack(){
+  if(ebay.step===1){document.getElementById('ebay-ov').style.display='none';return;}
+  document.getElementById(`eb-s${ebay.step}`).classList.remove('active');
+  ebay.step--;
+  document.getElementById(`eb-s${ebay.step}`).classList.add('active');
+  ebayUpdateNav();
+}
+
+function ebayNext(){
+  if(!ebayCanAdvance())return;
+  if(ebay.step===5){ebaySubmit();return;}
+  document.getElementById(`eb-s${ebay.step}`).classList.remove('active');
+  ebay.step++;
+  document.getElementById(`eb-s${ebay.step}`).classList.add('active');
+  if(ebay.step===2)ebayRenderPrice();
+  if(ebay.step===3)ebayRenderShip();
+  if(ebay.step===4)ebayRenderDuration();
+  if(ebay.step===5)ebayRenderReview();
+  ebayUpdateNav();
+}
+
+function selectEbayFmt(fmt){
+  ebay.fmt=fmt;ebay.price=null;
+  document.querySelectorAll('.eb-fmt-card').forEach(el=>el.classList.remove('sel'));
+  document.getElementById(`fmt-${fmt}`).classList.add('sel');
+  ebayUpdateNav();
+}
+
+function ebayRenderPrice(){
+  const c=G.collection.find(x=>String(x.cid)===String(ebay.cid));
+  const mkt=c.actualEbayPrice;
+  const isAuc=ebay.fmt==='auction';
+  document.getElementById('eb-price-auction-sec').style.display=isAuc?'':'none';
+  document.getElementById('eb-price-bin-sec').style.display=isAuc?'none':'';
+  const hints=isAuc?[
+    {label:'$0.99 start',note:'Max bidders, max risk',price:.99},
+    {label:'50% of market',note:'Balanced approach',price:Math.round(mkt*.5*100)/100},
+    {label:'Market value',note:'Fair price',price:Math.round(mkt*100)/100},
+    {label:'120% market',note:'High ask — may deter buyers',price:Math.round(mkt*1.2*100)/100},
+  ]:[
+    {label:'Quick flip (75%)',note:'Sells fast · lower payout',price:Math.round(mkt*.75*100)/100},
+    {label:'Market value',note:'Most likely to sell',price:Math.round(mkt*100)/100},
+    {label:'10% above market',note:'Still reasonable',price:Math.round(mkt*1.10*100)/100},
+    {label:'20% above market',note:'Risky — may expire',price:Math.round(mkt*1.20*100)/100},
+  ];
+  document.getElementById('eb-price-hints').innerHTML=hints.map(h=>`<div class="eb-hint" onclick="setEbayPrice(${h.price})"><span><span class="eb-hint-label">${h.label}</span> <span class="eb-hint-note">· ${h.note}</span></span><span class="eb-hint-val">$${h.price.toFixed(2)}</span></div>`).join('');
+}
+
+function onEbayPriceInput(inp){
+  ebay.price=parseFloat(inp.value)||null;
+  ebayUpdateNav();
+}
+
+function setEbayPrice(price){
+  ebay.price=price;
+  const id=ebay.fmt==='auction'?'eb-inp-start':'eb-inp-bin';
+  document.getElementById(id).value=price.toFixed(2);
+  ebayUpdateNav();
+}
+
+function ebayRenderShip(){
+  const c=G.collection.find(x=>String(x.cid)===String(ebay.cid));
+  const mkt=c.actualEbayPrice;
+  const pweEl=document.getElementById('ship-pwe-risk');
+  const trkEl=document.getElementById('ship-tracked-risk');
+  const priEl=document.getElementById('ship-priority-risk');
+  if(mkt>=500){pweEl.textContent='🚨 DANGER: Card very likely lost in mail';pweEl.style.color='#E53238';}
+  else if(mkt>=200){pweEl.textContent='⚠️ Card may arrive bent — negative feedback likely';pweEl.style.color='#F5AF02';}
+  else pweEl.textContent='';
+  if(mkt>=1000){trkEl.textContent='⚠️ Consider Priority for a card this valuable';trkEl.style.color='#F5AF02';}
+  else trkEl.textContent='';
+  priEl.textContent=mkt>=200?'✓ Recommended for this card value':'';
+}
+
+function selectEbayShip(type,cost){
+  ebay.ship=type;ebay.shipCost=cost;
+  document.querySelectorAll('.eb-ship-opt').forEach(el=>el.classList.remove('sel'));
+  document.getElementById(`ship-${type}`).classList.add('sel');
+  ebayUpdateNav();
+}
+
+function ebayRenderDuration(){
+  const isBin=ebay.fmt==='bin';
+  const s4=document.getElementById('eb-s4');
+  s4.querySelector('.eb-sec-title').textContent=isBin?'How long to list it':'Listing duration';
+  s4.querySelector('.eb-sec-sub').textContent=isBin
+    ?'If no buyer is found in this time, the listing expires.'
+    :'Longer listings attract more bidders and higher final prices.';
+  document.getElementById('dur-3').querySelector('.eb-dur-name').textContent=isBin?'3-Day Listing':'3-Day Auction';
+  document.getElementById('dur-7').querySelector('.eb-dur-name').textContent=isBin?'7-Day Listing':'7-Day Auction';
+  document.getElementById('dur-3').querySelector('.eb-dur-desc').textContent=isBin
+    ?"Quick window. If priced right, it'll sell fast."
+    :'Faster payout. Less time for bids to build.';
+  document.getElementById('dur-7').querySelector('.eb-dur-desc').textContent=isBin
+    ?'More time to find the right buyer at your price.'
+    :'More exposure. Better chance at a higher final price.';
+}
+
+function selectEbayDur(days,ms){
+  ebay.durDays=days;ebay.durMs=ms;
+  document.querySelectorAll('.eb-dur-opt').forEach(el=>el.classList.remove('sel'));
+  document.getElementById(`dur-${days}`).classList.add('sel');
+  ebayUpdateNav();
+}
+
+function ebayRenderReview(){
+  const c=G.collection.find(x=>String(x.cid)===String(ebay.cid));
+  const price=ebay.price;
+  const fee=Math.round(price*0.13*100)/100;
+  const ship=ebay.shipCost;
+  const payout=Math.round((price-fee-ship)*100)/100;
+  const rep=ebayRepInfo();
+  const mkt=c.actualEbayPrice;
+  const fmtLabel=ebay.fmt==='auction'?'Starting bid':'Buy It Now price';
+  const payoutNeg=payout<0;
+  const payoutColor=payoutNeg?'style="color:#E53238"':'class="eb-rv-val pos"';
+  document.getElementById('eb-review-breakdown').innerHTML=`<div class="eb-rv-row"><span class="eb-rv-label">${fmtLabel}</span><span class="eb-rv-val">$${price.toFixed(2)}</span></div><div class="eb-rv-row"><span class="eb-rv-label">eBay fee (13%)</span><span class="eb-rv-val neg">−$${fee.toFixed(2)}</span></div><div class="eb-rv-row"><span class="eb-rv-label">Shipping (${ebay.ship.toUpperCase()})</span><span class="eb-rv-val neg">−$${ship.toFixed(2)}</span></div><div class="eb-rv-row total-row"><span>Est. payout</span><span ${payoutColor}>$${payout.toFixed(2)}</span></div>${payoutNeg?`<div style="background:#FFF0F0;border:1px solid #E53238;border-radius:8px;padding:10px 12px;margin-top:10px;font-size:.72rem;color:#C0392B;font-weight:600">⛔ Price too low — shipping + fees cost $${(fee+ship).toFixed(2)} but you're only charging $${price.toFixed(2)}. You'd lose money. Raise your price or choose cheaper shipping.</div>`:''}`;
+  document.getElementById('eb-cta').disabled=payoutNeg;
+  let cls='eb-rep-ok',icon='✓',txt='';
+  if(rep.tier==='New Seller'&&mkt>300){cls='eb-rep-danger';icon='⚠️';txt=`<span class="eb-rep-tier">New Seller</span> — buyers are cautious with cards over $300. This listing may not attract buyers.`;}
+  else if(mkt>rep.maxCard){cls='eb-rep-warn';icon='⚠️';txt=`Your <span class="eb-rep-tier">${rep.tier}</span> rep may limit buyer trust for this card value.`;}
+  else if(rep.mult>1){cls='eb-rep-ok';icon='🏆';txt=`<span class="eb-rep-tier">${rep.tier}</span> — buyers trust you. +${Math.round((rep.mult-1)*100)}% price bonus applied.`;}
+  else{cls='eb-rep-ok';icon='✓';txt=`<span class="eb-rep-tier">${rep.tier}</span> — ${rep.desc}`;}
+  document.getElementById('eb-rep-banner').className=`eb-rep-banner ${cls}`;
+  document.getElementById('eb-rep-banner').innerHTML=`<span class="eb-rep-icon">${icon}</span><div>${txt}</div>`;
+}
+
+function ebaySubmit(){
+  const c=G.collection.find(x=>String(x.cid)===String(ebay.cid));
+  if(!c||c.listed||c.sold)return;
+  const endTime=Date.now()+ebay.durMs;
+  c.listed=true;c.platform='ebay';
+  c.ebayFormat=ebay.fmt;c.ebayPrice=ebay.price;
+  c.ebayShipping=ebay.ship;c.ebayShippingCost=ebay.shipCost;
+  c.auctionEndTime=endTime;c.auctionCleared=false;
+  c.ebayFailed=false;c.failReason=null;
+  c.bidEvents=genEbayBids(c,endTime);
+  G.auctions.push({cid:c.cid,endTime});
+  save();
+  // BIN: resolve when the sale fires (near-instant for deep discounts), not at listing end
+  const _saleEvt=ebay.fmt==='bin'&&c.bidEvents.find(e=>e.type==='sale');
+  schedAuc(c.cid,_saleEvt?_saleEvt.t:endTime);
+  renderCol();renderAuc();
+  document.getElementById('ebay-ov').style.display='none';
+  toast(`Listed on eBay · ${ebay.durDays}-day`);
+  showScr('auctions');
+}
+
+function genEbayBids(card,endTime){
+  const mkt=card.actualEbayPrice;
+  const fmt=card.ebayFormat;
+  const listPrice=card.ebayPrice;
+  const rep=ebayRepInfo();
+  const now=Date.now();
+  const dur=endTime-now;
+  const events=[];
+  const isNew=rep.tier==='New Seller';
+
+  if(fmt==='bin'){
+    const pct=listPrice/mkt;
+    const chance=pct<0.30?1.0:pct>1.5?0:pct>1.2?isNew?0.02:0.10:pct>1.0?isNew&&mkt>300?0.08:0.40:pct>0.85?isNew&&mkt>300?0.20:0.80:0.95;
+    if(Math.random()<chance){
+      const buyer=pct<0.5?'flipperking_cards':pct>1.1&&Math.random()<.3?'GrailHunter_NBA':'nba_collector_og';
+      // Extreme underpricing = near-instant sale; overpriced = slow/no sale
+      const timeMax=pct<0.20?0.005:pct<0.40?0.02:pct<0.60?0.06:pct<0.80?0.15:pct<0.90?0.35:pct<=1.0?0.60:0.90;
+      events.push({t:now+Math.random()*dur*timeMax,user:buyer,amount:listPrice,type:'sale'});
+    }
+    return events;
+  }
+
+  // Build bidder pool — each bidder commits a proxy max (what they're willing to pay)
+  let pool=[];
+  if(mkt>30)pool.push(EBAY_BIDDERS.find(b=>b.id==='flipper'));
+  if(listPrice/mkt<0.55)pool.push(EBAY_BIDDERS.find(b=>b.id==='bargain'));
+  if(!isNew||mkt<150)pool.push(EBAY_BIDDERS.find(b=>b.id==='collector'));
+  if(!isNew&&Math.random()<0.4)pool.push(EBAY_BIDDERS.find(b=>b.id==='grader'));
+  if(!isNew&&mkt>500&&Math.random()<0.22)pool.push(EBAY_BIDDERS.find(b=>b.id==='grail'));
+
+  // Assign each bidder a randomized max (±15% around their maxPct)
+  const active=pool
+    .filter(b=>b)
+    .map(b=>({name:b.name,max:Math.round(b.maxPct*mkt*rep.mult*(0.85+Math.random()*0.30)*100)/100}))
+    .filter(b=>b.max>=listPrice)
+    .sort((a,z)=>z.max-a.max); // highest bidder first
+
+  if(!active.length)return events;
+
+  const winner=active[0];
+  const runner=active[1];
+
+  // Final price: proxy bidding logic
+  // Two+ bidders → price = runner's max + 5% increment (capped at winner's max)
+  // Solo bidder → price = their max (they want the card, no one undercuts them)
+  let finalPrice;
+  if(runner){
+    const inc=Math.max(1,Math.round(runner.max*0.05*100)/100);
+    finalPrice=Math.min(winner.max,runner.max+inc);
+  }else{
+    finalPrice=winner.max;
+  }
+  finalPrice=Math.round(finalPrice*100)/100;
+
+  // Generate bid events — amounts always rise, timestamps always advance
+  // Bidders strictly alternate; loop breaks when no eligible alternate exists
+  const pool2=runner?[winner,runner]:[winner];
+  const steps=2+Math.floor(Math.random()*(active.length+2));
+  let cur=listPrice,lastBidder=null;
+  let tCur=now+dur*0.05;
+  const tStep=dur*0.88/(steps+1);
+  for(let i=0;i<steps;i++){
+    const bidder=pool2.find(b=>b.name!==lastBidder&&b.max>cur);
+    if(!bidder)break;
+    const target=Math.round((cur+(finalPrice-cur)*((i+1)/steps)*(0.6+Math.random()*0.8))*100)/100;
+    // Cap below finalPrice so final event is always the highest bid
+    const bid=Math.min(Math.max(target,cur+0.50),finalPrice-0.50);
+    if(bid<=cur)continue;
+    tCur=Math.min(tCur+tStep*(0.5+Math.random()),now+dur*0.93);
+    events.push({t:tCur,user:bidder.name,amount:Math.round(bid*100)/100,type:'bid'});
+    cur=bid;lastBidder=bidder.name;
+  }
+  // If winner was last loop bidder and runner can still bid, insert runner just below final
+  // This avoids a consecutive winner-winner pair at the close
+  if(lastBidder===winner.name&&runner&&runner.max>cur+0.50){
+    const rb=Math.round(Math.min(runner.max,finalPrice-0.50)*100)/100;
+    if(rb>cur)events.push({t:now+dur*0.95,user:runner.name,amount:rb,type:'bid'});
+  }
+  // Final bid: always last, always finalPrice, always winner
+  events.push({t:now+dur*(0.97+Math.random()*0.02),user:winner.name,amount:finalPrice,type:'bid'});
+  return events;
+}
+
+function resolveEbayCard(cid){
+  const c=G.collection.find(x=>String(x.cid)===String(cid));
+  if(!c||c.sold)return;
+  G.ebayRep=G.ebayRep||{feedback:0,positive:0,negative:0};
+  const mkt=c.actualEbayPrice;
+  const events=c.bidEvents||[];
+  const now=Date.now();
+  const rep=ebayRepInfo();
+  let soldPrice=null,failReason=null;
+
+  if(c.ebayFormat==='bin'){
+    const sale=events.find(e=>e.type==='sale'&&e.t<=now);
+    if(sale)soldPrice=sale.amount;
+    else{
+      const pct=c.ebayPrice/mkt;
+      if(pct>1.5)failReason='Priced too high — no buyers at this price';
+      else if(pct>1.2)failReason='Above market price — listing expired';
+      else if(rep.tier==='New Seller'&&mkt>300)failReason='New sellers rarely attract buyers for high-value cards';
+      else failReason='No buyers found — try lowering the price or use Auction';
+    }
+  }else{
+    const pastBids=events.filter(e=>e.type==='bid'&&e.t<=now);
+    if(!pastBids.length){
+      const pct=c.ebayPrice/mkt;
+      if(pct>0.75)failReason='Starting bid too high — no bids received';
+      else if(rep.tier==='New Seller'&&mkt>300)failReason='Low rep limited bidder interest on this card';
+      else failReason='No bidders found this auction';
+    }else soldPrice=pastBids[pastBids.length-1].amount;
+  }
+
+  if(failReason){
+    c.listed=false;c.ebayFailed=true;c.failReason=failReason;
+    G.auctions=G.auctions.filter(a=>String(a.cid)!==String(cid));
+    save();renderAuc();renderCol();return;
+  }
+
+  if(c.ebayShipping==='pwe'&&mkt>=500&&Math.random()<0.88){
+    c.listed=false;c.ebayFailed=true;c.failReason='Card lost in mail — never use PWE for expensive cards';
+    G.ebayRep.negative+=2;G.ebayRep.feedback+=2;
+    G.auctions=G.auctions.filter(a=>String(a.cid)!==String(cid));
+    save();renderAuc();renderCol();
+    toast('🚨 Card lost in mail — negative feedback received');return;
+  }else if(c.ebayShipping==='pwe'&&mkt>=200&&Math.random()<0.60){
+    G.ebayRep.negative++;G.ebayRep.feedback++;
+    toast('📦 Buyer reported damaged card — negative feedback');
+  }else{
+    const gain=c.ebayShipping==='priority'&&mkt>=300?2:1;
+    G.ebayRep.positive+=gain;G.ebayRep.feedback+=gain;
+  }
+
+  const finalPrice=Math.round(soldPrice*rep.mult*100)/100;
+  const fee=Math.round(finalPrice*0.13*100)/100;
+  const payout=Math.round((finalPrice-fee-c.ebayShippingCost)*100)/100;
+  c.sold=true;c.listed=false;c.sellPrice=payout;
+  c.ebaySoldPrice=finalPrice;c.ebayFeeAmt=fee;
+  G.bankroll+=payout;G.stats.earned+=payout;G.stats.allEarned+=payout;
+  if(!G.stats.bestCard||payout>G.stats.bestCard.price)G.stats.bestCard={name:c.playerName,price:payout};
+  if(G.bankroll>G.stats.bestBR)G.stats.bestBR=G.bankroll;
+  G.auctions=G.auctions.filter(a=>String(a.cid)!==String(cid));
+  save();updBR();checkLevel();updBtns();renderCol();renderAuc();
+  showEbaySold(c,finalPrice,fee,c.ebayShippingCost,payout);
+  checkGameOver();
+}
+
+function showEbaySold(c,salePrice,fee,ship,payout){
+  document.getElementById('so-icon').textContent='🛒';
+  document.getElementById('so-title').textContent='Sold on eBay!';
+  document.getElementById('so-sub').textContent=c.playerName+' sold';
+  document.getElementById('so-amt').textContent=`+$${payout.toFixed(2)}`;
+  document.getElementById('so-rev').innerHTML=`<div style="font-size:.7rem;color:var(--muted);margin-top:5px;line-height:1.9">Sale: $${salePrice.toFixed(2)}<br>eBay fee (13%): −$${fee.toFixed(2)}<br>Shipping: −$${ship.toFixed(2)}</div>`;
+  document.getElementById('sold-ov').classList.remove('hide');
+}
+
+function relistEbay(cid){
+  const c=G.collection.find(x=>String(x.cid)===String(cid));
+  if(!c)return;
+  c.ebayFailed=false;c.failReason=null;c.auctionCleared=false;
+  save();renderAuc();
+  openEbaySell(cid);
+}
 
 function confetti(n=18){
   const cols=['#E85D04','#2563EB','#7C3AED','#16A34A','#D4A017','#DC2626','#0891B2'];
@@ -1441,5 +2027,137 @@ function startPlay(){
 
 init();
 </script>
+
+<!-- EBAY LISTING MODAL -->
+<div id="ebay-ov">
+  <!-- Header -->
+  <div class="eb-hdr">
+    <button class="eb-back-btn" onclick="ebayBack()" aria-label="Back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="eb-logo"><span class="el-e">e</span><span class="el-b">b</span><span class="el-a">a</span><span class="el-y">y</span></div>
+    <div class="eb-hdr-title">List your item</div>
+    <div class="eb-step-num" id="eb-step-num">Step 1 of 5</div>
+  </div>
+  <div class="eb-progress"><div class="eb-prog-fill" id="eb-prog-fill" style="width:20%"></div></div>
+
+  <!-- Card strip -->
+  <div class="eb-card-strip">
+    <img class="eb-cs-img" id="eb-cs-img" src="" alt="">
+    <div style="flex:1;min-width:0">
+      <div class="eb-cs-name" id="eb-cs-name"></div>
+      <div class="eb-cs-set" id="eb-cs-set"></div>
+      <div class="eb-cs-mkt" id="eb-cs-mkt"></div>
+    </div>
+  </div>
+
+  <!-- Steps -->
+  <div class="eb-body">
+
+    <!-- Step 1: Format -->
+    <div class="eb-step active" id="eb-s1">
+      <div class="eb-sec-title">Choose your format</div>
+      <div class="eb-sec-sub">Auction builds excitement. Buy It Now is fast and certain.</div>
+      <div class="eb-fmt-grid">
+        <div class="eb-fmt-card" id="fmt-auction" onclick="selectEbayFmt('auction')">
+          <div class="eb-fmt-icon">🔨</div>
+          <div class="eb-fmt-name">Auction</div>
+          <div class="eb-fmt-desc">Buyers bid. Rare cards can beat market value.</div>
+        </div>
+        <div class="eb-fmt-card" id="fmt-bin" onclick="selectEbayFmt('bin')">
+          <div class="eb-fmt-icon">🏷️</div>
+          <div class="eb-fmt-name">Buy It Now</div>
+          <div class="eb-fmt-desc">Fixed price. Instant sale if priced right.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Price -->
+    <div class="eb-step" id="eb-s2">
+      <div id="eb-price-auction-sec">
+        <div class="eb-sec-title">Set your starting bid</div>
+        <div class="eb-sec-sub">Low start = more bidders. Can end above market value.</div>
+        <div class="eb-input-wrap">
+          <span class="eb-currency">$</span>
+          <input type="number" id="eb-inp-start" class="eb-inp" placeholder="0.99" min="0.01" step="0.01" oninput="onEbayPriceInput(this)">
+        </div>
+      </div>
+      <div id="eb-price-bin-sec" style="display:none">
+        <div class="eb-sec-title">Set your Buy It Now price</div>
+        <div class="eb-sec-sub">Buyers purchase at this price instantly.</div>
+        <div class="eb-input-wrap">
+          <span class="eb-currency">$</span>
+          <input type="number" id="eb-inp-bin" class="eb-inp" placeholder="0.00" min="0.01" step="0.01" oninput="onEbayPriceInput(this)">
+        </div>
+      </div>
+      <div class="eb-hint-row" id="eb-price-hints"></div>
+    </div>
+
+    <!-- Step 3: Shipping -->
+    <div class="eb-step" id="eb-s3">
+      <div class="eb-sec-title">Choose shipping</div>
+      <div class="eb-sec-sub">Your packaging choice affects your rep and card safety.</div>
+      <div class="eb-ship-list">
+        <div class="eb-ship-opt" id="ship-pwe" onclick="selectEbayShip('pwe',1)">
+          <div class="eb-ship-left">
+            <div class="eb-ship-name">Plain Envelope (PWE)</div>
+            <div class="eb-ship-desc">No protection, no tracking. Risky for valuable cards.</div>
+            <div class="eb-ship-risk" id="ship-pwe-risk"></div>
+          </div>
+          <div class="eb-ship-price">$1</div>
+        </div>
+        <div class="eb-ship-opt" id="ship-tracked" onclick="selectEbayShip('tracked',5)">
+          <div class="eb-ship-left">
+            <div class="eb-ship-name">Bubble Mailer + Tracking</div>
+            <div class="eb-ship-desc">Standard protection with delivery confirmation.</div>
+            <div class="eb-ship-risk" id="ship-tracked-risk"></div>
+          </div>
+          <div class="eb-ship-price">$5</div>
+        </div>
+        <div class="eb-ship-opt" id="ship-priority" onclick="selectEbayShip('priority',12)">
+          <div class="eb-ship-left">
+            <div class="eb-ship-name">Priority Mail (Insured)</div>
+            <div class="eb-ship-desc">Fast, insured & tracked. Buyers love it. Boosts rep.</div>
+            <div class="eb-ship-risk" id="ship-priority-risk" style="color:#00AC4E"></div>
+          </div>
+          <div class="eb-ship-price">$12</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 4: Duration -->
+    <div class="eb-step" id="eb-s4">
+      <div class="eb-sec-title">Listing duration</div>
+      <div class="eb-sec-sub">Longer listings attract more bidders and higher final prices.</div>
+      <div class="eb-dur-list">
+        <div class="eb-dur-opt" id="dur-3" onclick="selectEbayDur(3,120000)">
+          <div class="eb-dur-name">3-Day Listing</div>
+          <div class="eb-dur-game">≈ 2 minutes in game</div>
+          <div class="eb-dur-desc">Faster payout. Less time for bids to build.</div>
+        </div>
+        <div class="eb-dur-opt" id="dur-7" onclick="selectEbayDur(7,300000)">
+          <div class="eb-dur-name">7-Day Listing</div>
+          <div class="eb-dur-game">≈ 5 minutes in game</div>
+          <div class="eb-dur-desc">More exposure. Better chance at a higher final price.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 5: Review -->
+    <div class="eb-step" id="eb-s5">
+      <div class="eb-sec-title">Review &amp; list</div>
+      <div class="eb-sec-sub">eBay fees are deducted when your item sells.</div>
+      <div class="eb-review-card" id="eb-review-breakdown"></div>
+      <div id="eb-rep-banner"></div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="eb-footer">
+    <button class="eb-cta-btn" id="eb-cta" onclick="ebayNext()" disabled>Continue</button>
+  </div>
+</div>
+
 </body>
 </html>
