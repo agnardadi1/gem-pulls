@@ -114,244 +114,80 @@ body{
 
 /* ─── PACK CARD ───────────────────────────── */
 .pc{
-  border-radius:10px;overflow:hidden;cursor:pointer;
-  position:relative;height:260px;
-  border:1px solid var(--border);
+  border-radius:12px;overflow:visible;cursor:pointer;
+  background:#0E0E0E;border:1px solid #1A1A1A;
+  display:flex;flex-direction:column;
   transition:transform .18s,border-color .18s,box-shadow .18s;
-  /* prevent layout jump on active */
-  transform:translateZ(0);
+  transform:translateZ(0);position:relative;
 }
-.pc:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.6)}
+.pc:hover{transform:translateY(-5px);box-shadow:0 24px 64px rgba(0,0,0,.85);border-color:#2A2A2A}
 .pc:active{transform:scale(.97)}
 
-/* Full-bleed pack art fills entire card */
-.pk{position:absolute;inset:0;display:flex;flex-direction:column}
-
-/* ── PACK: BUDGET BLASTER (orange/red energy) */
-.pc.budget{border-color:#6B2800}
-.pc.budget:hover{border-color:#E85D04;box-shadow:0 16px 48px rgba(232,93,4,.25)}
-.pc.budget .pk{
-  background:
-    repeating-linear-gradient(
-      -45deg,
-      transparent 0px,transparent 14px,
-      rgba(255,255,255,.025) 14px,rgba(255,255,255,.025) 15px
-    ),
-    linear-gradient(160deg,#7A1E00 0%,#CC3A00 25%,#E85D04 55%,#AA2800 80%,#6B1800 100%);
+.pk{
+  flex:1;min-height:0;display:flex;align-items:center;justify-content:center;
+  padding:20px 22px 10px;background:#0E0E0E;position:relative;overflow:hidden;
+  border-radius:12px 12px 0 0;
 }
-.pc.budget .pk-seal{background:linear-gradient(90deg,#5A1500,#8A2800,#5A1500);height:22px;display:flex;align-items:center;padding:0 8px;gap:5px;border-bottom:1px solid rgba(0,0,0,.5)}
-.pc.budget .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45)}
-.pc.budget .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(255,255,255,.3);font-family:'Barlow',sans-serif;letter-spacing:.5px}
-.pc.budget .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden}
-.pc.budget .pk-body::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(255,120,30,.2) 0%,transparent 70%)}
-.pc.budget .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.5rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,200,100,.6);margin-bottom:2px}
-.pc.budget .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.65rem;font-weight:900;text-transform:uppercase;line-height:.9;text-align:center;color:#FFF;text-shadow:0 2px 12px rgba(0,0,0,.5),2px 2px 0 rgba(0,0,0,.3);letter-spacing:-1px}
-.pc.budget .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(255,180,80,.7);text-transform:uppercase;margin-top:4px}
-.pc.budget .pk-cards-peek{display:flex;justify-content:center;gap:-4px;margin-top:12px;position:relative}
-.pc.budget .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.35)}
-.pc.budget .pk-card:nth-child(1){transform:rotate(-12deg) translateX(6px) translateY(2px);z-index:1}
-.pc.budget .pk-card:nth-child(2){transform:rotate(-4deg);z-index:2}
-.pc.budget .pk-card:nth-child(3){transform:rotate(8deg) translateX(-6px) translateY(2px);z-index:1}
-.pc.budget .pk-footer{height:28px;background:rgba(0,0,0,.5);display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(0,0,0,.4);gap:6px}
-.pc.budget .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(255,180,80,.8);letter-spacing:.5px;text-transform:uppercase}
-.pc.budget .pk-bar{flex:1;height:8px;display:flex;gap:1px}
-.pc.budget .pk-bar span{flex:1;background:rgba(255,255,255,.12);border-radius:1px}
-.pc.budget .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 25%,rgba(255,255,255,.05) 40%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.05) 60%,transparent 75%)}
-
-/* ── PACK: STANDARD PRIZM (chrome/blue) */
-.pc.standard{border-color:#1A3A7A}
-.pc.standard:hover{border-color:#2563EB;box-shadow:0 16px 48px rgba(37,99,235,.22)}
-.pc.standard .pk{
-  background:
-    repeating-linear-gradient(
-      60deg,
-      transparent,transparent 8px,
-      rgba(200,220,255,.03) 8px,rgba(200,220,255,.03) 9px
-    ),
-    repeating-linear-gradient(
-      -60deg,
-      transparent,transparent 8px,
-      rgba(200,220,255,.02) 8px,rgba(200,220,255,.02) 9px
-    ),
-    linear-gradient(160deg,#0B1F5E 0%,#1A3DB5 30%,#0D2C8A 60%,#071850 100%);
+.pk-art{
+  width:100%;height:100%;object-fit:contain;display:block;
+  position:relative;z-index:1;pointer-events:none;
+  filter:drop-shadow(0 12px 32px rgba(0,0,0,.7));
 }
-.pc.standard .pk-seal{height:22px;background:linear-gradient(90deg,rgba(200,220,255,.08),rgba(200,220,255,.18),rgba(200,220,255,.08));display:flex;align-items:center;padding:0 8px;gap:5px;border-bottom:1px solid rgba(100,140,255,.2)}
-.pc.standard .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(180,200,255,.5)}
-.pc.standard .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(180,200,255,.35);font-family:'Barlow',sans-serif}
-.pc.standard .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden}
-.pc.standard .pk-body::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(100,150,255,.15) 0%,transparent 70%)}
-/* chrome diagonal slashes */
-.pc.standard .pk-body::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(65deg,transparent,transparent 18px,rgba(255,255,255,.04) 18px,rgba(255,255,255,.04) 20px,transparent 20px,transparent 38px);pointer-events:none}
-.pc.standard .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.48rem;font-weight:700;letter-spacing:3px;color:rgba(150,200,255,.55);text-transform:uppercase;margin-bottom:2px}
-.pc.standard .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:900;text-transform:uppercase;line-height:.9;text-align:center;letter-spacing:-1px;background:linear-gradient(180deg,#E8F0FF 0%,#A0C0FF 50%,#C8D8FF 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none}
-.pc.standard .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(150,200,255,.55);text-transform:uppercase;margin-top:4px}
-.pc.standard .pk-cards-peek{display:flex;justify-content:center;margin-top:12px}
-.pc.standard .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(150,200,255,.2);background:rgba(0,0,40,.4)}
-.pc.standard .pk-card:nth-child(1){transform:rotate(-12deg) translateX(6px) translateY(2px);z-index:1}
-.pc.standard .pk-card:nth-child(2){transform:rotate(-4deg);z-index:2}
-.pc.standard .pk-card:nth-child(3){transform:rotate(8deg) translateX(-6px) translateY(2px);z-index:1}
-.pc.standard .pk-card:nth-child(4){transform:rotate(16deg) translateX(-12px) translateY(4px);z-index:0}
-.pc.standard .pk-card:nth-child(5){transform:rotate(-18deg) translateX(12px) translateY(4px);z-index:0}
-.pc.standard .pk-footer{height:28px;background:rgba(0,0,20,.6);display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(100,140,255,.12);gap:6px}
-.pc.standard .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(150,200,255,.7);letter-spacing:.5px;text-transform:uppercase}
-.pc.standard .pk-bar{flex:1;height:8px;display:flex;gap:1px}
-.pc.standard .pk-bar span{flex:1;background:rgba(150,200,255,.1);border-radius:1px}
-.pc.standard .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 20%,rgba(180,210,255,.06) 38%,rgba(180,210,255,.14) 50%,rgba(180,210,255,.06) 62%,transparent 80%)}
+.pk-shine{position:absolute;inset:0;pointer-events:none;z-index:2;background:linear-gradient(125deg,transparent 25%,rgba(255,255,255,.04) 40%,rgba(255,255,255,.08) 50%,rgba(255,255,255,.04) 60%,transparent 75%)}
 
-/* ── PACK: PREMIUM SUPER (black/gold luxury) */
-.pc.premium{border-color:#4A3200}
-.pc.premium:hover{border-color:#D4A017;box-shadow:0 16px 48px rgba(212,160,23,.22)}
-.pc.premium .pk{
-  background:
-    radial-gradient(ellipse at 30% 40%,rgba(120,80,0,.3) 0%,transparent 60%),
-    radial-gradient(ellipse at 70% 70%,rgba(80,40,120,.2) 0%,transparent 60%),
-    linear-gradient(170deg,#0A0600 0%,#1A1000 30%,#120C00 60%,#050300 100%);
+/* always-visible info bar */
+.pc-infobar{
+  flex-shrink:0;padding:11px 14px 13px;
+  background:#111;border-top:1px solid #1C1C1C;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
 }
-.pc.premium .pk-seal{height:22px;background:linear-gradient(90deg,rgba(212,160,23,.1),rgba(212,160,23,.25),rgba(212,160,23,.1));display:flex;align-items:center;padding:0 8px;border-bottom:1px solid rgba(212,160,23,.2)}
-.pc.premium .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(212,160,23,.5)}
-.pc.premium .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(212,160,23,.35);font-family:'Barlow',sans-serif}
-.pc.premium .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden}
-/* gold light rays */
-.pc.premium .pk-body::before{content:'';position:absolute;inset:0;background:
-  conic-gradient(from 0deg at 50% 45%,transparent 0deg,rgba(212,160,23,.03) 15deg,transparent 30deg,transparent 45deg,rgba(212,160,23,.04) 60deg,transparent 75deg,transparent 90deg,rgba(212,160,23,.03) 105deg,transparent 120deg,transparent 135deg,rgba(212,160,23,.02) 150deg,transparent 165deg,transparent 360deg)}
-.pc.premium .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.48rem;font-weight:700;letter-spacing:3px;color:rgba(212,160,23,.5);text-transform:uppercase;margin-bottom:2px}
-.pc.premium .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:900;text-transform:uppercase;line-height:.9;text-align:center;letter-spacing:-1px;background:linear-gradient(180deg,#F5C842 0%,#B8860B 45%,#F5C842 70%,#D4A017 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.pc.premium .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(212,160,23,.45);text-transform:uppercase;margin-top:4px}
-.pc.premium .pk-cards-peek{display:flex;justify-content:center;margin-top:12px}
-.pc.premium .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(212,160,23,.15);background:rgba(10,8,0,.5)}
-.pc.premium .pk-card:nth-child(1){transform:rotate(-14deg) translateX(8px) translateY(3px);z-index:1}
-.pc.premium .pk-card:nth-child(2){transform:rotate(-5deg) translateX(3px);z-index:2}
-.pc.premium .pk-card:nth-child(3){transform:rotate(4deg) translateX(-3px);z-index:3}
-.pc.premium .pk-card:nth-child(4){transform:rotate(12deg) translateX(-8px) translateY(3px);z-index:2}
-.pc.premium .pk-card:nth-child(5){transform:rotate(20deg) translateX(-14px) translateY(6px);z-index:1}
-.pc.premium .pk-card:nth-child(6){transform:rotate(-21deg) translateX(14px) translateY(6px);z-index:1}
-.pc.premium .pk-card:nth-child(7){transform:rotate(-6deg) translateX(6px) translateY(1px);z-index:0}
-.pc.premium .pk-card:nth-child(8){transform:rotate(6deg) translateX(-6px) translateY(1px);z-index:0}
-.pc.premium .pk-footer{height:28px;background:linear-gradient(90deg,rgba(212,160,23,.08),rgba(212,160,23,.12),rgba(212,160,23,.08));display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(212,160,23,.15);gap:6px}
-.pc.premium .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(212,160,23,.7);letter-spacing:.5px;text-transform:uppercase}
-.pc.premium .pk-bar{flex:1;height:8px;display:flex;gap:1px}
-.pc.premium .pk-bar span{flex:1;background:rgba(212,160,23,.1);border-radius:1px}
-.pc.premium .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 20%,rgba(245,200,66,.04) 38%,rgba(245,200,66,.12) 50%,rgba(245,200,66,.04) 62%,transparent 80%)}
-
-/* ── PACK: CHASE (animated rainbow foil) */
-.pc.chase-pack{border-color:#333}
-.pc.chase-pack:hover{border-color:#888;box-shadow:0 16px 48px rgba(200,200,100,.15)}
-.pc.chase-pack .pk{
-  background:#050505;
-  overflow:hidden;
+.pc-infobar-name{
+  font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;
+  text-transform:uppercase;letter-spacing:.3px;color:#EBEBEB;line-height:1;
 }
-/* rainbow foil animation layer */
-.pk-foil{
-  position:absolute;inset:0;
-  background:linear-gradient(
-    125deg,
-    transparent 0%,
-    rgba(255,0,100,.04) 10%,
-    rgba(255,100,0,.06) 20%,
-    rgba(255,255,0,.04) 30%,
-    rgba(0,255,100,.06) 40%,
-    rgba(0,200,255,.04) 50%,
-    rgba(100,0,255,.06) 60%,
-    rgba(255,0,200,.04) 70%,
-    transparent 80%
-  );
-  background-size:400% 400%;
-  animation:foil-move 4s ease-in-out infinite;
-  mix-blend-mode:screen;
+.pc-infobar-sub{
+  font-family:'Barlow Condensed',sans-serif;font-size:.55rem;font-weight:700;
+  color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-top:3px;
 }
-@keyframes foil-move{
-  0%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-  100%{background-position:0% 50%}
+.pc-infobar-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pc-infobar-price{
+  font-family:'Barlow Condensed',sans-serif;font-size:1.15rem;font-weight:900;
+  color:#EBEBEB;line-height:1;white-space:nowrap;
 }
-.pc.chase-pack .pk-seal{height:22px;position:relative;overflow:hidden;display:flex;align-items:center;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.06);z-index:2}
-.pc.chase-pack .pk-seal::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#8000FF,#FF0080);background-size:300% 100%;animation:foil-move 3s linear infinite;opacity:.3}
-.pc.chase-pack .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);position:relative;z-index:1}
-.pc.chase-pack .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(255,255,255,.3);font-family:'Barlow',sans-serif;position:relative;z-index:1}
-.pc.chase-pack .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden;z-index:2}
-.pc.chase-pack .pk-series{
-  font-family:'Barlow Condensed',sans-serif;font-size:.5rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;
-  background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#FF0080);
-  background-size:300% 100%;animation:foil-move 3s linear infinite;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.pc.chase-pack .pk-name{
-  font-family:'Barlow Condensed',sans-serif;font-size:1.85rem;font-weight:900;text-transform:uppercase;line-height:.88;text-align:center;letter-spacing:-1.5px;
-  background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#8000FF,#FF0080);
-  background-size:300% 100%;animation:foil-move 4s linear infinite;
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.pc.chase-pack .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase;margin-top:5px}
-.pc.chase-pack .pk-cards-peek{display:flex;justify-content:center;margin-top:12px;z-index:2;position:relative}
-.pc.chase-pack .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
-.pc.chase-pack .pk-card:nth-child(1){transform:rotate(-10deg) translateX(4px) translateY(2px)}
-.pc.chase-pack .pk-card:nth-child(2){transform:rotate(10deg) translateX(-4px) translateY(2px)}
-.pc.chase-pack .pk-footer{height:28px;background:rgba(0,0,0,.8);display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(255,255,255,.06);gap:6px;position:relative;overflow:hidden;z-index:2}
-.pc.chase-pack .pk-footer::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#FF0080);background-size:300% 100%;animation:foil-move 3s linear infinite;opacity:.08}
-.pc.chase-pack .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.5px;text-transform:uppercase;position:relative;z-index:1}
-.pc.chase-pack .pk-bar{flex:1;height:8px;display:flex;gap:1px;position:relative;z-index:1}
-.pc.chase-pack .pk-bar span{flex:1;background:rgba(255,255,255,.06);border-radius:1px}
-.pc.chase-pack .pk-shine{position:absolute;inset:0;pointer-events:none;z-index:1}
+.pc.budget   .pc-infobar-price{color:var(--orange2)}
+.pc.standard .pc-infobar-price{color:var(--blue2)}
+.pc.premium  .pc-infobar-price{color:var(--gold2)}
+.pc.chase-pack .pc-infobar-price{background:linear-gradient(90deg,#FF80AA,#FFB060,#FFD700);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 
-/* perforation across pack top */
-.pk-perf{position:absolute;top:22px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,transparent,transparent 5px,rgba(255,255,255,.08) 5px,rgba(255,255,255,.08) 7px);z-index:5;pointer-events:none}
+/* Blind Slab — horizontal full-width */
+.pc.single{grid-column:1/-1;height:130px;flex-direction:row;border-radius:12px}
+.pc.single .pk{width:120px;flex:none;padding:10px 14px;border-radius:12px 0 0 12px}
+.pc.single .pc-infobar{flex:1;border-top:none;border-left:1px solid #1C1C1C;flex-direction:column;align-items:flex-start;justify-content:center;gap:4px;padding:14px 16px}
+.pc.single .pc-infobar-right{width:100%;justify-content:space-between;margin-top:4px}
+.pc.single .pc-infobar-price{color:#10B981}
 
-/* hover info overlay */
-.pc-hover{
-  position:absolute;bottom:0;left:0;right:0;z-index:20;
-  padding:12px 12px 13px;
-  background:linear-gradient(0deg,rgba(0,0,0,.97) 45%,rgba(0,0,0,.88) 80%,transparent 100%);
-  transform:translateY(100%);
-  transition:transform .25s cubic-bezier(.25,.46,.45,.94);
-  display:flex;flex-direction:column;gap:6px;
-}
-.pc:hover .pc-hover,.pc.pc-active .pc-hover{transform:translateY(0)}
-
-.pc-tap-hint{
-  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
-  font-size:.52rem;font-weight:600;color:rgba(255,255,255,.35);
-  white-space:nowrap;z-index:15;
-  font-family:'Barlow',sans-serif;letter-spacing:.5px;
-  transition:opacity .2s;pointer-events:none;
-}
-.pc:hover .pc-tap-hint,.pc.pc-active .pc-tap-hint{opacity:0}
-
-.pc-name{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;line-height:1}
-.pc-odds{display:flex;flex-wrap:wrap;gap:3px}
-.ob{font-size:.5rem;font-weight:600;padding:2px 6px;border-radius:4px;white-space:nowrap}
-.ob.common{background:rgba(120,144,156,.1);color:var(--common)}
-.ob.uncommon{background:rgba(46,125,50,.1);color:var(--uncommon)}
-.ob.rare{background:rgba(94,53,177,.12);color:var(--rare)}
-.ob.chase{background:rgba(184,134,11,.12);color:var(--gold2)}
-
-.pc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:3px}
-.pc-price-wrap{}
-.pc-price{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.3px}
-.pc-price-sub{font-size:.44rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
-
-.pc.budget .pc-price{color:var(--orange2)}
-.pc.standard .pc-price{color:var(--blue2)}
-.pc.premium .pc-price{color:var(--gold2)}
-.pc.chase-pack .pc-price{color:#fff}
-
+/* buy button */
 .pc-btn{
-  border:none;border-radius:6px;padding:7px 13px;
+  border:none;border-radius:7px;padding:8px 16px;
   font-family:'Barlow Condensed',sans-serif;
-  font-size:.65rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;
-  cursor:pointer;transition:all .15s;
+  font-size:.72rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;white-space:nowrap;
 }
 .pc-btn:disabled{opacity:.3;cursor:not-allowed}
-.pc-btn:not(:disabled):hover{filter:brightness(1.15);transform:scale(1.05)}
+.pc-btn:not(:disabled):hover{filter:brightness(1.12);transform:scale(1.05)}
+.pc.single   .pc-btn{background:#10B981;color:#fff}
 .pc.budget   .pc-btn{background:var(--orange);color:#fff}
 .pc.standard .pc-btn{background:var(--blue);color:#fff}
 .pc.premium  .pc-btn{background:var(--gold);color:#0a0600}
 .pc.chase-pack .pc-btn{background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00CF80,#00CFFF,#8000FF);background-size:300% 100%;animation:foil-move 3s linear infinite;color:#fff;font-weight:900}
 
-/* pack art image */
-.pk-art{
-  width:100%;height:100%;object-fit:contain;
-  display:block;position:relative;z-index:1;
-  pointer-events:none;
+/* pack art image — OLD class kept for compatibility */
+.pk-art{width:100%;height:100%;object-fit:contain;display:block;position:relative;z-index:1;pointer-events:none}
+
+@keyframes foil-move{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 /* ribbon */
@@ -692,21 +528,13 @@ body{
           <img class="pk-art" src="images/pack-single.png" alt="Blind Slab">
           <div class="pk-shine"></div>
         </div>
-        <div class="pk-ribbon grn">Entry</div>
-        <div class="pc-tap-hint">tap to see odds</div>
-        <div class="pc-hover">
-          <div class="pc-name">Blind Slab</div>
-          <div class="pc-odds">
-            <span class="ob common">80% Common</span>
-            <span class="ob uncommon">14% Uncommon</span>
-            <span class="ob rare">5% Rare</span>
-            <span class="ob chase">1% Chase</span>
+        <div class="pc-infobar">
+          <div>
+            <div class="pc-infobar-name">Blind Slab</div>
+            <div class="pc-infobar-sub">1 Card · Pure Luck</div>
           </div>
-          <div class="pc-footer">
-            <div class="pc-price-wrap">
-              <div class="pc-price">$50</div>
-              <div class="pc-price-sub">MT Coins · 1 card</div>
-            </div>
+          <div class="pc-infobar-right">
+            <div class="pc-infobar-price">$50</div>
             <button class="pc-btn" id="buy-single" onclick="buyPack('single')">Open</button>
           </div>
         </div>
@@ -719,19 +547,13 @@ body{
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon orn">Best Start</div>
-        <div class="pc-tap-hint">tap to see odds</div>
-        <div class="pc-hover">
-          <div class="pc-name">Blaster Box</div>
-          <div class="pc-odds">
-            <span class="ob common">85% Common</span>
-            <span class="ob uncommon">10% Uncommon</span>
-            <span class="ob rare">5% Rare</span>
+        <div class="pc-infobar">
+          <div>
+            <div class="pc-infobar-name">Blaster Box</div>
+            <div class="pc-infobar-sub">3 Cards Per Pack</div>
           </div>
-          <div class="pc-footer">
-            <div class="pc-price-wrap">
-              <div class="pc-price">$100</div>
-              <div class="pc-price-sub">MT Coins · 3 cards</div>
-            </div>
+          <div class="pc-infobar-right">
+            <div class="pc-infobar-price">$100</div>
             <button class="pc-btn" id="buy-budget" onclick="buyPack('budget')">Open</button>
           </div>
         </div>
@@ -744,20 +566,13 @@ body{
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon blu">Best Value</div>
-        <div class="pc-tap-hint">tap to see odds</div>
-        <div class="pc-hover">
-          <div class="pc-name">Hobby Box</div>
-          <div class="pc-odds">
-            <span class="ob common">70% Common</span>
-            <span class="ob uncommon">20% Uncommon</span>
-            <span class="ob rare">9% Rare</span>
-            <span class="ob chase">1% Chase</span>
+        <div class="pc-infobar">
+          <div>
+            <div class="pc-infobar-name">Hobby Box</div>
+            <div class="pc-infobar-sub">5 Cards Per Pack</div>
           </div>
-          <div class="pc-footer">
-            <div class="pc-price-wrap">
-              <div class="pc-price">$500</div>
-              <div class="pc-price-sub">MT Coins · 5 cards</div>
-            </div>
+          <div class="pc-infobar-right">
+            <div class="pc-infobar-price">$500</div>
             <button class="pc-btn" id="buy-standard" onclick="buyPack('standard')">Open</button>
           </div>
         </div>
@@ -770,20 +585,13 @@ body{
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon gld">Premium</div>
-        <div class="pc-tap-hint">tap to see odds</div>
-        <div class="pc-hover">
-          <div class="pc-name">Super Box</div>
-          <div class="pc-odds">
-            <span class="ob common">50% Common</span>
-            <span class="ob uncommon">30% Uncommon</span>
-            <span class="ob rare">15% Rare</span>
-            <span class="ob chase">5% Chase</span>
+        <div class="pc-infobar">
+          <div>
+            <div class="pc-infobar-name">Super Box</div>
+            <div class="pc-infobar-sub">8 Cards · Rare Guaranteed</div>
           </div>
-          <div class="pc-footer">
-            <div class="pc-price-wrap">
-              <div class="pc-price">$2,500</div>
-              <div class="pc-price-sub">MT Coins · 8 cards</div>
-            </div>
+          <div class="pc-infobar-right">
+            <div class="pc-infobar-price">$2,500</div>
             <button class="pc-btn" id="buy-premium" onclick="buyPack('premium')">Open</button>
           </div>
         </div>
@@ -796,19 +604,13 @@ body{
           <div class="pk-shine"></div>
         </div>
         <div class="pk-ribbon wht">⭐ Chase</div>
-        <div class="pc-tap-hint">tap to see odds</div>
-        <div class="pc-hover">
-          <div class="pc-name">Chase Pack</div>
-          <div class="pc-odds">
-            <span class="ob uncommon">30% Uncommon</span>
-            <span class="ob rare">35% Rare</span>
-            <span class="ob chase">15% Chase</span>
+        <div class="pc-infobar">
+          <div>
+            <div class="pc-infobar-name">Chase Pack</div>
+            <div class="pc-infobar-sub">2 Cards · 15% Chase Odds</div>
           </div>
-          <div class="pc-footer">
-            <div class="pc-price-wrap">
-              <div class="pc-price">$3,500</div>
-              <div class="pc-price-sub">MT Coins · 2 cards</div>
-            </div>
+          <div class="pc-infobar-right">
+            <div class="pc-infobar-price">$3,500</div>
             <button class="pc-btn" id="buy-chase" onclick="buyPack('chase')">Open</button>
           </div>
         </div>
