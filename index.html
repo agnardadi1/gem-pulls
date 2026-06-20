@@ -1,0 +1,1703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Gem Pulls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ──────────────────────────────── */
+:root{
+  --bg:#0A0A0A;
+  --s1:#131313;
+  --s2:#1C1C1C;
+  --s3:#242424;
+  --border:#2A2A2A;
+  --border2:#363636;
+  --text:#EBEBEB;
+  --muted:#5C5C5C;
+  --muted2:#3A3A3A;
+
+  --blue:#2563EB;   --blue2:#60A5FA;
+  --orange:#E85D04; --orange2:#FF7B26;
+  --gold:#D4A017;   --gold2:#F5C842;
+  --purple:#7C3AED; --purple2:#A78BFA;
+  --red:#DC2626;    --green:#16A34A;
+  --cyan:#0891B2;
+
+  --common:#78909C;
+  --uncommon:#2E7D32;
+  --rare:#5E35B1;
+  --chase:#B8860B;
+}
+
+/* ─── RESET ───────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Barlow',sans-serif;
+  background:var(--bg);color:var(--text);
+  display:flex;flex-direction:column;
+  max-width:540px;margin:0 auto;
+  /* subtle noise */
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* ─── HEADER ──────────────────────────────── */
+.hdr{
+  flex-shrink:0;height:50px;
+  background:var(--s1);
+  border-bottom:1px solid var(--border);
+  padding:0 14px;
+  display:flex;align-items:center;justify-content:space-between;
+  z-index:50;
+}
+.logo-area{}
+.logo-name{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.35rem;font-weight:900;letter-spacing:-0.5px;
+  color:var(--text);line-height:1;
+}
+.logo-season{font-size:.52rem;font-weight:600;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-top:1px}
+
+.hud{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg);border:1px solid var(--border2);
+  border-radius:8px;padding:5px 10px;
+}
+.hud-coin{
+  width:18px;height:18px;border-radius:50%;
+  background:conic-gradient(#B8860B 0deg, #F5C842 90deg, #B8860B 180deg, #A07010 270deg, #B8860B 360deg);
+  flex-shrink:0;
+}
+.hud-val{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.95rem;font-weight:800;color:var(--gold2);letter-spacing:.3px;
+}
+
+/* ─── SCREENS ─────────────────────────────── */
+.screens{flex:1;overflow:hidden;position:relative}
+.scr{position:absolute;inset:0;overflow-y:auto;display:none}
+.scr.on{display:block}
+#scr-opening.on{display:flex;flex-direction:column;align-items:center}
+#rev-area{display:flex;flex-direction:column;align-items:center}
+.scr::-webkit-scrollbar{width:0}
+
+/* ─── BOTTOM NAV ──────────────────────────── */
+.bnav{
+  flex-shrink:0;height:56px;
+  background:var(--s1);border-top:1px solid var(--border);
+  display:flex;z-index:50;
+}
+.bn{
+  flex:1;background:none;border:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  color:var(--muted);transition:color .15s;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.58rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;
+}
+.bn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.bn.on{color:var(--orange2)}
+.bn.on::after{content:'';position:absolute;top:0;background:var(--orange);border-radius:0 0 3px 3px;width:24px;height:2px;margin-top:-1px}
+.bn{position:relative}
+
+
+/* ─── STORE ───────────────────────────────── */
+.store-label{
+  padding:12px 14px 6px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.62rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);
+}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:0 10px 14px}
+
+/* ─── PACK CARD ───────────────────────────── */
+.pc{
+  border-radius:10px;overflow:hidden;cursor:pointer;
+  position:relative;height:260px;
+  border:1px solid var(--border);
+  transition:transform .18s,border-color .18s,box-shadow .18s;
+  /* prevent layout jump on active */
+  transform:translateZ(0);
+}
+.pc:hover{transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.6)}
+.pc:active{transform:scale(.97)}
+
+/* Full-bleed pack art fills entire card */
+.pk{position:absolute;inset:0;display:flex;flex-direction:column}
+
+/* ── PACK: BUDGET BLASTER (orange/red energy) */
+.pc.budget{border-color:#6B2800}
+.pc.budget:hover{border-color:#E85D04;box-shadow:0 16px 48px rgba(232,93,4,.25)}
+.pc.budget .pk{
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent 0px,transparent 14px,
+      rgba(255,255,255,.025) 14px,rgba(255,255,255,.025) 15px
+    ),
+    linear-gradient(160deg,#7A1E00 0%,#CC3A00 25%,#E85D04 55%,#AA2800 80%,#6B1800 100%);
+}
+.pc.budget .pk-seal{background:linear-gradient(90deg,#5A1500,#8A2800,#5A1500);height:22px;display:flex;align-items:center;padding:0 8px;gap:5px;border-bottom:1px solid rgba(0,0,0,.5)}
+.pc.budget .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.pc.budget .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(255,255,255,.3);font-family:'Barlow',sans-serif;letter-spacing:.5px}
+.pc.budget .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden}
+.pc.budget .pk-body::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 60%,rgba(255,120,30,.2) 0%,transparent 70%)}
+.pc.budget .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.5rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,200,100,.6);margin-bottom:2px}
+.pc.budget .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.65rem;font-weight:900;text-transform:uppercase;line-height:.9;text-align:center;color:#FFF;text-shadow:0 2px 12px rgba(0,0,0,.5),2px 2px 0 rgba(0,0,0,.3);letter-spacing:-1px}
+.pc.budget .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(255,180,80,.7);text-transform:uppercase;margin-top:4px}
+.pc.budget .pk-cards-peek{display:flex;justify-content:center;gap:-4px;margin-top:12px;position:relative}
+.pc.budget .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(255,255,255,.2);background:rgba(0,0,0,.35)}
+.pc.budget .pk-card:nth-child(1){transform:rotate(-12deg) translateX(6px) translateY(2px);z-index:1}
+.pc.budget .pk-card:nth-child(2){transform:rotate(-4deg);z-index:2}
+.pc.budget .pk-card:nth-child(3){transform:rotate(8deg) translateX(-6px) translateY(2px);z-index:1}
+.pc.budget .pk-footer{height:28px;background:rgba(0,0,0,.5);display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(0,0,0,.4);gap:6px}
+.pc.budget .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(255,180,80,.8);letter-spacing:.5px;text-transform:uppercase}
+.pc.budget .pk-bar{flex:1;height:8px;display:flex;gap:1px}
+.pc.budget .pk-bar span{flex:1;background:rgba(255,255,255,.12);border-radius:1px}
+.pc.budget .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 25%,rgba(255,255,255,.05) 40%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.05) 60%,transparent 75%)}
+
+/* ── PACK: STANDARD PRIZM (chrome/blue) */
+.pc.standard{border-color:#1A3A7A}
+.pc.standard:hover{border-color:#2563EB;box-shadow:0 16px 48px rgba(37,99,235,.22)}
+.pc.standard .pk{
+  background:
+    repeating-linear-gradient(
+      60deg,
+      transparent,transparent 8px,
+      rgba(200,220,255,.03) 8px,rgba(200,220,255,.03) 9px
+    ),
+    repeating-linear-gradient(
+      -60deg,
+      transparent,transparent 8px,
+      rgba(200,220,255,.02) 8px,rgba(200,220,255,.02) 9px
+    ),
+    linear-gradient(160deg,#0B1F5E 0%,#1A3DB5 30%,#0D2C8A 60%,#071850 100%);
+}
+.pc.standard .pk-seal{height:22px;background:linear-gradient(90deg,rgba(200,220,255,.08),rgba(200,220,255,.18),rgba(200,220,255,.08));display:flex;align-items:center;padding:0 8px;gap:5px;border-bottom:1px solid rgba(100,140,255,.2)}
+.pc.standard .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(180,200,255,.5)}
+.pc.standard .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(180,200,255,.35);font-family:'Barlow',sans-serif}
+.pc.standard .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden}
+.pc.standard .pk-body::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(100,150,255,.15) 0%,transparent 70%)}
+/* chrome diagonal slashes */
+.pc.standard .pk-body::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(65deg,transparent,transparent 18px,rgba(255,255,255,.04) 18px,rgba(255,255,255,.04) 20px,transparent 20px,transparent 38px);pointer-events:none}
+.pc.standard .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.48rem;font-weight:700;letter-spacing:3px;color:rgba(150,200,255,.55);text-transform:uppercase;margin-bottom:2px}
+.pc.standard .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:900;text-transform:uppercase;line-height:.9;text-align:center;letter-spacing:-1px;background:linear-gradient(180deg,#E8F0FF 0%,#A0C0FF 50%,#C8D8FF 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;text-shadow:none}
+.pc.standard .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(150,200,255,.55);text-transform:uppercase;margin-top:4px}
+.pc.standard .pk-cards-peek{display:flex;justify-content:center;margin-top:12px}
+.pc.standard .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(150,200,255,.2);background:rgba(0,0,40,.4)}
+.pc.standard .pk-card:nth-child(1){transform:rotate(-12deg) translateX(6px) translateY(2px);z-index:1}
+.pc.standard .pk-card:nth-child(2){transform:rotate(-4deg);z-index:2}
+.pc.standard .pk-card:nth-child(3){transform:rotate(8deg) translateX(-6px) translateY(2px);z-index:1}
+.pc.standard .pk-card:nth-child(4){transform:rotate(16deg) translateX(-12px) translateY(4px);z-index:0}
+.pc.standard .pk-card:nth-child(5){transform:rotate(-18deg) translateX(12px) translateY(4px);z-index:0}
+.pc.standard .pk-footer{height:28px;background:rgba(0,0,20,.6);display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(100,140,255,.12);gap:6px}
+.pc.standard .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(150,200,255,.7);letter-spacing:.5px;text-transform:uppercase}
+.pc.standard .pk-bar{flex:1;height:8px;display:flex;gap:1px}
+.pc.standard .pk-bar span{flex:1;background:rgba(150,200,255,.1);border-radius:1px}
+.pc.standard .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 20%,rgba(180,210,255,.06) 38%,rgba(180,210,255,.14) 50%,rgba(180,210,255,.06) 62%,transparent 80%)}
+
+/* ── PACK: PREMIUM SUPER (black/gold luxury) */
+.pc.premium{border-color:#4A3200}
+.pc.premium:hover{border-color:#D4A017;box-shadow:0 16px 48px rgba(212,160,23,.22)}
+.pc.premium .pk{
+  background:
+    radial-gradient(ellipse at 30% 40%,rgba(120,80,0,.3) 0%,transparent 60%),
+    radial-gradient(ellipse at 70% 70%,rgba(80,40,120,.2) 0%,transparent 60%),
+    linear-gradient(170deg,#0A0600 0%,#1A1000 30%,#120C00 60%,#050300 100%);
+}
+.pc.premium .pk-seal{height:22px;background:linear-gradient(90deg,rgba(212,160,23,.1),rgba(212,160,23,.25),rgba(212,160,23,.1));display:flex;align-items:center;padding:0 8px;border-bottom:1px solid rgba(212,160,23,.2)}
+.pc.premium .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(212,160,23,.5)}
+.pc.premium .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(212,160,23,.35);font-family:'Barlow',sans-serif}
+.pc.premium .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden}
+/* gold light rays */
+.pc.premium .pk-body::before{content:'';position:absolute;inset:0;background:
+  conic-gradient(from 0deg at 50% 45%,transparent 0deg,rgba(212,160,23,.03) 15deg,transparent 30deg,transparent 45deg,rgba(212,160,23,.04) 60deg,transparent 75deg,transparent 90deg,rgba(212,160,23,.03) 105deg,transparent 120deg,transparent 135deg,rgba(212,160,23,.02) 150deg,transparent 165deg,transparent 360deg)}
+.pc.premium .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.48rem;font-weight:700;letter-spacing:3px;color:rgba(212,160,23,.5);text-transform:uppercase;margin-bottom:2px}
+.pc.premium .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.7rem;font-weight:900;text-transform:uppercase;line-height:.9;text-align:center;letter-spacing:-1px;background:linear-gradient(180deg,#F5C842 0%,#B8860B 45%,#F5C842 70%,#D4A017 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.pc.premium .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(212,160,23,.45);text-transform:uppercase;margin-top:4px}
+.pc.premium .pk-cards-peek{display:flex;justify-content:center;margin-top:12px}
+.pc.premium .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(212,160,23,.15);background:rgba(10,8,0,.5)}
+.pc.premium .pk-card:nth-child(1){transform:rotate(-14deg) translateX(8px) translateY(3px);z-index:1}
+.pc.premium .pk-card:nth-child(2){transform:rotate(-5deg) translateX(3px);z-index:2}
+.pc.premium .pk-card:nth-child(3){transform:rotate(4deg) translateX(-3px);z-index:3}
+.pc.premium .pk-card:nth-child(4){transform:rotate(12deg) translateX(-8px) translateY(3px);z-index:2}
+.pc.premium .pk-card:nth-child(5){transform:rotate(20deg) translateX(-14px) translateY(6px);z-index:1}
+.pc.premium .pk-card:nth-child(6){transform:rotate(-21deg) translateX(14px) translateY(6px);z-index:1}
+.pc.premium .pk-card:nth-child(7){transform:rotate(-6deg) translateX(6px) translateY(1px);z-index:0}
+.pc.premium .pk-card:nth-child(8){transform:rotate(6deg) translateX(-6px) translateY(1px);z-index:0}
+.pc.premium .pk-footer{height:28px;background:linear-gradient(90deg,rgba(212,160,23,.08),rgba(212,160,23,.12),rgba(212,160,23,.08));display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(212,160,23,.15);gap:6px}
+.pc.premium .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(212,160,23,.7);letter-spacing:.5px;text-transform:uppercase}
+.pc.premium .pk-bar{flex:1;height:8px;display:flex;gap:1px}
+.pc.premium .pk-bar span{flex:1;background:rgba(212,160,23,.1);border-radius:1px}
+.pc.premium .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 20%,rgba(245,200,66,.04) 38%,rgba(245,200,66,.12) 50%,rgba(245,200,66,.04) 62%,transparent 80%)}
+
+/* ── PACK: CHASE (animated rainbow foil) */
+.pc.chase-pack{border-color:#333}
+.pc.chase-pack:hover{border-color:#888;box-shadow:0 16px 48px rgba(200,200,100,.15)}
+.pc.chase-pack .pk{
+  background:#050505;
+  overflow:hidden;
+}
+/* rainbow foil animation layer */
+.pk-foil{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    125deg,
+    transparent 0%,
+    rgba(255,0,100,.04) 10%,
+    rgba(255,100,0,.06) 20%,
+    rgba(255,255,0,.04) 30%,
+    rgba(0,255,100,.06) 40%,
+    rgba(0,200,255,.04) 50%,
+    rgba(100,0,255,.06) 60%,
+    rgba(255,0,200,.04) 70%,
+    transparent 80%
+  );
+  background-size:400% 400%;
+  animation:foil-move 4s ease-in-out infinite;
+  mix-blend-mode:screen;
+}
+@keyframes foil-move{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.pc.chase-pack .pk-seal{height:22px;position:relative;overflow:hidden;display:flex;align-items:center;padding:0 8px;border-bottom:1px solid rgba(255,255,255,.06);z-index:2}
+.pc.chase-pack .pk-seal::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#8000FF,#FF0080);background-size:300% 100%;animation:foil-move 3s linear infinite;opacity:.3}
+.pc.chase-pack .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.4rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.5);position:relative;z-index:1}
+.pc.chase-pack .pk-seal-tag{margin-left:auto;font-size:.36rem;color:rgba(255,255,255,.3);font-family:'Barlow',sans-serif;position:relative;z-index:1}
+.pc.chase-pack .pk-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 8px;position:relative;overflow:hidden;z-index:2}
+.pc.chase-pack .pk-series{
+  font-family:'Barlow Condensed',sans-serif;font-size:.5rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px;
+  background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#FF0080);
+  background-size:300% 100%;animation:foil-move 3s linear infinite;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.pc.chase-pack .pk-name{
+  font-family:'Barlow Condensed',sans-serif;font-size:1.85rem;font-weight:900;text-transform:uppercase;line-height:.88;text-align:center;letter-spacing:-1.5px;
+  background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#8000FF,#FF0080);
+  background-size:300% 100%;animation:foil-move 4s linear infinite;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.pc.chase-pack .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.52rem;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,.25);text-transform:uppercase;margin-top:5px}
+.pc.chase-pack .pk-cards-peek{display:flex;justify-content:center;margin-top:12px;z-index:2;position:relative}
+.pc.chase-pack .pk-card{width:26px;height:36px;border-radius:3px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
+.pc.chase-pack .pk-card:nth-child(1){transform:rotate(-10deg) translateX(4px) translateY(2px)}
+.pc.chase-pack .pk-card:nth-child(2){transform:rotate(10deg) translateX(-4px) translateY(2px)}
+.pc.chase-pack .pk-footer{height:28px;background:rgba(0,0,0,.8);display:flex;align-items:center;padding:0 8px;border-top:1px solid rgba(255,255,255,.06);gap:6px;position:relative;overflow:hidden;z-index:2}
+.pc.chase-pack .pk-footer::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00FF80,#00CFFF,#FF0080);background-size:300% 100%;animation:foil-move 3s linear infinite;opacity:.08}
+.pc.chase-pack .pk-count{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;color:rgba(255,255,255,.5);letter-spacing:.5px;text-transform:uppercase;position:relative;z-index:1}
+.pc.chase-pack .pk-bar{flex:1;height:8px;display:flex;gap:1px;position:relative;z-index:1}
+.pc.chase-pack .pk-bar span{flex:1;background:rgba(255,255,255,.06);border-radius:1px}
+.pc.chase-pack .pk-shine{position:absolute;inset:0;pointer-events:none;z-index:1}
+
+/* perforation across pack top */
+.pk-perf{position:absolute;top:22px;left:0;right:0;height:1px;background:repeating-linear-gradient(90deg,transparent,transparent 5px,rgba(255,255,255,.08) 5px,rgba(255,255,255,.08) 7px);z-index:5;pointer-events:none}
+
+/* hover info overlay */
+.pc-hover{
+  position:absolute;bottom:0;left:0;right:0;z-index:20;
+  padding:12px 12px 13px;
+  background:linear-gradient(0deg,rgba(0,0,0,.97) 45%,rgba(0,0,0,.88) 80%,transparent 100%);
+  transform:translateY(100%);
+  transition:transform .25s cubic-bezier(.25,.46,.45,.94);
+  display:flex;flex-direction:column;gap:6px;
+}
+.pc:hover .pc-hover,.pc.pc-active .pc-hover{transform:translateY(0)}
+
+.pc-tap-hint{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  font-size:.52rem;font-weight:600;color:rgba(255,255,255,.35);
+  white-space:nowrap;z-index:15;
+  font-family:'Barlow',sans-serif;letter-spacing:.5px;
+  transition:opacity .2s;pointer-events:none;
+}
+.pc:hover .pc-tap-hint,.pc.pc-active .pc-tap-hint{opacity:0}
+
+.pc-name{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;line-height:1}
+.pc-odds{display:flex;flex-wrap:wrap;gap:3px}
+.ob{font-size:.5rem;font-weight:600;padding:2px 6px;border-radius:4px;white-space:nowrap}
+.ob.common{background:rgba(120,144,156,.1);color:var(--common)}
+.ob.uncommon{background:rgba(46,125,50,.1);color:var(--uncommon)}
+.ob.rare{background:rgba(94,53,177,.12);color:var(--rare)}
+.ob.chase{background:rgba(184,134,11,.12);color:var(--gold2)}
+
+.pc-footer{display:flex;align-items:center;justify-content:space-between;margin-top:3px}
+.pc-price-wrap{}
+.pc-price{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.3px}
+.pc-price-sub{font-size:.44rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;font-weight:600}
+
+.pc.budget .pc-price{color:var(--orange2)}
+.pc.standard .pc-price{color:var(--blue2)}
+.pc.premium .pc-price{color:var(--gold2)}
+.pc.chase-pack .pc-price{color:#fff}
+
+.pc-btn{
+  border:none;border-radius:6px;padding:7px 13px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.65rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  cursor:pointer;transition:all .15s;
+}
+.pc-btn:disabled{opacity:.3;cursor:not-allowed}
+.pc-btn:not(:disabled):hover{filter:brightness(1.15);transform:scale(1.05)}
+.pc.budget   .pc-btn{background:var(--orange);color:#fff}
+.pc.standard .pc-btn{background:var(--blue);color:#fff}
+.pc.premium  .pc-btn{background:var(--gold);color:#0a0600}
+.pc.chase-pack .pc-btn{background:linear-gradient(90deg,#FF0080,#FF8C00,#FFD700,#00CF80,#00CFFF,#8000FF);background-size:300% 100%;animation:foil-move 3s linear infinite;color:#fff;font-weight:900}
+
+/* ribbon */
+.pk-ribbon{
+  position:absolute;top:28px;right:0;z-index:10;
+  font-family:'Barlow Condensed',sans-serif;font-size:.48rem;font-weight:800;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:2px 8px 2px 10px;border-radius:3px 0 0 3px;
+  clip-path:polygon(6px 0,100% 0,100% 100%,6px 100%,0 50%);
+}
+.pk-ribbon.orn{background:var(--orange);color:#fff}
+.pk-ribbon.blu{background:var(--blue);color:#fff}
+.pk-ribbon.gld{background:var(--gold);color:#0a0600}
+.pk-ribbon.wht{background:#fff;color:#000}
+
+/* ─── OPENING SCREEN ──────────────────────── */
+#scr-opening{padding:16px}
+.op-label{font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;letter-spacing:2px;color:var(--muted);text-transform:uppercase}
+.op-title{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;margin-top:1px}
+
+.rev-wrap{margin-top:14px}
+.rev-container{
+  position:relative;width:220px;height:308px;border-radius:12px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);cursor:grab;user-select:none;touch-action:none;
+  border:1px solid var(--border2);
+}
+.rev-container:active{cursor:grabbing}
+.card-front-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:11px}
+.card-back-ov{position:absolute;inset:0;border-radius:11px;overflow:hidden;z-index:2;will-change:transform}
+.card-back-draw{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  border-radius:11px;
+  background:linear-gradient(160deg,#1C1C1C,#111);
+  border:1px solid var(--border2);
+}
+.card-back-logo{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:-1px;color:var(--text)}
+.card-back-sub{font-size:.55rem;font-weight:700;letter-spacing:3px;color:var(--muted);text-transform:uppercase;font-family:'Barlow',sans-serif}
+
+.drag-hint{
+  position:absolute;bottom:10px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.85);color:rgba(255,255,255,.7);
+  font-size:.6rem;font-weight:600;padding:4px 12px;border-radius:20px;z-index:3;
+  pointer-events:none;white-space:nowrap;border:1px solid var(--border2);
+  font-family:'Barlow',sans-serif;animation:bob 1.5s ease-in-out infinite;
+}
+@keyframes bob{0%,100%{transform:translateX(-50%)}50%{transform:translateX(-50%) translateY(-5px)}}
+
+.rev-bar{width:220px;height:2px;background:var(--s3);border-radius:2px;margin-top:10px;overflow:hidden}
+.rev-bar-fill{height:100%;background:var(--orange);border-radius:2px;transition:width .04s}
+
+.rev-info{margin-top:14px;animation:up .25s ease;text-align:center}
+@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.rev-player{font-family:'Barlow Condensed',sans-serif;font-size:1.25rem;font-weight:900;text-transform:uppercase;letter-spacing-.5px}
+.rev-detail{font-size:.7rem;color:var(--muted);margin-top:3px;line-height:1.5;max-width:240px;font-family:'Barlow',sans-serif}
+.rb{display:inline-block;padding:3px 10px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-top:7px}
+.rb.common{background:rgba(120,144,156,.1);color:var(--common);border:1px solid rgba(120,144,156,.18)}
+.rb.uncommon{background:rgba(46,125,50,.1);color:#4CAF50;border:1px solid rgba(46,125,50,.2)}
+.rb.rare{background:rgba(94,53,177,.1);color:#9575CD;border:1px solid rgba(94,53,177,.2)}
+.rb.chase{background:rgba(184,134,11,.1);color:var(--gold2);border:1px solid rgba(184,134,11,.22);animation:chase-glow 1.5s ease-in-out infinite}
+@keyframes chase-glow{0%,100%{box-shadow:0 0 0 rgba(212,160,23,0)}50%{box-shadow:0 0 14px rgba(212,160,23,.4)}}
+
+.prog-dots{display:flex;gap:7px;margin-top:16px;justify-content:center}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--s3);transition:all .25s}
+.dot.cur{background:var(--orange);box-shadow:0 0 6px var(--orange)}
+.dot.done{background:var(--green)}
+
+.act-btn{
+  background:var(--orange);color:#fff;border:none;border-radius:8px;
+  padding:10px 24px;font-family:'Barlow Condensed',sans-serif;font-weight:800;
+  font-size:.88rem;letter-spacing:.5px;text-transform:uppercase;
+  cursor:pointer;margin-top:14px;transition:all .15s;min-width:200px;
+}
+.act-btn:hover{filter:brightness(1.1);transform:scale(1.02)}
+.act-btn.ghost{background:transparent;border:1px solid var(--border2);color:var(--muted);font-weight:600;text-transform:none;font-family:'Barlow',sans-serif;letter-spacing:0;font-size:.82rem}
+.act-btn.ghost:hover{color:var(--text);border-color:var(--border)}
+
+#pack-summary{display:none;width:100%}
+.sum-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0 14px}
+.sum-card{background:var(--s2);border-radius:7px;overflow:hidden;border:1px solid var(--border)}
+.sum-card img{width:100%;aspect-ratio:5/7;object-fit:cover}
+.sum-card-info{padding:4px 5px 6px;font-size:.58rem;font-family:'Barlow Condensed',sans-serif}
+.sum-player{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sum-rar{text-transform:uppercase;font-weight:700;letter-spacing:.5px;font-size:.52rem}
+.sum-rar.common{color:var(--common)}.sum-rar.uncommon{color:#4CAF50}.sum-rar.rare{color:#9575CD}.sum-rar.chase{color:var(--gold2)}
+
+/* ─── COLLECTION ──────────────────────────── */
+#scr-collection{padding:12px}
+.filters{display:flex;gap:5px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px}
+.filters::-webkit-scrollbar{display:none}
+.fb{
+  background:var(--s2);border:1px solid var(--border);color:var(--muted);
+  padding:4px 11px;border-radius:20px;font-size:.65rem;font-weight:600;
+  cursor:pointer;transition:all .15s;white-space:nowrap;font-family:'Barlow',sans-serif;flex-shrink:0;
+}
+.fb.on{border-color:var(--orange);color:var(--orange2);background:rgba(232,93,4,.08)}
+.col-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cc{
+  background:var(--s2);border:1px solid var(--border);border-radius:8px;
+  overflow:hidden;cursor:pointer;transition:all .18s;position:relative;
+}
+.cc:hover:not(.is-sold){border-color:var(--border2);transform:scale(1.02)}
+.cc.is-sold{opacity:.38;cursor:default}
+.cc img{width:100%;aspect-ratio:5/7;object-fit:cover;display:block}
+.cc-info{padding:4px 6px 6px}
+.cc-player{font-size:.6rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-family:'Barlow Condensed',sans-serif}
+.cc-rar{font-size:.52rem;text-transform:uppercase;font-weight:700;margin-top:1px;letter-spacing:.5px;font-family:'Barlow Condensed',sans-serif}
+.cc-rar.common{color:var(--common)}.cc-rar.uncommon{color:#4CAF50}.cc-rar.rare{color:#9575CD}.cc-rar.chase{color:var(--gold2)}
+.cc-tag{position:absolute;top:4px;right:4px;font-size:.5rem;font-weight:800;padding:2px 5px;border-radius:4px;font-family:'Barlow Condensed',sans-serif}
+.cc-tag.sold{background:rgba(0,0,0,.82);color:#4CAF50}
+.cc-tag.listed{background:rgba(37,99,235,.82);color:#fff}
+
+/* ─── AUCTIONS ────────────────────────────── */
+#scr-auctions{padding:12px}
+.sec-lbl{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin:12px 0 8px}
+.sec-lbl:first-child{margin-top:0}
+.ai{
+  background:var(--s2);border:1px solid var(--border);border-radius:10px;
+  padding:10px;display:flex;gap:10px;align-items:center;margin-bottom:8px;
+}
+.ai img{width:44px;height:62px;object-fit:cover;border-radius:5px;flex-shrink:0;border:1px solid var(--border)}
+.ai-det{flex:1;min-width:0}
+.ai-player{font-weight:800;font-size:.82rem;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-set{font-size:.65rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-timer{font-size:.68rem;color:var(--blue2);margin-top:4px;font-weight:600}
+.ai-timer.ending{color:var(--red);animation:pulse .9s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ─── STATS ───────────────────────────────── */
+#scr-stats{padding:12px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.sc{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px}
+.sl{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px;font-family:'Barlow',sans-serif}
+.sv{font-size:1.25rem;font-weight:800;font-family:'Barlow Condensed',sans-serif}
+.sv.blue{color:var(--blue2)}.sv.grn{color:#4CAF50}.sv.red{color:var(--red)}
+.reset-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:8px 16px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .18s;margin-top:20px;font-family:'Barlow',sans-serif}
+.reset-btn:hover{border-color:var(--red);color:var(--red)}
+
+/* ─── MODALS ──────────────────────────────── */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:200;display:flex;align-items:flex-end;padding:8px}
+.ov.hide{display:none}
+.modal{
+  background:var(--s1);border:1px solid var(--border2);border-radius:18px;padding:16px;
+  width:100%;max-width:540px;margin:0 auto;
+  animation:slide-up .28s cubic-bezier(.25,.46,.45,.94);
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
+}
+@keyframes slide-up{from{transform:translateY(36px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.modal-sub{font-size:.72rem;color:var(--muted);margin-bottom:12px}
+.card-preview{display:flex;gap:10px;align-items:center;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:12px}
+.card-preview img{width:58px;height:82px;object-fit:cover;border-radius:5px;flex-shrink:0}
+.card-preview h3{font-size:.88rem;font-weight:800;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase}
+.card-preview p{font-size:.68rem;color:var(--muted);margin-top:2px;line-height:1.4}
+.sell-opts{display:flex;flex-direction:column;gap:8px}
+.sell-opt{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:border-color .15s}
+.sell-opt:hover{border-color:var(--border2)}
+.sell-opt-title{font-weight:800;font-size:.85rem;margin-bottom:2px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase}
+.sell-opt-desc{font-size:.68rem;color:var(--muted);line-height:1.4}
+.timer-row{display:flex;gap:6px;margin-top:9px}
+.tbtn{flex:1;background:var(--s1);border:1px solid var(--border);color:var(--muted);padding:7px 4px;border-radius:7px;cursor:pointer;transition:all .15s;font-family:'Barlow',sans-serif;display:flex;flex-direction:column;align-items:center;gap:2px}
+.tbtn.on,.tbtn:hover{border-color:var(--orange);background:rgba(232,93,4,.08)}
+.tbtn.on .tbtn-dur,.tbtn:hover .tbtn-dur{color:var(--orange2)}
+.tbtn-dur{font-size:.72rem;font-weight:800;font-family:'Barlow Condensed',sans-serif;letter-spacing:.3px;color:var(--muted)}
+.tbtn-mult{font-size:.52rem;font-weight:600;color:var(--muted2);white-space:nowrap}
+.tbtn.on .tbtn-mult{color:rgba(232,93,4,.7)}
+.tbtn.premium-tier .tbtn-dur{color:var(--gold2)}
+.tbtn.premium-tier.on .tbtn-dur,.tbtn.premium-tier:hover .tbtn-dur{color:var(--gold2)}
+.tbtn.premium-tier{border-color:rgba(212,160,23,.25)}
+.tbtn.premium-tier.on,.tbtn.premium-tier:hover{border-color:var(--gold);background:rgba(212,160,23,.07)}
+.tbtn.premium-tier .tbtn-mult{color:rgba(212,160,23,.5)}
+.tbtn.premium-tier.on .tbtn-mult{color:rgba(212,160,23,.8)}
+.mbtn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:9px;padding:11px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.85rem;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;margin-top:10px;transition:all .15s}
+.mbtn:hover{filter:brightness(1.1)}
+.mbtn.ghost{background:transparent;border:1px solid var(--border);color:var(--muted);font-weight:600;text-transform:none;font-family:'Barlow',sans-serif;letter-spacing:0;font-size:.8rem;margin-top:6px}
+.mbtn.ghost:hover{color:var(--text)}
+.mbtn.grn{background:#2E7D32;color:#fff}
+.mbtn.dim{background:var(--s2);border:1px solid var(--border);color:var(--text)}
+.mbtn-row{display:flex;gap:7px;margin-bottom:7px}
+.mbtn-row .mbtn{margin:0;flex:1}
+
+/* Sell Modal Redesign */
+.sell-card-header{display:flex;gap:10px;align-items:center;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:10px}
+.sell-card-thumb{width:52px;height:68px;object-fit:cover;border-radius:5px;flex-shrink:0;background:var(--s3)}
+.sell-card-meta{flex:1;min-width:0}
+.sell-card-player{font-family:'Barlow Condensed',sans-serif;font-size:.95rem;font-weight:800;text-transform:uppercase;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sell-card-set{font-size:.62rem;color:var(--muted);margin-top:2px;line-height:1.3}
+.sell-card-mkt{text-align:right;flex-shrink:0}
+.sell-card-mkt-label{font-size:.52rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.sell-card-mkt-val{font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;font-weight:800;color:var(--green);margin-top:1px}
+.plat-card{background:var(--s2);border:1px solid var(--border);border-radius:13px;padding:13px;margin-bottom:8px}
+.plat-top{display:flex;align-items:center;gap:9px;margin-bottom:5px}
+.plat-badge{font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;text-transform:uppercase;letter-spacing:.8px;padding:3px 8px;border-radius:4px;background:var(--s3);color:var(--muted);margin-left:auto}
+.insta-badge{background:rgba(193,53,132,.18);color:#E05BA7}
+.plat-sub{font-size:.65rem;color:var(--muted);line-height:1.4;margin-bottom:8px}
+.insta-plat{cursor:pointer;transition:border-color .15s,background .15s}
+.insta-plat:hover{border-color:rgba(193,53,132,.45);background:rgba(193,53,132,.04)}
+.insta-mystery-row{display:flex;align-items:center;gap:10px;margin-top:6px}
+.mystery-pill{background:rgba(193,53,132,.12);border:1px dashed rgba(193,53,132,.3);border-radius:8px;padding:6px 14px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.mystery-val{font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:800;color:#E05BA7;letter-spacing:3px;filter:blur(5px);user-select:none;transition:filter .2s}
+.insta-plat:hover .mystery-val{filter:blur(3px)}
+.mystery-label{font-size:.52rem;color:rgba(193,53,132,.6);text-transform:uppercase;letter-spacing:.5px}
+.mystery-tap{font-size:.65rem;color:var(--muted);font-style:italic}
+.ebay-cta{display:flex;align-items:center;justify-content:center;gap:7px}
+.ebay-wordmark{height:18px;width:auto;display:inline-block}
+
+/* ── SINGLE SLAB PACK ─────────────────────── */
+.pc.single{border-color:#0A3525;grid-column:1/-1;height:110px}
+.pc.single:hover{border-color:#10B981;box-shadow:0 16px 48px rgba(16,185,129,.2)}
+.pc.single .pk{background:linear-gradient(135deg,#061A10 0%,#0A2B1A 50%,#061A10 100%);flex-direction:row;align-items:center}
+.pc.single .pk-seal{position:absolute;top:0;left:0;right:0;height:18px;background:linear-gradient(90deg,#041208,#071D10,#041208);display:flex;align-items:center;padding:0 8px;gap:5px;border-bottom:1px solid rgba(0,0,0,.5)}
+.pc.single .pk-seal-logo{font-family:'Barlow Condensed',sans-serif;font-size:.38rem;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.pc.single .pk-seal-tag{margin-left:auto;font-size:.34rem;color:rgba(16,185,129,.5);font-family:'Barlow',sans-serif;letter-spacing:.5px}
+.pc.single .pk-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:22px 14px 10px 18px}
+.pc.single .pk-series{font-family:'Barlow Condensed',sans-serif;font-size:.43rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(16,185,129,.55);margin-bottom:3px}
+.pc.single .pk-name{font-family:'Barlow Condensed',sans-serif;font-size:1.5rem;font-weight:900;text-transform:uppercase;line-height:.88;color:#FFF;letter-spacing:-1px;text-shadow:0 2px 10px rgba(0,0,0,.5)}
+.pc.single .pk-subname{font-family:'Barlow Condensed',sans-serif;font-size:.48rem;font-weight:700;letter-spacing:2px;color:rgba(16,185,129,.65);text-transform:uppercase;margin-top:4px}
+.pc.single .pk-footer{display:none}
+.pc.single .pk-perf{display:none}
+.pc.single .pk-cards-peek{display:flex;align-items:center;justify-content:center;padding:22px 18px 10px 0}
+.pc.single .pk-card{width:40px;height:55px;border-radius:4px;border:1px solid rgba(16,185,129,.35);background:rgba(16,185,129,.06);display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;color:rgba(16,185,129,.45)}
+.pc.single .pk-shine{position:absolute;inset:0;pointer-events:none;background:linear-gradient(125deg,transparent 25%,rgba(255,255,255,.04) 40%,rgba(255,255,255,.07) 50%,rgba(255,255,255,.04) 60%,transparent 75%)}
+.pk-ribbon.grn{background:#10B981;color:#fff}
+.pc.single .pc-btn{background:#10B981;color:#fff}
+
+/* ── MULTI-SELECT / BULK AUCTION ──────────── */
+.sel-toggle{margin-left:auto;background:var(--s2)!important}
+.sel-toggle.on{background:var(--orange)!important;color:#fff!important;border-color:var(--orange)!important}
+.cc.selected{border-color:var(--orange);background:rgba(232,93,4,.07)}
+.cc.selected::after{content:'✓';position:absolute;top:5px;left:5px;width:17px;height:17px;background:var(--orange);border-radius:50%;font-size:.58rem;font-weight:900;color:#fff;display:flex;align-items:center;justify-content:center;z-index:2}
+.bulk-bar{background:var(--s1);border-top:1px solid var(--border2);padding:10px 14px;flex-direction:column;gap:8px;position:sticky;bottom:0;z-index:25}
+.bulk-top{display:flex;align-items:center;gap:6px}
+.bulk-count-label{font-family:'Barlow Condensed',sans-serif;font-size:.82rem;font-weight:800;text-transform:uppercase;color:var(--text);flex:1;white-space:nowrap}
+.bulk-count-label span{color:var(--orange)}
+.btbtn{flex:1;background:var(--s2);border:1px solid var(--border);color:var(--muted);padding:5px 3px;border-radius:6px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:.6rem;font-weight:800;letter-spacing:.2px;white-space:nowrap;transition:all .15s}
+.btbtn.on,.btbtn:hover{border-color:var(--orange);background:rgba(232,93,4,.1);color:var(--orange2)}
+.btbtn.premium-tier{border-color:rgba(212,160,23,.3);color:var(--gold2)}
+.btbtn.premium-tier.on,.btbtn.premium-tier:hover{border-color:var(--gold);background:rgba(212,160,23,.08);color:var(--gold2)}
+.bulk-list-btn{background:var(--orange);color:#fff;border:none;border-radius:9px;padding:10px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.85rem;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;width:100%;transition:all .15s;margin-top:2px}
+.bulk-list-btn:hover{filter:brightness(1.1)}
+.bulk-list-btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* Instagram DM */
+.dm-wrap{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:10px}
+.dm-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.dm-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dm-avatar svg{width:15px;height:15px;fill:#fff}
+.dm-username{font-weight:800;font-size:.82rem;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase}
+.dm-label{font-size:.62rem;color:var(--muted)}
+.dm-message{background:var(--s1);border-radius:8px;padding:10px;font-size:.76rem;line-height:1.55;border:1px solid var(--border)}
+.dm-offer{font-size:1.5rem;font-weight:900;color:#4CAF50;display:block;margin-top:5px;font-family:'Barlow Condensed',sans-serif}
+
+/* sold overlay */
+.sold-wrap{text-align:center;padding:6px 0}
+.sold-icon{font-size:2.5rem;margin-bottom:6px}
+.sold-title{font-size:1.15rem;font-weight:900;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px}
+.sold-sub{font-size:.75rem;color:var(--muted);margin-bottom:5px}
+.sold-amount{font-size:2.2rem;font-weight:900;color:#4CAF50;font-family:'Barlow Condensed',sans-serif;margin:7px 0}
+.sold-reveal{font-size:.78rem;margin-bottom:7px}
+
+/* game over */
+.gameover{display:none;position:fixed;inset:0;background:rgba(0,0,0,.97);z-index:400;align-items:center;justify-content:center;flex-direction:column;text-align:center;padding:24px}
+.gameover.on{display:flex}
+.gameover h2{font-family:'Barlow Condensed',sans-serif;font-size:3.2rem;font-weight:900;color:var(--red);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+.gameover p{color:var(--muted);font-size:.82rem;margin-bottom:4px}
+
+/* toast */
+.toast{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:8px 16px;border-radius:100px;font-size:.78rem;font-weight:600;z-index:600;white-space:nowrap;pointer-events:none;animation:toast-in .25s ease;box-shadow:0 8px 32px rgba(0,0,0,.5);font-family:'Barlow',sans-serif}
+@keyframes toast-in{from{transform:translateX(-50%) translateY(10px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+
+/* empty state */
+.empty{text-align:center;padding:44px 16px;color:var(--muted)}
+.empty-label{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:800;text-transform:uppercase;margin-bottom:4px;color:var(--muted2)}
+.empty p{font-size:.8rem;line-height:1.6}
+
+/* confetti */
+.cp{position:fixed;width:6px;height:6px;top:-10px;animation:fall linear forwards;z-index:700;pointer-events:none;border-radius:1px}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}
+
+/* ── SPIN OVERLAY ───────────────────────────── */
+#spin-ov{
+  position:fixed;inset:0;background:#080808;z-index:900;
+  display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px;
+  background-image:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.012) 39px,rgba(255,255,255,.012) 40px);
+}
+.spin-gp-logo{font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;text-transform:uppercase;letter-spacing:2px;color:#fff;text-align:center}
+.spin-gp-sub{font-size:.5rem;font-weight:700;letter-spacing:5px;color:var(--muted);text-transform:uppercase;text-align:center;margin-top:2px;margin-bottom:18px}
+.spin-bball{width:54px;height:54px;margin-bottom:14px;animation:bball-rock 2.5s ease-in-out infinite}
+@keyframes bball-rock{0%,100%{transform:rotate(-6deg) translateY(0)}50%{transform:rotate(6deg) translateY(-4px)}}
+.spin-title{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;text-transform:uppercase;letter-spacing:.5px;text-align:center}
+.spin-hint{font-size:.68rem;color:var(--muted);text-align:center;margin-top:3px;margin-bottom:22px}
+.slot-frame{background:var(--s1);border:1.5px solid var(--border2);border-radius:18px;padding:8px;box-shadow:0 0 60px rgba(0,0,0,.9),inset 0 1px 0 rgba(255,255,255,.04);position:relative;margin-bottom:22px}
+.slot-frame::before{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:56px;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);border-radius:2px}
+.slot-frame::after{content:'';position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:56px;height:2px;background:linear-gradient(90deg,transparent,var(--orange),transparent);border-radius:2px}
+.slot-window{width:260px;height:210px;overflow:hidden;position:relative;border-radius:12px;background:#060606}
+.slot-reel{display:flex;flex-direction:column;will-change:transform}
+.slot-item{height:70px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Barlow Condensed',sans-serif;font-size:2.7rem;font-weight:900;letter-spacing:-1px;user-select:none;transition:color .3s}
+.slot-center-hl{position:absolute;left:10px;right:10px;height:70px;top:50%;transform:translateY(-50%);border-top:1.5px solid rgba(232,93,4,.7);border-bottom:1.5px solid rgba(232,93,4,.7);background:rgba(232,93,4,.05);border-radius:6px;pointer-events:none;z-index:1}
+.slot-fade-t{position:absolute;top:0;left:0;right:0;height:85px;background:linear-gradient(to bottom,#060606 0%,transparent 100%);z-index:2;pointer-events:none}
+.slot-fade-b{position:absolute;bottom:0;left:0;right:0;height:85px;background:linear-gradient(to top,#060606 0%,transparent 100%);z-index:2;pointer-events:none}
+.spin-cta-btn{width:220px;background:var(--orange);color:#fff;border:none;border-radius:12px;padding:14px;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:1.05rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .15s;box-shadow:0 4px 24px rgba(232,93,4,.35);display:flex;align-items:center;justify-content:center;gap:8px}
+.spin-cta-btn:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 6px 28px rgba(232,93,4,.45)}
+.spin-cta-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.spin-result-area{text-align:center;display:none}
+.spin-got-label{font-size:.55rem;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;font-family:'Barlow Condensed',sans-serif}
+.spin-got-amt{font-family:'Barlow Condensed',sans-serif;font-size:3.2rem;font-weight:900;line-height:1;animation:spin-pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes spin-pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.spin-play-btn{margin-top:18px;width:220px;background:var(--s2);color:var(--text);border:1px solid var(--border2);border-radius:12px;padding:13px;font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:.95rem;letter-spacing:.5px;text-transform:uppercase;cursor:pointer;transition:all .15s;display:block}
+.spin-play-btn:hover{border-color:var(--orange);color:var(--orange2)}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="logo-area">
+    <div class="logo-name">GEM PULLS</div>
+    <div class="logo-season">NBA · Season 24–25</div>
+  </div>
+  <div class="hud">
+    <div class="hud-coin"></div>
+    <div class="hud-val" id="br-display">$500.00</div>
+  </div>
+</header>
+
+<!-- SCREENS -->
+<div class="screens">
+
+  <!-- STORE -->
+  <div class="scr on" id="scr-store">
+
+    <div class="store-label">Pick Your Pack</div>
+    <div class="pc-grid">
+
+      <!-- SINGLE SLAB -->
+      <div class="pc single" id="pc-single">
+        <div class="pk">
+          <div class="pk-seal">
+            <span class="pk-seal-logo">Gem Pulls</span>
+            <span class="pk-seal-tag">Single Pull</span>
+          </div>
+          <div class="pk-body">
+            <div class="pk-series">Mystery Single</div>
+            <div class="pk-name">Blind<br>Slab</div>
+            <div class="pk-subname">Pure Luck · 1 Card</div>
+          </div>
+          <div class="pk-cards-peek">
+            <div class="pk-card">?</div>
+          </div>
+          <div class="pk-shine"></div>
+        </div>
+        <div class="pk-ribbon grn">Entry</div>
+        <div class="pc-tap-hint">tap to see odds</div>
+        <div class="pc-hover">
+          <div class="pc-name">Blind Slab</div>
+          <div class="pc-odds">
+            <span class="ob common">80% Common</span>
+            <span class="ob uncommon">14% Uncommon</span>
+            <span class="ob rare">5% Rare</span>
+            <span class="ob chase">1% Chase</span>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-price-wrap">
+              <div class="pc-price">$50</div>
+              <div class="pc-price-sub">MT Coins · 1 card</div>
+            </div>
+            <button class="pc-btn" id="buy-single" onclick="buyPack('single')">Open</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- BUDGET BLASTER -->
+      <div class="pc budget" id="pc-budget">
+        <div class="pk">
+          <div class="pk-seal">
+            <span class="pk-seal-logo">Gem Pulls</span>
+            <span class="pk-seal-tag">Licensed Product</span>
+          </div>
+          <div class="pk-perf"></div>
+          <div class="pk-body">
+            <div class="pk-series">2024–25 Series</div>
+            <div class="pk-name">Blaster<br>Box</div>
+            <div class="pk-subname">Budget Break</div>
+            <div class="pk-cards-peek">
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+            </div>
+          </div>
+          <div class="pk-footer">
+            <span class="pk-count">3 Cards Per Pack</span>
+            <div class="pk-bar"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="pk-shine"></div>
+        </div>
+        <div class="pk-ribbon orn">Best Start</div>
+        <div class="pc-tap-hint">tap to see odds</div>
+        <div class="pc-hover">
+          <div class="pc-name">Blaster Box</div>
+          <div class="pc-odds">
+            <span class="ob common">85% Common</span>
+            <span class="ob uncommon">10% Uncommon</span>
+            <span class="ob rare">5% Rare</span>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-price-wrap">
+              <div class="pc-price">$100</div>
+              <div class="pc-price-sub">MT Coins · 3 cards</div>
+            </div>
+            <button class="pc-btn" id="buy-budget" onclick="buyPack('budget')">Open</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STANDARD PRIZM HOBBY -->
+      <div class="pc standard" id="pc-standard">
+        <div class="pk">
+          <div class="pk-seal">
+            <span class="pk-seal-logo">Gem Pulls</span>
+            <span class="pk-seal-tag">Hobby Exclusive</span>
+          </div>
+          <div class="pk-perf"></div>
+          <div class="pk-body">
+            <div class="pk-series">Prizm Chrome</div>
+            <div class="pk-name">Hobby<br>Box</div>
+            <div class="pk-subname">Standard Break</div>
+            <div class="pk-cards-peek">
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+            </div>
+          </div>
+          <div class="pk-footer">
+            <span class="pk-count">5 Cards Per Pack</span>
+            <div class="pk-bar"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="pk-shine"></div>
+        </div>
+        <div class="pk-ribbon blu">Best Value</div>
+        <div class="pc-tap-hint">tap to see odds</div>
+        <div class="pc-hover">
+          <div class="pc-name">Hobby Box</div>
+          <div class="pc-odds">
+            <span class="ob common">70% Common</span>
+            <span class="ob uncommon">20% Uncommon</span>
+            <span class="ob rare">9% Rare</span>
+            <span class="ob chase">1% Chase</span>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-price-wrap">
+              <div class="pc-price">$500</div>
+              <div class="pc-price-sub">MT Coins · 5 cards</div>
+            </div>
+            <button class="pc-btn" id="buy-standard" onclick="buyPack('standard')">Open</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PREMIUM SUPER HOBBY -->
+      <div class="pc premium" id="pc-premium">
+        <div class="pk">
+          <div class="pk-seal">
+            <span class="pk-seal-logo">Gem Pulls</span>
+            <span class="pk-seal-tag">Super Hobby</span>
+          </div>
+          <div class="pk-perf"></div>
+          <div class="pk-body">
+            <div class="pk-series">Flawless Gold</div>
+            <div class="pk-name">Super<br>Box</div>
+            <div class="pk-subname">Premium Break</div>
+            <div class="pk-cards-peek">
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+            </div>
+          </div>
+          <div class="pk-footer">
+            <span class="pk-count">8 Cards · Guaranteed Rare</span>
+            <div class="pk-bar"><span></span><span></span><span></span><span></span><span></span></div>
+          </div>
+          <div class="pk-shine"></div>
+        </div>
+        <div class="pk-ribbon gld">Premium</div>
+        <div class="pc-tap-hint">tap to see odds</div>
+        <div class="pc-hover">
+          <div class="pc-name">Super Box</div>
+          <div class="pc-odds">
+            <span class="ob common">50% Common</span>
+            <span class="ob uncommon">30% Uncommon</span>
+            <span class="ob rare">15% Rare</span>
+            <span class="ob chase">5% Chase</span>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-price-wrap">
+              <div class="pc-price">$2,500</div>
+              <div class="pc-price-sub">MT Coins · 8 cards</div>
+            </div>
+            <button class="pc-btn" id="buy-premium" onclick="buyPack('premium')">Open</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CHASE ULTRA -->
+      <div class="pc chase-pack" id="pc-chase">
+        <div class="pk">
+          <div class="pk-foil"></div>
+          <div class="pk-seal">
+            <span class="pk-seal-logo">Gem Pulls</span>
+            <span class="pk-seal-tag">Ultra Rare · 1:25</span>
+          </div>
+          <div class="pk-perf"></div>
+          <div class="pk-body">
+            <div class="pk-series">Limited Edition</div>
+            <div class="pk-name">Chase<br>Pack</div>
+            <div class="pk-subname">2 Cards · 15% Chase</div>
+            <div class="pk-cards-peek">
+              <div class="pk-card"></div>
+              <div class="pk-card"></div>
+            </div>
+          </div>
+          <div class="pk-footer">
+            <span class="pk-count">2 Cards · Best Odds</span>
+            <div class="pk-bar"><span></span><span></span><span></span></div>
+          </div>
+          <div class="pk-shine"></div>
+        </div>
+        <div class="pk-ribbon wht">⭐ Chase</div>
+        <div class="pc-tap-hint">tap to see odds</div>
+        <div class="pc-hover">
+          <div class="pc-name">Chase Pack</div>
+          <div class="pc-odds">
+            <span class="ob uncommon">30% Uncommon</span>
+            <span class="ob rare">35% Rare</span>
+            <span class="ob chase">15% Chase</span>
+          </div>
+          <div class="pc-footer">
+            <div class="pc-price-wrap">
+              <div class="pc-price">$3,500</div>
+              <div class="pc-price-sub">MT Coins · 2 cards</div>
+            </div>
+            <button class="pc-btn" id="buy-chase" onclick="buyPack('chase')">Open</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /store -->
+
+  <!-- OPENING -->
+  <div class="scr" id="scr-opening">
+    <div class="op-label">Now Opening</div>
+    <div class="op-title" id="op-name">Hobby Box</div>
+
+    <div id="rev-area">
+      <div class="rev-wrap">
+        <div class="rev-container" id="rev-container">
+          <img class="card-front-img" id="card-front" src="" alt="Card">
+          <div class="card-back-ov" id="card-back-ov">
+            <div class="card-back-draw">
+              <div class="card-back-logo">GEM PULLS</div>
+              <div class="card-back-sub">Drag to Reveal</div>
+            </div>
+          </div>
+          <div class="drag-hint" id="drag-hint">↓ drag down to reveal</div>
+        </div>
+      </div>
+      <div class="rev-bar"><div class="rev-bar-fill" id="rev-bar-fill" style="width:0%"></div></div>
+      <div class="rev-info" id="rev-info" style="display:none">
+        <div class="rev-player" id="rev-player"></div>
+        <div class="rev-detail" id="rev-detail"></div>
+        <div id="rev-badge"></div>
+      </div>
+      <div class="prog-dots" id="prog-dots"></div>
+      <button class="act-btn" id="next-btn" style="display:none" onclick="nextCard()">Next Card →</button>
+      <button class="act-btn ghost" id="show-all-btn" onclick="showAll()" style="margin-top:6px;width:200px">Show All →</button>
+    </div>
+
+    <div id="pack-summary">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;font-weight:900;text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px">Pack Complete</div>
+      <div style="font-size:.72rem;color:var(--muted);margin-bottom:2px">All cards added to collection</div>
+      <div class="sum-grid" id="sum-grid"></div>
+      <button class="act-btn" style="width:100%;margin-top:0" onclick="showScr('collection')">View Collection →</button>
+      <button class="act-btn ghost" style="width:100%;margin-top:8px" onclick="showScr('store')">Buy Another Pack</button>
+    </div>
+  </div>
+
+  <!-- COLLECTION -->
+  <div class="scr" id="scr-collection">
+    <div class="filters">
+      <button class="fb on" onclick="filterCol('all',this)">All</button>
+      <button class="fb" onclick="filterCol('unsold',this)">Available</button>
+      <button class="fb" onclick="filterCol('listed',this)">Listed</button>
+      <button class="fb sel-toggle" id="sel-toggle" onclick="toggleMulti()">Select</button>
+    </div>
+    <div class="col-grid" id="col-grid"></div>
+    <div class="bulk-bar" id="bulk-bar" style="display:none">
+      <div class="bulk-top">
+        <div class="bulk-count-label"><span id="bulk-count">0</span> cards selected</div>
+        <button class="btbtn" id="sel-all-btn" onclick="selectAll()">Select All</button>
+        <button class="btbtn on" onclick="pickBulkTier(this,0)">1 min</button>
+        <button class="btbtn" onclick="pickBulkTier(this,1)">5 min</button>
+        <button class="btbtn premium-tier" onclick="pickBulkTier(this,2)">15 min ⭐</button>
+      </div>
+      <button class="bulk-list-btn" id="bulk-btn" onclick="bulkList()" disabled>List on eBay →</button>
+    </div>
+    <div class="empty" id="col-empty" style="display:none">
+      <div class="empty-label">No Cards Yet</div>
+      <p>Open a pack to start your collection.</p>
+    </div>
+  </div>
+
+  <!-- AUCTIONS -->
+  <div class="scr" id="scr-auctions">
+    <div class="sec-lbl">Active Listings</div>
+    <div id="auc-list"></div>
+    <div class="empty" id="auc-empty" style="display:none">
+      <div class="empty-label">Nothing Listed</div>
+      <p>Sell cards from your collection to list them here.</p>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="scr" id="scr-stats">
+    <div class="sec-lbl" style="margin-top:0">This Run</div>
+    <div class="sg">
+      <div class="sc"><div class="sl">Bankroll</div><div class="sv blue" id="st-br">$500</div></div>
+      <div class="sc"><div class="sl">Packs Opened</div><div class="sv" id="st-packs">0</div></div>
+      <div class="sc"><div class="sl">Total Earned</div><div class="sv grn" id="st-earned">$0</div></div>
+      <div class="sc"><div class="sl">ROI</div><div class="sv" id="st-roi">—</div></div>
+    </div>
+    <div class="sec-lbl">All-Time</div>
+    <div class="sg">
+      <div class="sc"><div class="sl">Cards Pulled</div><div class="sv" id="st-cards">0</div></div>
+      <div class="sc"><div class="sl">Best Pull</div><div class="sv blue" id="st-best">—</div></div>
+      <div class="sc"><div class="sl">Peak Bankroll</div><div class="sv grn" id="st-peak">$500</div></div>
+      <div class="sc"><div class="sl">Most Packs</div><div class="sv" id="st-mpacks">0</div></div>
+    </div>
+    <div style="text-align:center">
+      <button class="reset-btn" onclick="doReset()">Reset Everything</button>
+    </div>
+  </div>
+
+</div><!-- /screens -->
+
+<!-- BOTTOM NAV -->
+<nav class="bnav">
+  <button class="bn on" id="nb-store" onclick="showScr('store')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l1-6h16l1 6"/><rect x="2" y="9" width="20" height="12" rx="1"/><path d="M9 9v12M15 9v12"/></svg>
+    Packs
+  </button>
+  <button class="bn" id="nb-collection" onclick="showScr('collection')">
+    <svg viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="11" x2="16" y2="11"/><line x1="8" y1="15" x2="12" y2="15"/></svg>
+    Collection
+  </button>
+  <button class="bn" id="nb-auctions" onclick="showScr('auctions')">
+    <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-width="2.5"/></svg>
+    Auctions
+  </button>
+  <button class="bn" id="nb-stats" onclick="showScr('stats')">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    Stats
+  </button>
+</nav>
+
+<!-- SELL MODAL -->
+<div class="ov hide" id="sell-ov">
+  <div class="modal" style="padding:14px">
+    <!-- Card header -->
+    <div class="sell-card-header">
+      <img class="sell-card-thumb" id="m-img" src="" alt="">
+      <div class="sell-card-meta">
+        <div class="sell-card-player" id="m-player"></div>
+        <div class="sell-card-set" id="m-set"></div>
+        <div id="m-grade" style="font-size:.6rem;color:var(--muted);margin-top:2px"></div>
+        <div id="m-badge" style="margin-top:5px"></div>
+      </div>
+      <div class="sell-card-mkt">
+        <div class="sell-card-mkt-label">Market</div>
+        <div class="sell-card-mkt-val" id="m-price-disp">$—</div>
+      </div>
+    </div>
+
+    <!-- eBay platform card -->
+    <div class="plat-card">
+      <div class="plat-top">
+        <!-- eBay wordmark -->
+        <svg class="ebay-wordmark" viewBox="0 0 96 38" xmlns="http://www.w3.org/2000/svg">
+          <text y="33" font-size="40" font-weight="900" font-family="Arial Black,Arial,sans-serif" fill="#E53238">e</text>
+          <text x="24" y="33" font-size="40" font-weight="900" font-family="Arial Black,Arial,sans-serif" fill="#0064D2">b</text>
+          <text x="48" y="33" font-size="40" font-weight="900" font-family="Arial Black,Arial,sans-serif" fill="#F5AF02">a</text>
+          <text x="69" y="33" font-size="40" font-weight="900" font-family="Arial Black,Arial,sans-serif" fill="#86B817">y</text>
+        </svg>
+        <div class="plat-badge">Live Auction</div>
+      </div>
+      <div class="plat-sub">Longer auction = better avg payout. All tiers can hit 140%.</div>
+      <div class="timer-row">
+        <button class="tbtn on" onclick="pickTier(this,0)"><div class="tbtn-dur">1 min</div><div class="tbtn-mult">Avg ~83% · can peak</div></button>
+        <button class="tbtn" onclick="pickTier(this,1)"><div class="tbtn-dur">5 min</div><div class="tbtn-mult">Avg ~100% · pure luck</div></button>
+        <button class="tbtn premium-tier" onclick="pickTier(this,2)"><div class="tbtn-dur">15 min ⭐</div><div class="tbtn-mult">Avg ~125% · best odds</div></button>
+      </div>
+      <button class="mbtn ebay-cta" onclick="doEbay()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+        List on eBay
+      </button>
+    </div>
+
+    <!-- Instagram platform card -->
+    <div class="plat-card insta-plat" id="insta-sell-opt">
+      <div class="plat-top">
+        <svg viewBox="0 0 24 24" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="ig-g" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#FFDC80"/>
+              <stop offset="30%" stop-color="#FCAF45"/>
+              <stop offset="55%" stop-color="#F77737"/>
+              <stop offset="75%" stop-color="#C13584"/>
+              <stop offset="100%" stop-color="#833AB4"/>
+            </linearGradient>
+          </defs>
+          <rect x="1" y="1" width="22" height="22" rx="6" fill="url(#ig-g)"/>
+          <circle cx="12" cy="12" r="4.5" fill="none" stroke="#fff" stroke-width="1.7"/>
+          <circle cx="17.5" cy="6.5" r="1.2" fill="#fff"/>
+        </svg>
+        <div class="plat-badge insta-badge">DM Offer</div>
+      </div>
+      <div class="plat-sub" id="insta-sell-desc">Someone slid in. Mystery offer — steal or lowball?</div>
+      <div class="insta-mystery-row">
+        <div class="mystery-pill">
+          <div class="mystery-val">$???</div>
+          <div class="mystery-label">Offer hidden</div>
+        </div>
+        <span class="mystery-tap">tap to reveal →</span>
+      </div>
+    </div>
+
+    <button class="mbtn ghost" onclick="closeSell()">Cancel</button>
+  </div>
+</div>
+
+<!-- INSTA MODAL -->
+<div class="ov hide" id="insta-ov">
+  <div class="modal">
+    <div class="dm-wrap">
+      <div class="dm-head">
+        <div class="dm-avatar"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-width="2"/></svg></div>
+        <div><div class="dm-username" id="dm-user">@CardDealer_Mike</div><div class="dm-label">Direct Message · Instagram</div></div>
+      </div>
+      <div class="dm-message" id="dm-msg"></div>
+    </div>
+    <div class="mbtn-row">
+      <button class="mbtn grn" onclick="acceptDM()">Accept ✓</button>
+      <button class="mbtn dim" onclick="rejectDM()">Reject ✗</button>
+    </div>
+    <button class="mbtn ghost" onclick="closeInsta()">Think about it later</button>
+  </div>
+</div>
+
+<!-- SOLD MODAL -->
+<div class="ov hide" id="sold-ov">
+  <div class="modal sold-wrap">
+    <div class="sold-icon" id="so-icon">🏆</div>
+    <div class="sold-title" id="so-title">Sold!</div>
+    <div class="sold-sub" id="so-sub"></div>
+    <div class="sold-amount" id="so-amt"></div>
+    <div class="sold-reveal" id="so-rev"></div>
+    <button class="mbtn" onclick="closeSold()">Nice!</button>
+  </div>
+</div>
+
+<!-- GAME OVER -->
+<div class="gameover" id="game-over">
+  <div style="font-size:3rem;margin-bottom:8px">💸</div>
+  <h2>Broke.</h2>
+  <p id="go-info"></p>
+  <p style="font-size:.72rem;margin-bottom:28px;color:var(--muted2)">Can't afford the cheapest pack ($100)</p>
+  <button class="act-btn" onclick="restartGame()">Try Again →</button>
+</div>
+
+<!-- SPIN OVERLAY -->
+<div id="spin-ov" style="display:none;flex-direction:column;align-items:center;justify-content:center">
+  <div class="spin-gp-logo">Gem Pulls</div>
+  <div class="spin-gp-sub">NBA · Season 24–25</div>
+  <svg class="spin-bball" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="30" cy="30" r="28" fill="#E85D04"/>
+    <path d="M3 27 Q15 22 30 27 Q45 32 57 27" stroke="#0A0A0A" stroke-width="1.6" fill="none"/>
+    <path d="M3 33 Q15 38 30 33 Q45 28 57 33" stroke="#0A0A0A" stroke-width="1.6" fill="none"/>
+    <path d="M30 2 Q25 16 30 30 Q35 44 30 58" stroke="#0A0A0A" stroke-width="1.6" fill="none"/>
+    <path d="M13 7 Q17 18 17 30 Q17 42 13 53" stroke="#0A0A0A" stroke-width="1.2" fill="none"/>
+    <path d="M47 7 Q43 18 43 30 Q43 42 47 53" stroke="#0A0A0A" stroke-width="1.2" fill="none"/>
+  </svg>
+  <div class="spin-title">Starter Contract</div>
+  <div class="spin-hint">Spin to earn your starting stack</div>
+  <div class="slot-frame">
+    <div class="slot-window">
+      <div class="slot-reel" id="spin-reel">
+        <div class="slot-item" style="color:#9E9E9E">$350</div>
+        <div class="slot-item" style="color:#EBEBEB">$500</div>
+        <div class="slot-item" style="color:#60A5FA">$750</div>
+      </div>
+      <div class="slot-center-hl"></div>
+      <div class="slot-fade-t"></div>
+      <div class="slot-fade-b"></div>
+    </div>
+  </div>
+  <button class="spin-cta-btn" id="spin-btn" onclick="doSpin()">
+    <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg>
+    SPIN
+  </button>
+  <div class="spin-result-area" id="spin-result-area">
+    <div class="spin-got-label">Your Starting Stack</div>
+    <div class="spin-got-amt" id="spin-got-amt">$500</div>
+    <button class="spin-play-btn" onclick="startPlay()">Let's Ball →</button>
+  </div>
+</div>
+
+<script>
+// ── CARD DATA ───────────────────────────────
+const CARDS=[{"id":"001","playerName":"Carmelo Anthony","team":"DEN","cardSet":"2023 Panini Crown Royale","variant":"Test of Time - Gold","cardNumber":"3","serialNumber":"10","grade":"PSA 9","rarity":"common","actualEbayPrice":60,"imageUrl":"images/001.jpg"},{"id":"002","playerName":"Shaquille O'Neal","team":"LAL","cardSet":"2004 Fleer Ultra","variant":"Platinum Medallion","cardNumber":"143","serialNumber":"100","grade":"PSA 9","rarity":"rare","actualEbayPrice":1526,"imageUrl":"images/002.jpg"},{"id":"003","playerName":"Shaquille O'Neal","team":"LAL","cardSet":"2024 Panini Flawless","variant":"Flawless Performances Auto","serialNumber":"25","grade":"Ungraded","rarity":"rare","actualEbayPrice":645,"imageUrl":"images/003.jpg"},{"id":"004","playerName":"Dwyane Wade","team":"MIA","cardSet":"2022 Panini Immaculate","variant":"Virtuoso Autographs Green","serialNumber":"5","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":198,"imageUrl":"images/004.jpg"},{"id":"005","playerName":"Kevin Durant","team":"PHX","cardSet":"2024 Panini Prizm Deca","variant":"Signatures Silver Prizm Auto","cardNumber":"PDS-KDU","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":103.5,"imageUrl":"images/005.jpg"},{"id":"006","playerName":"Kevin Durant","team":"OKC","cardSet":"2013 Panini Select","variant":"Purple Pulsar Prizm","cardNumber":"136","grade":"PSA 9","rarity":"common","actualEbayPrice":53.5,"imageUrl":"images/006.jpg"},{"id":"007","playerName":"Stephen Curry","team":"GSW","cardSet":"2023 Panini Court Kings","variant":"Blank Slate","cardNumber":"6","grade":"PSA 8","rarity":"rare","actualEbayPrice":504.66,"imageUrl":"images/007.jpg"},{"id":"008","playerName":"Stephen Curry","team":"GSW","cardSet":"2013 Panini Select","variant":"Blue Prizm (Color Match Grail)","cardNumber":"86","serialNumber":"49","grade":"Ungraded","rarity":"rare","actualEbayPrice":2075,"imageUrl":"images/008.jpg"},{"id":"009","playerName":"Luka Doncic","team":"DAL","cardSet":"2021 Panini Flawless","variant":"Diamond Gem Gold","cardNumber":"77","serialNumber":"10","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":343,"imageUrl":"images/009.jpg"},{"id":"010","playerName":"Giannis Antetokounmpo","team":"MIL","cardSet":"2023 Panini Flawless","variant":"Jumbo 3 Color Game Used Patch","serialNumber":"20","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":280,"imageUrl":"images/010.jpg"},{"id":"011","playerName":"Giannis Antetokounmpo","team":"MIL","cardSet":"2019 Panini Spectra","variant":"Universal Die-Cut","cardNumber":"34","serialNumber":"8","grade":"PSA 9","rarity":"common","actualEbayPrice":100,"imageUrl":"images/011.jpg"},{"id":"012","playerName":"Victor Wembanyama","team":"SAS","cardSet":"2023 Panini Court Kings","variant":"Rookies II (RC)","cardNumber":"106","grade":"PSA 10","rarity":"rare","actualEbayPrice":515,"imageUrl":"images/012.jpg"},{"id":"013","playerName":"Anthony Edwards","team":"MIN","cardSet":"2020 Panini Crown Royale","variant":"Kaboom! SSP RC Vertical Rookie","cardNumber":"21","grade":"Ungraded","rarity":"rare","actualEbayPrice":3816,"imageUrl":"images/013.jpg"},{"id":"014","playerName":"Kareem Abdul Jabbar","team":"LAL","cardSet":"2010 Panini Gold Standard","variant":"Gold Rings Patch Auto","cardNumber":"15","serialNumber":"5","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":395,"imageUrl":"images/014.jpg"},{"id":"015","playerName":"Kobe Bryant","team":"LAL","cardSet":"2017 Panini Select","variant":"Signatures On-Card Auto","cardNumber":"KB","serialNumber":"49","grade":"PSA 8","rarity":"chase","actualEbayPrice":5500,"imageUrl":"images/015.jpg"},{"id":"016","playerName":"Kobe Bryant","team":"LAL","cardSet":"2019 Panini Select","variant":"In Flight Signatures Neon Green Prizm","cardNumber":"IF-KBR","serialNumber":"49","grade":"PSA 9","rarity":"chase","actualEbayPrice":17500,"imageUrl":"images/016.jpg"},{"id":"017","playerName":"Michael Jordan","team":"CHI","cardSet":"1999 Upper Deck Black Diamond","variant":"Jordan Diamond Gallery Holo Refractor","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":158,"imageUrl":"images/017.jpg"},{"id":"018","playerName":"Michael Jordan","team":"CHI","cardSet":"1997 Fleer Ultra","variant":"Gold Medallion SSP Variation","cardNumber":"23G","grade":"Ungraded","rarity":"rare","actualEbayPrice":639,"imageUrl":"images/018.jpg"},{"id":"019","playerName":"Kobe Bryant","team":"LAL","cardSet":"2004 Fleer Ultra","variant":"Gold Medallion SSP Variation Foil Die Cut","cardNumber":"8","grade":"Ungraded","rarity":"common","actualEbayPrice":81,"imageUrl":"images/019.jpg"},{"id":"020","playerName":"Allen Iverson","team":"PHI","cardSet":"1998 Fleer Ultra","variant":"Gold Medallion SSP Variation","cardNumber":"33G","grade":"Ungraded","rarity":"common","actualEbayPrice":30,"imageUrl":"images/020.jpg"},{"id":"021","playerName":"Jason Williams","team":"MEM","cardSet":"2022 Panini Flawless","variant":"Flawless Finishes Auto","cardNumber":"FF-JWL","grade":"Ungraded","rarity":"common","actualEbayPrice":67,"imageUrl":"images/021.jpg"},{"id":"022","playerName":"Dirk Nowitzki","team":"DAL","cardSet":"2016 Panini National Treasures","variant":"Portraits GOLD Auto","cardNumber":"51","serialNumber":"10","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":285,"imageUrl":"images/022.jpg"},{"id":"023","playerName":"Clyde Drexler","team":"POR","cardSet":"2022 Panini NBA National Treasures","variant":"Greats Signatures SSP","serialNumber":"10","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":114,"imageUrl":"images/023.jpg"},{"id":"024","playerName":"Larry Bird","team":"BOS","cardSet":"2021 Panini Eminence","variant":"Hall Of Fame Auto Patch Jersey Gold","serialNumber":"5","grade":"Ungraded","rarity":"rare","actualEbayPrice":861,"imageUrl":"images/024.jpg"},{"id":"025","playerName":"Jalen Duren","team":"DET","cardSet":"2022 Panini Immaculate Collection","variant":"Rookie Red Patch Auto RPA (RC)","cardNumber":"103","serialNumber":"49","grade":"Ungraded","rarity":"common","actualEbayPrice":91,"imageUrl":"images/025.jpg"},{"id":"026","playerName":"VJ Edgecombe","team":"PHI","cardSet":"2025 Panini Signature Series","variant":"Rookie Patch RC Auto RPA","serialNumber":"25","grade":"Ungraded","rarity":"rare","actualEbayPrice":520,"imageUrl":"images/026.jpg"},{"id":"027","playerName":"Russell Westbrook","team":"OKC","cardSet":"2018 Panini Rewards Kaboom!","variant":"Kaboom! 1st","cardNumber":"K-RWS","grade":"PSA 10","rarity":"rare","actualEbayPrice":1775,"imageUrl":"images/027.jpg"},{"id":"028","playerName":"Tim Duncan","team":"SAS","cardSet":"2024 Panini Noir","variant":"Critically Acclaimed Holo Gold FOTL","cardNumber":"300","serialNumber":"8","grade":"PSA 9","rarity":"uncommon","actualEbayPrice":173,"imageUrl":"images/028.jpg"},{"id":"029","playerName":"LaMelo Ball","team":"CHA","cardSet":"2023 Panini Select","variant":"Mezzanine Tiger Prizm SSP","cardNumber":"348","grade":"PSA 10","rarity":"uncommon","actualEbayPrice":170,"imageUrl":"images/029.jpg"},{"id":"030","playerName":"Gheorghe Muresan","team":"WAS","cardSet":"1996 Flair Showcase","variant":"Legacy Collection Row 0","cardNumber":"43","grade":"Ungraded","rarity":"uncommon","actualEbayPrice":202,"imageUrl":"images/030.jpg"}];
+
+const PACKS={
+  single:{name:'Blind Slab',price:50,count:1,odds:{common:80,uncommon:14,rare:5,chase:1}},
+  budget:{name:'Blaster Box',price:100,count:3,odds:{common:85,uncommon:10,rare:5,chase:0}},
+  standard:{name:'Hobby Box',price:500,count:5,odds:{common:70,uncommon:20,rare:9,chase:1}},
+  premium:{name:'Super Box',price:2500,count:8,odds:{common:50,uncommon:30,rare:15,chase:5}},
+  chase:{name:'Chase Pack',price:3500,count:2,odds:{common:20,uncommon:30,rare:35,chase:15}},
+};
+
+const IG_ACCOUNTS=[
+  {user:'@CardDealer_Mike',msgs:['Bro this just popped on my feed, I need it 👀','This has been on my want list forever fr fr','Yo link me, trying to cop this rn 💰']},
+  {user:'@PrizmsAndPatches',msgs:['This is FIRE 🔥 name your price','My collection needs this rn','Quick flip? I pay fast 💸']},
+  {user:'@GrailHunter99',msgs:['Been searching for this W 🏆',"I'm going crazy for this one 😤",'Adding to my PC, what are you asking?']},
+  {user:'@VaultedCollects',msgs:["This is exactly what I've been after 💎",'Slide this into my vault fam','This belong in a case frfr']},
+];
+
+// All tiers share 50-150% range. Tier shifts the probability distribution:
+// 1 min  → worst of 2 rolls (skewed low, avg ~83%, but CAN hit 150%)
+// 5 min  → single roll (true random, avg ~100%)
+// 15 min → best of 3 rolls (skewed high, avg ~125%, but CAN miss)
+const AUC_TIERS=[
+  {ms:60000,  label:'1 min',  roll:()=>Math.min(rand(),rand())},
+  {ms:300000, label:'5 min',  roll:()=>rand()},
+  {ms:900000, label:'15 min', roll:()=>Math.max(rand(),rand(),rand())},
+];
+function rand(){return .50+Math.random()*.10+Math.random()*.10+Math.random()*.10+Math.random()*.10+Math.random()*.10;}
+let G={},OPN={},sellCard=null,instaOffer=null,selTierIdx=0,colFilter='all',aucTimers={};
+let multiSel=false,bulkTierIdx=0;
+const selCards=new Set();
+
+function defState(){return{bankroll:500,collection:[],auctions:[],stats:{packs:0,earned:0,spent:0,allCards:0,allEarned:0,allPacks:0,bestBR:500,bestPacks:0,bestCard:null}}}
+function loadState(){try{G=JSON.parse(localStorage.getItem('gp3')||'null')||defState()}catch{G=defState()}G.collection=G.collection?.filter(c=>c.playerName&&c.imageUrl)||[]}
+function save(){localStorage.setItem('gp3',JSON.stringify(G))}
+
+function init(){
+  loadState();checkPendingAuctions();updBR();updBtns();setupDrag();
+  if(G.stats.packs===0&&G.collection.length===0){setTimeout(showSpinScreen,200);return;}
+  document.querySelectorAll('.pc').forEach(card=>{
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.pc-btn'))return;
+      const on=card.classList.contains('pc-active');
+      document.querySelectorAll('.pc').forEach(c=>c.classList.remove('pc-active'));
+      if(!on)card.classList.add('pc-active');
+    });
+  });
+  document.addEventListener('click',e=>{
+    if(!e.target.closest('.pc'))document.querySelectorAll('.pc').forEach(c=>c.classList.remove('pc-active'));
+  });
+}
+
+function showScr(name){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('scr-'+name).classList.add('on');
+  const nb=document.getElementById('nb-'+name);if(nb)nb.classList.add('on');
+  if(name==='collection')renderCol();
+  if(name==='auctions')renderAuc();
+  if(name==='stats')renderStats();
+  if(name==='store')updBtns();
+}
+
+function buyPack(type){
+  const p=PACKS[type];
+  if(G.bankroll<p.price){toast(`Need $${p.price.toLocaleString()} to open this`);return}
+  G.bankroll-=p.price;G.stats.spent+=p.price;G.stats.packs++;G.stats.allPacks++;
+  const usedIds=new Set();
+  const drawn=Array.from({length:p.count},()=>drawCard(p.odds,usedIds)).filter(Boolean);
+  if(!drawn.length){G.bankroll+=p.price;G.stats.spent-=p.price;G.stats.packs--;G.stats.allPacks--;return}
+  drawn.forEach(c=>{
+    G.collection.push({...c,cid:Date.now()+Math.random(),pulledAt:Date.now(),sold:false,listed:false,sellPrice:null});
+    G.stats.allCards++;
+  });
+  save();updBR();updBtns();
+  OPN={packType:type,packName:p.name,cards:drawn,idx:0};
+  startOpening();
+}
+
+function drawCard(odds,usedIds=new Set()){
+  const r=Math.random()*100;
+  const rar=r<odds.chase?'chase':r<odds.chase+odds.rare?'rare':r<odds.chase+odds.rare+odds.uncommon?'uncommon':'common';
+  const pool=CARDS.filter(c=>c.rarity===rar&&!usedIds.has(c.id));
+  const fallback=CARDS.filter(c=>!usedIds.has(c.id));
+  const src=pool.length?pool:fallback.length?fallback:CARDS;
+  const card=src[Math.floor(Math.random()*src.length)];
+  if(card)usedIds.add(card.id);
+  return card;
+}
+
+function updBtns(){
+  Object.entries(PACKS).forEach(([k,p])=>{
+    const b=document.getElementById('buy-'+k);
+    if(b)b.disabled=G.bankroll<p.price;
+  });
+}
+function updBR(){document.getElementById('br-display').textContent=`$${G.bankroll.toFixed(2)}`}
+
+function startOpening(){
+  document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.bn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('scr-opening').classList.add('on');
+  document.getElementById('pack-summary').style.display='none';
+  document.getElementById('rev-area').style.display='';
+  document.getElementById('op-name').textContent=OPN.packName;
+  const dots=document.getElementById('prog-dots');
+  dots.innerHTML=OPN.cards.map((_,i)=>`<div class="dot${i===0?' cur':''}" id="dot${i}"></div>`).join('');
+  showCard();
+}
+
+function showCard(){
+  const c=OPN.cards[OPN.idx];
+  document.getElementById('card-front').src=c.imageUrl;
+  const ov=document.getElementById('card-back-ov');
+  ov.style.transition='none';ov.style.transform='translateY(0)';
+  document.getElementById('drag-hint').style.display='';
+  document.getElementById('rev-info').style.display='none';
+  document.getElementById('next-btn').style.display='none';
+  document.getElementById('show-all-btn').style.display='';
+  document.getElementById('rev-bar-fill').style.width='0%';
+  drag.revealed=false;
+}
+
+function nextCard(){
+  const dot=document.getElementById('dot'+OPN.idx);if(dot)dot.className='dot done';
+  OPN.idx++;
+  if(OPN.idx>=OPN.cards.length){showSummary()}
+  else{const d=document.getElementById('dot'+OPN.idx);if(d)d.className='dot cur';showCard()}
+}
+
+function showAll(){
+  document.querySelectorAll('.dot').forEach(d=>d.className='dot done');
+  showSummary();
+}
+
+function showSummary(){
+  document.getElementById('rev-area').style.display='none';
+  document.getElementById('pack-summary').style.display='block';
+  document.getElementById('sum-grid').innerHTML=OPN.cards.map(c=>
+    `<div class="sum-card"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="sum-card-info"><div class="sum-player">${c.playerName}</div></div></div>`
+  ).join('');
+}
+
+const CARD_H=308;
+const drag={on:false,startY:0,dy:0,revealed:false};
+
+function setupDrag(){
+  const el=document.getElementById('rev-container');
+  el.addEventListener('mousedown',e=>dstart(e.clientY));
+  el.addEventListener('touchstart',e=>dstart(e.touches[0].clientY),{passive:true});
+  document.addEventListener('mousemove',e=>dmove(e.clientY));
+  document.addEventListener('touchmove',e=>{if(e.cancelable)e.preventDefault();dmove(e.touches[0].clientY)},{passive:false});
+  document.addEventListener('mouseup',dend);
+  document.addEventListener('touchend',dend);
+}
+function dstart(y){if(drag.revealed)return;drag.on=true;drag.startY=y;drag.dy=0}
+function dmove(y){
+  if(!drag.on||drag.revealed)return;
+  drag.dy=Math.max(0,Math.min(CARD_H,y-drag.startY));
+  const ov=document.getElementById('card-back-ov');
+  ov.style.transition='none';ov.style.transform=`translateY(${drag.dy}px)`;
+  document.getElementById('rev-bar-fill').style.width=(drag.dy/CARD_H*100)+'%';
+  if(drag.dy>12)document.getElementById('drag-hint').style.display='none';
+}
+function dend(){
+  if(!drag.on)return;drag.on=false;
+  const ov=document.getElementById('card-back-ov');
+  if(drag.dy>CARD_H*0.42){
+    ov.style.transition='transform .32s cubic-bezier(.25,.46,.45,.94)';
+    ov.style.transform=`translateY(${CARD_H}px)`;
+    document.getElementById('rev-bar-fill').style.width='100%';
+    drag.revealed=true;
+    setTimeout(revealCard,260);
+  }else{
+    ov.style.transition='transform .28s ease';ov.style.transform='translateY(0)';
+    document.getElementById('rev-bar-fill').style.width='0%';
+    document.getElementById('drag-hint').style.display='';
+  }
+}
+
+function revealCard(){
+  const c=OPN.cards[OPN.idx];
+  document.getElementById('rev-player').textContent=c.playerName;
+  document.getElementById('rev-detail').textContent=`${c.team} · ${c.cardSet}${c.variant?` · ${c.variant}`:''}${c.grade&&c.grade!=='Ungraded'?` · ${c.grade}`:''}`;
+  document.getElementById('rev-badge').innerHTML='';
+  document.getElementById('rev-info').style.display='';
+  const last=OPN.idx===OPN.cards.length-1;
+  const btn=document.getElementById('next-btn');
+  btn.textContent=last?'See Summary →':'Next Card →';btn.style.display='';
+  document.getElementById('show-all-btn').style.display=last?'none':'';
+  const d=document.getElementById('dot'+OPN.idx);if(d)d.className='dot done';
+}
+
+function renderCol(){
+  const grid=document.getElementById('col-grid'),empty=document.getElementById('col-empty');
+  let items=G.collection.filter(c=>!c.sold);
+  if(colFilter==='unsold')items=items.filter(c=>!c.listed);
+  else if(colFilter==='listed')items=items.filter(c=>c.listed);
+  if(!items.length){grid.innerHTML='';empty.style.display='';return}
+  empty.style.display='none';
+  grid.innerHTML=items.map(c=>{
+    const tag=c.listed?'<div class="cc-tag listed">LISTED</div>':'';
+    const isSel=multiSel&&selCards.has(String(c.cid));
+    let onclick='';
+    if(multiSel&&!c.listed)onclick=` onclick="toggleCardSel('${c.cid}')"`;
+    else if(!multiSel&&!c.listed)onclick=` onclick="openSell('${c.cid}')"`;
+    return`<div class="cc${c.listed?' is-sold':''}${isSel?' selected':''}"${onclick}><img src="${c.imageUrl}" alt="${c.playerName}" onerror="this.style.minHeight='70px'">${tag}<div class="cc-info"><div class="cc-player">${c.playerName}</div></div></div>`;
+  }).join('');
+}
+function filterCol(f,btn){
+  colFilter=f;
+  document.querySelectorAll('.fb:not(.sel-toggle)').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');renderCol();
+}
+function toggleMulti(){
+  multiSel=!multiSel;selCards.clear();
+  document.getElementById('sel-toggle').classList.toggle('on',multiSel);
+  const bar=document.getElementById('bulk-bar');
+  bar.style.display=multiSel?'flex':'none';
+  document.getElementById('bulk-count').textContent='0';
+  document.getElementById('bulk-btn').disabled=true;
+  renderCol();
+}
+function toggleCardSel(cid){
+  const key=String(cid);
+  if(selCards.has(key))selCards.delete(key);else selCards.add(key);
+  document.getElementById('bulk-count').textContent=selCards.size;
+  document.getElementById('bulk-btn').disabled=selCards.size===0;
+  renderCol();
+}
+function selectAll(){
+  const eligible=G.collection.filter(c=>!c.sold&&!c.listed);
+  const allSel=eligible.every(c=>selCards.has(String(c.cid)));
+  if(allSel){selCards.clear();document.getElementById('sel-all-btn').textContent='Select All';}
+  else{eligible.forEach(c=>selCards.add(String(c.cid)));document.getElementById('sel-all-btn').textContent='Deselect All';}
+  document.getElementById('bulk-count').textContent=selCards.size;
+  document.getElementById('bulk-btn').disabled=selCards.size===0;
+  renderCol();
+}
+function pickBulkTier(btn,idx){
+  document.querySelectorAll('.btbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');bulkTierIdx=idx;
+}
+function bulkList(){
+  if(!selCards.size)return;
+  const tier=AUC_TIERS[bulkTierIdx];
+  const end=Date.now()+tier.ms;
+  let count=0;
+  selCards.forEach(cid=>{
+    const c=G.collection.find(x=>String(x.cid)===cid);
+    if(c&&!c.sold&&!c.listed){
+      c.listed=true;c.auctionEndTime=end;c.auctionTier=bulkTierIdx;
+      G.auctions.push({cid:c.cid,endTime:end});
+      schedAuc(c.cid,end);count++;
+    }
+  });
+  save();toggleMulti();renderCol();updBR();updBtns();
+  toast(`${count} card${count!==1?'s':''} listed · Ends in ${tier.label}`);
+}
+
+function openSell(cid){
+  const c=G.collection.find(x=>String(x.cid)===String(cid));if(!c)return;
+  sellCard=c;selTierIdx=0;
+  document.getElementById('m-img').src=c.imageUrl;
+  document.getElementById('m-player').textContent=c.playerName;
+  document.getElementById('m-set').textContent=`${c.cardSet} · ${c.variant}`;
+  document.getElementById('m-grade').textContent=c.grade;
+  document.getElementById('m-badge').innerHTML='';
+  document.getElementById('m-price-disp').textContent=`$${c.actualEbayPrice.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2})}`;
+  document.querySelectorAll('.tbtn').forEach((b,i)=>{b.classList.toggle('on',i===0)});
+  const instaOpt=document.getElementById('insta-sell-opt');
+  const instaDesc=document.getElementById('insta-sell-desc');
+  const mysteryRow=instaOpt.querySelector('.insta-mystery-row');
+  if(c.dmUsed){
+    instaOpt.style.opacity='.38';instaOpt.style.cursor='default';instaOpt.onclick=null;
+    instaDesc.textContent='Offer already received for this card.';
+    if(mysteryRow)mysteryRow.style.display='none';
+  }else{
+    instaOpt.style.opacity='';instaOpt.style.cursor='';instaOpt.onclick=doInsta;
+    instaDesc.textContent='Someone slid in. Mystery offer — steal or lowball?';
+    if(mysteryRow)mysteryRow.style.display='';
+  }
+  document.getElementById('sell-ov').classList.remove('hide');
+}
+function closeSell(){document.getElementById('sell-ov').classList.add('hide');sellCard=null}
+function pickTier(btn,idx){document.querySelectorAll('.tbtn').forEach(b=>b.classList.remove('on'));btn.classList.add('on');selTierIdx=idx}
+
+function doEbay(){
+  if(!sellCard)return;
+  const tier=AUC_TIERS[selTierIdx];
+  const end=Date.now()+tier.ms;
+  sellCard.listed=true;sellCard.auctionEndTime=end;sellCard.auctionTier=selTierIdx;
+  G.auctions.push({cid:sellCard.cid,endTime:end});
+  save();closeSell();toast(`Listed! Ends in ${tier.label}`);renderCol();schedAuc(sellCard.cid,end);
+}
+
+function schedAuc(cid,endTime){
+  clearTimeout(aucTimers[cid]);
+  const rem=endTime-Date.now();
+  if(rem<=0){resolveAuc(cid);return}
+  aucTimers[cid]=setTimeout(()=>resolveAuc(cid),rem);
+}
+
+function resolveAuc(cid){
+  const c=G.collection.find(x=>String(x.cid)===String(cid));
+  if(!c||c.sold)return;
+  const tier=AUC_TIERS[c.auctionTier??0];
+  const mult=tier.roll();
+  const price=Math.round(c.actualEbayPrice*mult*100)/100;
+  c.sold=true;c.listed=false;c.sellPrice=price;
+  G.bankroll+=price;G.stats.earned+=price;G.stats.allEarned+=price;
+  if(!G.stats.bestCard||price>G.stats.bestCard.price)G.stats.bestCard={name:c.playerName,price};
+  if(G.bankroll>G.stats.bestBR)G.stats.bestBR=G.bankroll;
+  G.auctions=G.auctions.filter(a=>String(a.cid)!==String(cid));
+  save();updBR();renderAuc();renderCol();showSold(c,price,'ebay');checkGameOver();
+}
+
+function doInsta(){
+  if(!sellCard||sellCard.dmUsed)return;
+  sellCard.dmUsed=true;save();
+  const pct=40+Math.random()*80;
+  const amt=Math.round(sellCard.actualEbayPrice*pct)/100;
+  const acc=IG_ACCOUNTS[Math.floor(Math.random()*IG_ACCOUNTS.length)];
+  const msg=acc.msgs[Math.floor(Math.random()*acc.msgs.length)];
+  instaOffer={amt,acc};
+  document.getElementById('dm-user').textContent=acc.user;
+  document.getElementById('dm-msg').innerHTML=`${msg}<br><br><strong>My offer:</strong><span class="dm-offer">$${amt.toFixed(2)}</span><span style="font-size:.65rem;color:var(--muted);display:block;margin-top:2px">Deal? 🤝</span>`;
+  document.getElementById('sell-ov').classList.add('hide');
+  document.getElementById('insta-ov').classList.remove('hide');
+}
+function acceptDM(){
+  if(!sellCard||!instaOffer)return;
+  const c=sellCard,amt=instaOffer.amt,actual=c.actualEbayPrice;
+  c.sold=true;c.sellPrice=amt;
+  G.bankroll+=amt;G.stats.earned+=amt;G.stats.allEarned+=amt;
+  if(!G.stats.bestCard||amt>G.stats.bestCard.price)G.stats.bestCard={name:c.playerName,price:amt};
+  if(G.bankroll>G.stats.bestBR)G.stats.bestBR=G.bankroll;
+  save();updBR();closeInsta();renderCol();
+  const pct=Math.round(amt/actual*100),good=pct>=90;
+  const rev=`<span style="color:${good?'#4CAF50':'var(--red)'}">${good?'✅ Great deal':'❌ Could have done better'} — card was worth $${actual.toFixed(2)}</span>`;
+  showSold(c,amt,'insta',rev);checkGameOver();
+}
+function rejectDM(){closeInsta();toast('Offer rejected')}
+function closeInsta(){document.getElementById('insta-ov').classList.add('hide');instaOffer=null}
+
+function showSold(c,amt,src,rev=''){
+  document.getElementById('so-icon').textContent=src==='ebay'?'🏆':'💸';
+  document.getElementById('so-title').textContent=src==='ebay'?'Auction Complete!':'Deal Done!';
+  document.getElementById('so-sub').textContent=`${c.playerName} sold`;
+  document.getElementById('so-amt').textContent=`+$${amt.toFixed(2)}`;
+  document.getElementById('so-rev').innerHTML=rev;
+  document.getElementById('sold-ov').classList.remove('hide');
+}
+function closeSold(){document.getElementById('sold-ov').classList.add('hide')}
+
+function renderAuc(){
+  const list=document.getElementById('auc-list'),empty=document.getElementById('auc-empty');
+  const active=G.collection.filter(c=>c.listed&&!c.sold);
+  if(!active.length){list.innerHTML='';empty.style.display='';return}
+  empty.style.display='none';
+  list.innerHTML=active.map(c=>{
+    const rem=c.auctionEndTime-Date.now();
+    const ts=rem>0?fmtTime(rem):'Resolving...';
+    const end=rem<300000&&rem>0;
+    return`<div class="ai"><img src="${c.imageUrl}" alt="${c.playerName}"><div class="ai-det"><div class="ai-player">${c.playerName}</div><div class="ai-set">${c.cardSet}</div><div class="ai-timer${end?' ending':''}">⏱ ${ts}</div></div><div style="text-align:right;flex-shrink:0"><div class="cc-rar ${c.rarity}" style="font-family:'Barlow Condensed',sans-serif;font-size:.62rem;font-weight:700;text-transform:uppercase">${c.rarity}</div><div style="font-size:.65rem;color:var(--muted);margin-top:3px;font-family:'Barlow',sans-serif">? ? ?</div></div></div>`;
+  }).join('');
+  active.forEach(c=>{if(!aucTimers[c.cid])schedAuc(c.cid,c.auctionEndTime)});
+}
+function fmtTime(ms){const s=Math.floor(ms/1e3),m=Math.floor(s/60),h=Math.floor(m/60);if(h>0)return`${h}h ${m%60}m`;if(m>0)return`${m}m ${s%60}s`;return`${s}s`}
+
+function renderStats(){
+  const s=G.stats;
+  document.getElementById('st-br').textContent=`$${G.bankroll.toFixed(2)}`;
+  document.getElementById('st-packs').textContent=s.packs;
+  document.getElementById('st-earned').textContent=`$${s.earned.toFixed(2)}`;
+  const roi=s.spent>0?((s.earned-s.spent)/s.spent*100).toFixed(0):null;
+  const re=document.getElementById('st-roi');re.textContent=roi!==null?roi+'%':'—';
+  re.className='sv'+(roi===null?'':parseFloat(roi)>=0?' grn':' red');
+  document.getElementById('st-cards').textContent=s.allCards;
+  document.getElementById('st-best').textContent=s.bestCard?`$${s.bestCard.price.toFixed(0)}`:'—';
+  document.getElementById('st-peak').textContent=`$${(s.bestBR||500).toFixed(2)}`;
+  document.getElementById('st-mpacks').textContent=s.bestPacks||0;
+}
+
+function checkGameOver(){
+  if(G.bankroll<100&&!G.collection.some(c=>c.listed&&!c.sold)){
+    if(G.stats.packs>(G.stats.bestPacks||0))G.stats.bestPacks=G.stats.packs;
+    save();
+    document.getElementById('go-info').textContent=`${G.stats.packs} packs · $${G.stats.earned.toFixed(2)} earned this run`;
+    document.getElementById('game-over').classList.add('on');
+  }
+}
+function restartGame(){
+  const prev=G.stats;G=defState();
+  G.stats.allCards=prev.allCards;G.stats.allEarned=prev.allEarned;G.stats.allPacks=prev.allPacks;
+  G.stats.bestBR=Math.max(500,prev.bestBR||500);G.stats.bestPacks=prev.bestPacks||0;G.stats.bestCard=prev.bestCard;
+  save();document.getElementById('game-over').classList.remove('on');updBR();updBtns();showSpinScreen();
+}
+function doReset(){if(!confirm('Reset all data?'))return;G=defState();save();updBR();updBtns();showSpinScreen();}
+function checkPendingAuctions(){G.collection.filter(c=>c.listed&&!c.sold).forEach(c=>{if(Date.now()>=c.auctionEndTime)resolveAuc(c.cid);else schedAuc(c.cid,c.auctionEndTime)})}
+
+let _tt;
+function toast(msg){document.querySelectorAll('.toast').forEach(t=>t.remove());clearTimeout(_tt);const el=document.createElement('div');el.className='toast';el.textContent=msg;document.body.appendChild(el);_tt=setTimeout(()=>el.remove(),2800)}
+
+function confetti(n=18){
+  const cols=['#E85D04','#2563EB','#7C3AED','#16A34A','#D4A017','#DC2626','#0891B2'];
+  for(let i=0;i<n;i++)setTimeout(()=>{
+    const el=document.createElement('div');el.className='cp';
+    el.style.cssText=`left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};border-radius:${Math.random()>.5?'50%':'1px'};animation-duration:${1.5+Math.random()*2}s`;
+    document.body.appendChild(el);setTimeout(()=>el.remove(),4e3);
+  },i*55);
+}
+
+setInterval(()=>{if(document.getElementById('scr-auctions').classList.contains('on'))renderAuc()},1e3);
+
+// ── SPIN MACHINE ────────────────────────────
+const SPIN_AMOUNTS=[
+  {amount:150, label:'$150',   color:'#3A3A3A'},
+  {amount:250, label:'$250',   color:'#5C5C5C'},
+  {amount:350, label:'$350',   color:'#9E9E9E'},
+  {amount:500, label:'$500',   color:'#EBEBEB'},
+  {amount:750, label:'$750',   color:'#60A5FA'},
+  {amount:1000,label:'$1,000', color:'#F5C842'},
+  {amount:1500,label:'$1,500', color:'#FF7B26'},
+  {amount:2500,label:'$2,500', color:'#FF4DFF'},
+];
+const SPIN_WEIGHTS=[5,10,15,30,20,12,6,2];
+let spinResult=null;
+
+function showSpinScreen(){
+  const ov=document.getElementById('spin-ov');
+  ov.style.display='flex';
+  // Reset to idle state
+  const reel=document.getElementById('spin-reel');
+  reel.style.transition='none';
+  reel.style.transform='';
+  reel.innerHTML=[
+    {label:'$350',color:'#9E9E9E'},
+    {label:'$500',color:'#EBEBEB'},
+    {label:'$750',color:'#60A5FA'}
+  ].map(a=>`<div class="slot-item" style="color:${a.color}">${a.label}</div>`).join('');
+  document.getElementById('spin-btn').style.display='';
+  document.getElementById('spin-btn').disabled=false;
+  document.getElementById('spin-btn').innerHTML='<svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/></svg> SPIN';
+  document.getElementById('spin-result-area').style.display='none';
+  spinResult=null;
+}
+
+function pickSpinResult(){
+  const total=SPIN_WEIGHTS.reduce((a,b)=>a+b,0);
+  let r=Math.random()*total;
+  for(let i=0;i<SPIN_AMOUNTS.length;i++){r-=SPIN_WEIGHTS[i];if(r<=0)return SPIN_AMOUNTS[i];}
+  return SPIN_AMOUNTS[3];
+}
+
+function doSpin(){
+  const btn=document.getElementById('spin-btn');
+  btn.disabled=true;
+  btn.innerHTML='<span style="display:inline-block;animation:bball-rock .5s ease-in-out infinite">🏀</span>&nbsp;SPINNING...';
+  spinResult=pickSpinResult();
+
+  const reel=document.getElementById('spin-reel');
+  const n=SPIN_AMOUNTS.length,itemH=70,visH=210,centerOff=(visH-itemH)/2;
+
+  // Phase 1: 19 full passes + 1-6 random extra items
+  // (never a round number of passes — avoids always centering on the last amount)
+  const p1Extra=1+Math.floor(Math.random()*(n-2));
+  const p1Items=[];
+  for(let i=0;i<19;i++) SPIN_AMOUNTS.forEach(a=>p1Items.push(a));
+  for(let i=0;i<p1Extra;i++) p1Items.push(SPIN_AMOUNTS[i]);
+  const p1LastIdx=p1Items.length-1; // index in p1Items that ends up centered
+
+  reel.innerHTML=p1Items.map(a=>`<div class="slot-item" style="color:var(--muted2)">${a.label}</div>`).join('');
+  reel.style.transition='none';
+  reel.style.transform=`translateY(${centerOff}px)`;
+  void reel.offsetWidth;
+  const p1FinalY=centerOff-p1LastIdx*itemH;
+  reel.style.transition='transform 2.2s linear';
+  reel.style.transform=`translateY(${p1FinalY}px)`;
+
+  // Phase 2: starts the instant phase 1 ends — no gap, no frozen frame
+  function startPhase2(){
+    const p1EndAmtIdx=p1Extra-1; // which SPIN_AMOUNTS index phase 1 stopped on
+    const nextAmtIdx=(p1EndAmtIdx+1)%n;
+    const targetIdx=SPIN_AMOUNTS.findIndex(a=>a===spinResult);
+
+    // 4 full passes continuing in sequence from where phase 1 left off, then land on target
+    const p2Items=[];
+    for(let i=0;i<4*n;i++) p2Items.push(SPIN_AMOUNTS[(nextAmtIdx+i)%n]);
+    let cur=(nextAmtIdx+4*n)%n;
+    while(cur!==targetIdx){p2Items.push(SPIN_AMOUNTS[cur]);cur=(cur+1)%n;}
+    p2Items.push(SPIN_AMOUNTS[targetIdx]);
+
+    p2Items.forEach((a,i)=>{
+      const d=document.createElement('div');
+      d.className='slot-item';
+      d.style.color=i===p2Items.length-1?spinResult.color:'var(--muted2)';
+      d.textContent=a.label;
+      reel.appendChild(d);
+    });
+
+    const p2FinalY=p1FinalY-p2Items.length*itemH;
+    void reel.offsetWidth;
+    reel.style.transition='transform 3.2s cubic-bezier(0,0,0.3,1)';
+    reel.style.transform=`translateY(${p2FinalY}px)`;
+
+    setTimeout(()=>{
+      document.getElementById('spin-got-amt').textContent=spinResult.label;
+      document.getElementById('spin-got-amt').style.color=spinResult.color;
+      document.getElementById('spin-result-area').style.display='block';
+      btn.style.display='none';
+    },3400);
+  }
+
+  reel.addEventListener('transitionend',function onP1End(e){
+    if(e.propertyName!=='transform')return;
+    reel.removeEventListener('transitionend',onP1End);
+    startPhase2();
+  });
+}
+
+function startPlay(){
+  G.bankroll=spinResult.amount;
+  G.stats.bestBR=spinResult.amount;
+  save();updBR();updBtns();
+  document.getElementById('spin-ov').style.display='none';
+  showScr('store');
+}
+
+init();
+</script>
+</body>
+</html>
